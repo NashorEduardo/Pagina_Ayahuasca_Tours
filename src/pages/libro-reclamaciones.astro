@@ -1,0 +1,176 @@
+---
+// src/pages/libro-reclamaciones.astro
+
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+---
+
+<Layout
+  title="Libro de Reclamaciones | Spirit of Amazonas"
+  description="Libro de reclamaciones virtual de Spirit of Amazonas. Registra tu queja o sugerencia de acuerdo a la normativa peruana de protección al consumidor (Ley 29571)."
+  lang="es"
+>
+  <Header />
+  <main id="main-content">
+    <section class="page-hero section--dark">
+      <div class="container">
+        <h1 style="color:var(--color-white); margin-bottom:1rem">Libro de Reclamaciones</h1>
+        <p style="color:rgba(255,255,255,0.7); max-width:600px">
+          De acuerdo a la Ley N° 29571, Código de Protección y Defensa del Consumidor, ponemos a disposición nuestro libro de reclamaciones virtual.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--cream">
+      <div class="container" style="max-width:760px">
+        <div class="reclamacion-wrap reveal">
+          <div class="reclamacion-notice">
+            <span class="notice-icon" aria-hidden="true">📋</span>
+            <div>
+              <strong>Información importante</strong>
+              <p>El plazo máximo para responder a su reclamación es de 30 días hábiles. Conserva el número de reclamación para hacer seguimiento.</p>
+            </div>
+          </div>
+
+          <form id="reclamacion-form" class="contact-form" novalidate aria-label="Formulario de reclamaciones">
+            <h2 class="form-section-title">Datos del Reclamante</h2>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="rc-name" class="form-label">Nombre completo *</label>
+                <input type="text" id="rc-name" name="nombre" class="form-input" required autocomplete="name" />
+              </div>
+              <div class="form-group">
+                <label for="rc-dni" class="form-label">DNI / Pasaporte *</label>
+                <input type="text" id="rc-dni" name="dni" class="form-input" required />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="rc-email" class="form-label">Correo electrónico *</label>
+                <input type="email" id="rc-email" name="email" class="form-input" required autocomplete="email" />
+              </div>
+              <div class="form-group">
+                <label for="rc-phone" class="form-label">Teléfono</label>
+                <input type="tel" id="rc-phone" name="telefono" class="form-input" autocomplete="tel" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="rc-address" class="form-label">Dirección</label>
+              <input type="text" id="rc-address" name="direccion" class="form-input" autocomplete="street-address" />
+            </div>
+
+            <h2 class="form-section-title" style="margin-top:2rem">Datos del Bien / Servicio</h2>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="rc-service" class="form-label">Servicio contratado *</label>
+                <select id="rc-service" name="servicio" class="form-select" required>
+                  <option value="">— Seleccionar —</option>
+                  <option>Ceremonia de Ayahuasca</option>
+                  <option>Retiro de 7 Días</option>
+                  <option>Retiro de 3 Días</option>
+                  <option>Terapia de Sanación</option>
+                  <option>San Pedro (Huachuma)</option>
+                  <option>Otro</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="rc-amount" class="form-label">Monto pagado (USD)</label>
+                <input type="number" id="rc-amount" name="monto" class="form-input" min="0" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="rc-type" class="form-label">Tipo de solicitud *</label>
+              <div class="radio-group" role="radiogroup" aria-label="Tipo de solicitud">
+                <label class="radio-label">
+                  <input type="radio" name="tipo" value="queja" required />
+                  <span><strong>Queja</strong> — Malestar o descontento respecto a la atención</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="tipo" value="reclamo" />
+                  <span><strong>Reclamo</strong> — Disconformidad relacionada con el servicio</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="rc-detail" class="form-label">Detalle de la reclamación *</label>
+              <textarea id="rc-detail" name="detalle" class="form-textarea" rows="6" required placeholder="Describe detalladamente tu reclamación..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="rc-resolution" class="form-label">Solución solicitada</label>
+              <textarea id="rc-resolution" name="solucion" class="form-textarea" rows="3" placeholder="¿Qué solución esperas?"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="checkbox-label">
+                <input type="checkbox" name="acepto" required />
+                <span>Declaro que los datos proporcionados son verídicos y acepto la <a href="/privacidad">Política de Privacidad</a>.</span>
+              </label>
+            </div>
+
+            <button type="submit" class="btn btn--primary form-submit-btn">
+              Enviar Reclamación
+            </button>
+
+            <p id="rc-success" class="form-status form-status--success" role="alert" hidden>
+              ✅ Reclamación registrada correctamente. Te contactaremos en un máximo de 30 días hábiles. Conserva este número de seguimiento: <strong id="rc-ticket"></strong>
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <WhatsAppButton />
+</Layout>
+
+<script>
+  const form = document.getElementById('reclamacion-form') as HTMLFormElement | null;
+  const success = document.getElementById('rc-success') as HTMLElement | null;
+  const ticket = document.getElementById('rc-ticket') as HTMLElement | null;
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    // Generate a simple ticket number
+    const num = `REC-${new Date().getFullYear()}-${String(Math.floor(Math.random()*90000+10000))}`;
+    if (ticket) ticket.textContent = num;
+    if (success) success.hidden = false;
+    form.reset();
+    success?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+</script>
+
+<style>
+  .page-hero { background: linear-gradient(160deg, var(--color-jungle-deep), var(--color-jungle-dark)); padding: 6rem 0 4rem; }
+  .reclamacion-wrap { background: var(--color-white); border-radius: var(--radius-xl); padding: 2.5rem; box-shadow: var(--shadow-md); }
+  .reclamacion-notice {
+    display: flex; gap: 1rem; align-items: flex-start;
+    background: rgba(45,106,63,0.07); border: 1px solid rgba(45,106,63,0.2);
+    border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 2rem;
+  }
+  .notice-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .reclamacion-notice strong { display: block; color: var(--color-jungle-deep); margin-bottom: 0.3rem; font-size: 0.95rem; }
+  .reclamacion-notice p { font-size: 0.875rem; color: var(--color-text-mid); margin: 0; }
+  .form-section-title { font-size: 1.1rem; font-weight: 700; color: var(--color-jungle-dark); padding-bottom: 0.75rem; border-bottom: 1px solid rgba(45,106,63,0.1); margin-bottom: 1.25rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .radio-group { display: flex; flex-direction: column; gap: 0.75rem; }
+  .radio-label { display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer; font-size: 0.9rem; color: var(--color-text-mid); }
+  .radio-label input { margin-top: 3px; flex-shrink: 0; }
+  .checkbox-label { display: flex; align-items: flex-start; gap: 0.75rem; cursor: pointer; font-size: 0.875rem; color: var(--color-text-mid); }
+  .checkbox-label input { margin-top: 3px; flex-shrink: 0; }
+  .form-submit-btn { width: 100%; justify-content: center; }
+  .form-status--success { background: rgba(45,106,63,0.1); color: var(--color-jungle-mid); border: 1px solid rgba(45,106,63,0.25); padding: 1rem; border-radius: var(--radius-md); font-size: 0.9rem; margin-top: 1rem; }
+  @media (max-width: 640px) {
+    .form-row { grid-template-columns: 1fr; }
+    .reclamacion-wrap { padding: 1.5rem; }
+  }
+</style>

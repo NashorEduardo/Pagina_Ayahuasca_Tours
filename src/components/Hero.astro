@@ -1,0 +1,337 @@
+---
+// src/components/Hero.astro
+
+interface Props {
+  title?:    string;
+  subtitle?: string;
+  lang?:     string;
+}
+
+const {
+  title    = 'Despierta Tu Espíritualildad',
+  subtitle = 'Ceremonias de Ayahuasca auténticas en el corazón de la Amazonía. Transforma tu vida con sabiduría ancestral y facilitadores certificados.',
+  lang     = 'es',
+} = Astro.props;
+
+const retreatsLink = lang === 'en' ? '/en/retreats' : lang === 'pt' ? '/pt/retiros' : '/retiros';
+---
+
+<section id="hero" class="hero" aria-label="Sección principal">
+  <!-- Static Background Graphic -->
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-bg-overlay"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="container hero-content">
+    <div class="hero-text">
+      <!-- Badge -->
+      <div class="hero-badge">
+        <span class="badge-dot" aria-hidden="true"></span>
+        Facilitadores Certificados · Amazonía, Perú
+      </div>
+
+      <!-- Ornament -->
+      <div class="hero-ornament" aria-hidden="true">
+        <span class="ornament-line"></span>
+        <span class="ornament-symbol">✧</span>
+        <span class="ornament-line"></span>
+      </div>
+
+      <!-- Main heading with SVG -->
+      <div class="hero-title-wrapper">
+        <svg class="ayahuasca-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="80" height="80" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <!-- Ayahuasca vine/leaf sacred geometry concept -->
+          <path d="M50 5 C50 5, 20 20, 20 50 C20 80, 50 95, 50 95 C50 95, 80 80, 80 50 C80 20, 50 5, 50 5 Z" stroke="var(--color-gold)" stroke-width="2" fill="none"/>
+          <path d="M50 15 C50 15, 30 28, 30 50 C30 72, 50 85, 50 85 C50 85, 70 72, 70 50 C70 28, 50 15, 50 15 Z" stroke="var(--color-gold-pale)" stroke-width="1" fill="none"/>
+          <!-- Internal geometric vines -->
+          <path d="M50 95 Q35 70 50 50 65 30 50 5" stroke="var(--color-jungle-light)" stroke-width="2" fill="none"/>
+          <path d="M50 95 Q65 70 50 50 35 30 50 5" stroke="var(--color-jungle-light)" stroke-width="2" fill="none"/>
+          <!-- Sun/Eye in center -->
+          <circle cx="50" cy="50" r="6" stroke="var(--color-gold)" stroke-width="2" fill="var(--color-gold-deep)"/>
+          <circle cx="50" cy="50" r="12" stroke="var(--color-gold-pale)" stroke-width="1" fill="none" stroke-dasharray="2,2"/>
+        </svg>
+
+        <h1 class="hero-title">
+          {title}
+        </h1>
+      </div>
+
+      <p class="hero-subtitle">
+        {subtitle}
+      </p>
+
+      <!-- Stats -->
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number">+500</span>
+          <span class="stat-label">Ceremonias</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true">|</div>
+        <div class="stat">
+          <span class="stat-number">15+</span>
+          <span class="stat-label">Años</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true">|</div>
+        <div class="stat">
+          <span class="stat-number">40+</span>
+          <span class="stat-label">Países</span>
+        </div>
+      </div>
+
+      <!-- CTAs -->
+      <div class="hero-ctas">
+        <a href={retreatsLink} class="btn btn--primary hero-cta-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+          Ver Retiros
+        </a>
+       
+      </div>
+
+      <!-- Trust signals -->
+      <div class="hero-trust">
+        <span class="trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path d="M5 13l4 4L19 7"/>
+          </svg>
+          Ceremonias Seguras
+        </span>
+        <span class="trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path d="M5 13l4 4L19 7"/>
+          </svg>
+          Ambiente Sagrado
+        </span>
+        <span class="trust-item">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <path d="M5 13l4 4L19 7"/>
+          </svg>
+          Apoyo Integral
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-hint" aria-label="Desplaza hacia abajo">
+    <div class="scroll-hint-mouse">
+      <div class="scroll-hint-wheel"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--color-jungle-deep);
+  }
+
+  /* Background */
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(180deg, rgba(10,26,15,0.7) 0%, rgba(10,26,15,0.85) 100%),
+      url('/hero_bg_real.png');
+    background-size: cover;
+    background-position: center bottom;
+  }
+
+  /* Content */
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding-block: 8rem 6rem;
+    max-width: 800px;
+  }
+
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  /* Badge */
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1rem;
+    background: rgba(201, 148, 26, 0.12);
+    border: 1px solid rgba(201, 148, 26, 0.3);
+    border-radius: 9999px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--color-gold-pale);
+    margin-bottom: 1.25rem;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-gold);
+    flex-shrink: 0;
+  }
+
+  /* Ornament */
+  .hero-ornament {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .ornament-line {
+    flex: 0 0 40px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-gold-pale));
+  }
+  .ornament-line:last-child {
+    background: linear-gradient(90deg, var(--color-gold-pale), transparent);
+  }
+  .ornament-symbol {
+    color: var(--color-gold);
+    font-size: 1rem;
+  }
+
+  /* Title */
+  .hero-title-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .ayahuasca-svg {
+    filter: drop-shadow(0 0 12px rgba(201, 148, 26, 0.4));
+  }
+
+  .hero-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 700;
+    color: var(--color-white);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    font-style: italic;
+    margin-bottom: 0;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: rgba(255,255,255,0.72);
+    line-height: 1.75;
+    max-width: 600px;
+    margin-bottom: 1.75rem;
+  }
+
+  /* Stats */
+  .hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  .stat { display: flex; flex-direction: column; align-items: center; }
+  .stat-number {
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-gold-light);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    margin-top: 0.2rem;
+  }
+  .stat-divider {
+    color: rgba(255,255,255,0.2);
+    font-size: 1.5rem;
+    font-weight: 100;
+  }
+
+  /* CTAs */
+  .hero-ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.75rem;
+  }
+
+  .hero-cta-primary,
+  .hero-cta-wa {
+    font-size: 1rem;
+    padding: 0.95rem 2rem;
+  }
+
+  /* Trust */
+  .hero-trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.55);
+  }
+  .trust-item svg { color: var(--color-gold); flex-shrink: 0; }
+
+  /* Scroll hint */
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+  .scroll-hint-mouse {
+    width: 22px;
+    height: 36px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-radius: 11px;
+    display: flex;
+    justify-content: center;
+    padding-top: 6px;
+  }
+  .scroll-hint-wheel {
+    width: 3px;
+    height: 8px;
+    background: var(--color-gold-light);
+    border-radius: 2px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero-content {
+      padding-block: 6rem 4rem;
+      text-align: center;
+      align-items: center;
+    }
+    .hero-text { align-items: center; }
+    .hero-stats { justify-content: center; }
+    .hero-ctas { justify-content: center; }
+    .hero-trust { justify-content: center; }
+    .hero-badge { text-align: center; }
+  }
+</style>

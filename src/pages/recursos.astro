@@ -1,0 +1,101 @@
+---
+// src/pages/recursos.astro
+
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Testimonials from '../components/Testimonials.astro';
+import FAQ from '../components/FAQ.astro';
+import BlogCard from '../components/BlogCard.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+
+const posts = [
+  { title: '¿Qué es la Ayahuasca? Historia y Orígenes Ancestrales', slug: 'que-es-la-ayahuasca', excerpt: 'La ayahuasca es una bebida psicoactiva preparada con plantas de la Amazonía. Te contamos su historia, sus componentes y su papel en las culturas indígenas.', date: '2024-10-15', category: 'Medicina', readTime: 8 },
+  { title: 'Cómo Prepararse para una Ceremonia', slug: 'como-prepararse-ceremonia', excerpt: 'La preparación es tan importante como la ceremonia misma. Aprende sobre la dieta, las intenciones y el estado mental ideal para una experiencia transformadora.', date: '2024-11-02', category: 'Guía', readTime: 6 },
+  { title: 'Integración Post-Ceremonia', slug: 'integracion-post-ceremonia', excerpt: 'Las experiencias con plantas maestras revelan mucho. La integración es el proceso de aplicar esas enseñanzas en tu vida cotidiana para que la transformación sea duradera.', date: '2024-12-01', category: 'Integración', readTime: 7 },
+];
+---
+
+<Layout
+  title="Recursos | Ayahuasca Cusco — Blog, Testimonios y FAQ"
+  description="Encuentra recursos útiles, testimonios de participantes y preguntas frecuentes sobre los retiros de Ayahuasca en Cusco."
+  lang="es"
+>
+  <Header />
+  <main id="main-content">
+    
+    <!-- Hero Section -->
+    <section class="page-hero section--dark">
+      <div class="container">
+        <div class="ornament" style="justify-content:flex-start">
+          <span class="ornament-text" style="color:var(--color-gold-pale)">Sabiduría y Experiencias</span>
+        </div>
+        <h1 style="color:var(--color-white); margin-bottom:1rem">Centro de Recursos</h1>
+        <p style="font-family:var(--font-display); font-size:1.15rem; font-style:italic; color:rgba(255,255,255,0.7); max-width:600px">
+          Información valiosa, testimonios reales y respuestas a tus dudas frecuentes sobre tu viaje con la medicina.
+        </p>
+      </div>
+    </section>
+
+    <!-- Unified Sections -->
+    <div class="unified-sections">
+      
+      <!-- Testimonials -->
+      <div id="testimonios" class="anchor-offset">
+        <Testimonials />
+      </div>
+
+      <!-- FAQ -->
+      <div id="faq" class="anchor-offset" style="background-color: var(--color-cream); padding-top: 2rem;">
+        <FAQ />
+      </div>
+
+      <!-- Blog Quick View -->
+      <div id="blog" class="anchor-offset section">
+        <div class="container">
+          <div class="section-header center mb-4" style="text-align:center; margin-bottom:3rem;">
+            <h2>Artículos Destacados</h2>
+            <p style="color:var(--color-text-muted);">Aprende más sobre la medicina y nuestros procesos.</p>
+          </div>
+          <div class="blog-grid">
+            {posts.map((post, i) => (
+              <div class="reveal" style={`animation-delay:${(i%3)*0.1}s`}>
+                <BlogCard {...post} />
+              </div>
+            ))}
+          </div>
+          <div style="text-align: center; margin-top: 3rem;">
+            <a href="/blog" class="btn btn--outline" style="border: 2px solid var(--color-gold); color: var(--color-gold); padding: 0.8rem 1.5rem; text-decoration:none; font-weight: bold; border-radius: 8px;">
+              Ver Todos los Artículos
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+  <Footer />
+  <WhatsAppButton />
+</Layout>
+
+<style>
+  .page-hero { 
+    background: linear-gradient(160deg, var(--color-jungle-deep), var(--color-jungle-dark)); 
+    padding: 6rem 0 4rem; 
+  }
+  
+  .anchor-offset {
+    scroll-margin-top: 100px;
+  }
+  
+  .blog-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 1.75rem; 
+  }
+
+  .btn--outline:hover {
+    background: var(--color-gold);
+    color: white !important;
+  }
+</style>

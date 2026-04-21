@@ -1,0 +1,146 @@
+---
+// src/components/GoogleMap.astro
+
+interface Props {
+  title?: string;
+  embedSrc?: string;
+}
+
+const {
+  title    = 'Centro Histórico del Cusco, Perú',
+  // URL en formato "embed" para que funcione correctamente dentro de un <iframe>
+  embedSrc = 'https://maps.google.com/maps?q=Centro+Historico+del+Cusco&t=&z=15&ie=UTF8&iwloc=&output=embed',
+} = Astro.props;
+---
+
+<div class="map-container" aria-label={title}>
+  <div class="map-header">
+    <div class="map-icon" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+        <circle cx="12" cy="10" r="3"/>
+      </svg>
+    </div>
+    <div>
+      <h3 class="map-title">Nuestra Ubicación</h3>
+      <p class="map-address">Cusco, Cusco, Perú — Cusco</p>
+    </div>
+  </div>
+
+  <div class="map-embed-wrap">
+    <iframe
+      id="google-map-embed"
+      src={embedSrc}
+      width="100%"
+      height="420"
+      style="border:0;"
+      allowfullscreen
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      title={title}
+      aria-label={title}
+    ></iframe>
+  </div>
+
+  <div class="map-actions">
+    <a
+      href="https://maps.google.com/?q=Iquitos,Peru"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="btn btn--outline map-directions-btn"
+      aria-label="Cómo llegar — Google Maps"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+      </svg>
+      Cómo llegar
+    </a>
+    <a
+      href="https://wa.me/51999999999?text=Hola%2C%20quisiera%20información%20sobre%20cómo%20llegar"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="btn btn--whatsapp map-wa-btn"
+      aria-label="Preguntar cómo llegar por WhatsApp"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z M12 0C5.373 0 0 5.373 0 12c0 2.122.557 4.113 1.527 5.845L.073 23.203a.75.75 0 0 0 .903.962l5.534-1.451A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.878 0-3.645-.52-5.153-1.422l-.367-.217-3.803.998.998-3.803-.217-.367A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+      </svg>
+      Consultar llegada
+    </a>
+  </div>
+</div>
+
+<style>
+  .map-container {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+
+  .map-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid rgba(45,106,63,0.1);
+  }
+
+  .map-icon {
+    width: 44px;
+    height: 44px;
+    background: rgba(45,106,63,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-jungle-light);
+    flex-shrink: 0;
+  }
+
+  .map-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-jungle-deep);
+    margin-bottom: 0.1rem;
+  }
+
+  .map-address {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .map-embed-wrap {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .map-embed-wrap iframe {
+    display: block;
+    width: 100%;
+  }
+
+  .map-actions {
+    display: flex;
+    gap: 1rem;
+    padding: 1.25rem 2rem;
+    flex-wrap: wrap;
+  }
+
+  .map-directions-btn {
+    color: var(--color-jungle-mid);
+    border-color: rgba(45,106,63,0.3);
+  }
+
+  .map-directions-btn:hover {
+    background: rgba(45,106,63,0.08);
+    color: var(--color-jungle-mid);
+  }
+
+  @media (max-width: 640px) {
+    .map-header { padding: 1.25rem; }
+    .map-actions { padding: 1rem; }
+    .map-actions .btn { width: 100%; justify-content: center; }
+    .map-embed-wrap iframe { height: 280px; }
+  }
+</style>

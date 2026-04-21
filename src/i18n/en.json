@@ -1,0 +1,123 @@
+{
+    "nav": {
+        "home": "Home",
+        "about": "About Us",
+        "services": "Services",
+        "retreats": "Retreats",
+        "gallery": "Gallery",
+        "testimonials": "Testimonials",
+        "blog": "Blog",
+        "faq": "FAQ",
+        "contact": "Contact"
+    },
+    "hero": {
+        "title": "Awaken Your Spirit",
+        "subtitle": "Authentic Ayahuasca ceremonies in the heart of the Amazon. Transform your life with ancestral wisdom.",
+        "cta_primary": "Explore Our Retreats",
+        "cta_secondary": "Talk to Us",
+        "badge": "Certified Facilitators"
+    },
+    "about": {
+        "title": "Who We Are",
+        "subtitle": "Guardians of Ancestral Medicine",
+        "description": "We are a spiritual healing center dedicated to preserving and sharing the sacred traditions of the Amazon. Our facilitators have over 15 years of experience in ayahuasca ceremonies.",
+        "mission": "Mission",
+        "mission_text": "To accompany each person in their healing and consciousness expansion process with respect, safety and love.",
+        "vision": "Vision",
+        "vision_text": "To be a bridge of light between ancient Amazonian wisdom and the contemporary world.",
+        "stats": {
+            "ceremonies": "Ceremonies held",
+            "years": "Years of experience",
+            "countries": "Countries of origin",
+            "facilitators": "Certified facilitators"
+        }
+    },
+    "services": {
+        "title": "Our Services",
+        "subtitle": "Transformative experiences for your spiritual journey",
+        "items": [
+            {
+                "title": "Ayahuasca Ceremony",
+                "description": "Sacred ceremonies guided by master healers with decades of experience.",
+                "icon": "🌿"
+            },
+            {
+                "title": "7-Day Retreat",
+                "description": "Deep immersion in ancestral medicine with diet, meditation and ceremonies.",
+                "icon": "🌙"
+            },
+            {
+                "title": "Healing Therapy",
+                "description": "Individual sessions of energetic healing and spiritual cleansing.",
+                "icon": "✨"
+            },
+            {
+                "title": "San Pedro (Huachuma)",
+                "description": "Ceremonies with the sacred Andean cactus for consciousness expansion.",
+                "icon": "🌵"
+            },
+            {
+                "title": "Plant Baths",
+                "description": "Ritual purification with medicinal plants from the Amazon jungle.",
+                "icon": "🌸"
+            },
+            {
+                "title": "Plant Diet",
+                "description": "Master-plant program to deepen spiritual connection.",
+                "icon": "🍃"
+            }
+        ]
+    },
+    "retreats": {
+        "title": "Retreats Catalog",
+        "subtitle": "Choose the perfect retreat for your healing process",
+        "cta": "Book via WhatsApp",
+        "duration": "Duration",
+        "price": "Price",
+        "days": "days",
+        "included": "What's included?"
+    },
+    "testimonials": {
+        "title": "Testimonials",
+        "subtitle": "What our participants say"
+    },
+    "faq": {
+        "title": "Frequently Asked Questions",
+        "subtitle": "Everything you need to know before your retreat"
+    },
+    "contact": {
+        "title": "Contact Us",
+        "subtitle": "We are here to accompany you on your path",
+        "name": "Full name",
+        "email": "Email address",
+        "phone": "Phone / WhatsApp",
+        "country": "Country of origin",
+        "message": "Your message",
+        "message_placeholder": "Tell us about yourself and what you'd like to explore in your retreat...",
+        "send": "Send Message",
+        "sending": "Sending...",
+        "success": "Message sent! We'll reply soon.",
+        "error": "There was an error. Try via WhatsApp.",
+        "whatsapp": "Write on WhatsApp",
+        "location": "Our Location"
+    },
+    "footer": {
+        "tagline": "Guardians of ancestral Amazonian medicine",
+        "links_title": "Pages",
+        "contact_title": "Contact",
+        "follow": "Follow Us",
+        "rights": "All rights reserved",
+        "privacy": "Privacy",
+        "terms": "Terms"
+    },
+    "seo": {
+        "site_name": "Spirit of Amazonas",
+        "home_title": "Spirit of Amazonas | Ayahuasca Retreats in the Amazon",
+        "home_description": "Ayahuasca retreat center with certified facilitators. Sacred ceremonies, 7-day retreats, spiritual healing in the Amazon. Book your transformative experience.",
+        "about_title": "About Us | Spirit of Amazonas",
+        "services_title": "Services | Ayahuasca Ceremonies & Retreats",
+        "retreats_title": "Retreats Catalog | Spirit of Amazonas",
+        "contact_title": "Contact | Spirit of Amazonas",
+        "blog_title": "Blog | Ancestral Wisdom & Medicinal Plants"
+    }
+}

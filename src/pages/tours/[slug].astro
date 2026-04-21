@@ -1,0 +1,231 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import WhatsAppButton from '../../components/WhatsAppButton.astro';
+
+export async function getStaticPaths() {
+  const tours = await getCollection('tours');
+  return tours.map(entry => ({
+    params: { slug: entry.slug }, props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+const { title, description, image, duration, price, difficulty } = entry.data;
+---
+
+<Layout title={`${title} | Spirit of Amazonas`} description={description} lang="es">
+  <Header />
+  
+  <main id="main-content">
+    <section class="tour-hero section--dark" style={`background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${image})`}>
+      <div class="container text-center">
+        <div class="ornament">
+          <span class="ornament-text" style="color:var(--color-gold-pale)">Experiencia Sagrada</span>
+        </div>
+        <h1 class="tour-title reveal">{title}</h1>
+        <div class="divider-gold mx-auto"></div>
+        
+        <div class="tour-quick-info reveal" style="animation-delay: 0.2s">
+          <div class="info-item">
+            <span class="info-icon">🕒</span>
+            <div class="info-text">
+              <strong>Duración</strong>
+              <span>{duration}</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">💎</span>
+            <div class="info-text">
+              <strong>Precio</strong>
+              <span>{price}</span>
+            </div>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">🌿</span>
+            <div class="info-text">
+              <strong>Dificultad</strong>
+              <span>{difficulty}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--cream">
+      <div class="container tour-content-grid">
+        
+        <article class="tour-article reveal">
+          <div class="rich-text">
+            <Content />
+          </div>
+        </article>
+
+        <aside class="tour-sidebar reveal" style="animation-delay: 0.2s">
+          <div class="booking-card">
+            <h3>Reserva tu espacio</h3>
+            <p>Comienza tu viaje de sanación espiritual hoy mismo.</p>
+            <div class="divider-gold" style="margin: 1.5rem 0"></div>
+            
+            <ul class="booking-benefits">
+              <li>✅ Facilitadores expertos</li>
+              <li>✅ Entorno seguro y natural</li>
+              <li>✅ Protocolo médico incluido</li>
+            </ul>
+
+            <a
+              href={`https://wa.me/51999999999?text=Hola%2C%20me%20interesa%20el%20tour%3A%20${title}`}
+              target="_blank"
+              class="btn btn--whatsapp"
+              style="width:100%; justify-content:center; margin-top:1.5rem"
+            >
+              Consultar por WhatsApp
+            </a>
+            
+            <p class="booking-note">Respondemos en menos de 24 horas.</p>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+  <WhatsAppButton />
+</Layout>
+
+<style>
+  /* Hero específico del Tour */
+  .tour-hero {
+    padding: 12rem 0 8rem;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+  }
+
+  .tour-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    color: var(--color-white);
+    margin-bottom: 1.5rem;
+  }
+
+  .tour-quick-info {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-align: left;
+  }
+
+  .info-icon { font-size: 2rem; }
+  
+  .info-text strong {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--color-gold-pale);
+    letter-spacing: 0.1em;
+  }
+
+  .info-text span {
+    color: var(--color-white);
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  /* Grid de Contenido */
+  .tour-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  /* Estilos para el contenido que viene del Markdown (Content) */
+  .rich-text {
+    color: var(--color-text);
+    line-height: 1.8;
+  }
+
+  .rich-text :global(h2) {
+    font-size: 2rem;
+    color: var(--color-primary);
+    margin: 2.5rem 0 1rem;
+    font-family: var(--font-heading);
+  }
+
+  .rich-text :global(p) {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+  }
+
+  .rich-text :global(ul) {
+    margin-bottom: 2rem;
+    list-style: none;
+    padding-left: 1rem;
+  }
+
+  .rich-text :global(li) {
+    margin-bottom: 0.75rem;
+    position: relative;
+    padding-left: 1.5rem;
+  }
+
+  .rich-text :global(li::before) {
+    content: "•";
+    color: var(--color-gold);
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+  }
+
+  /* Sidebar de Reserva */
+  .booking-card {
+    background: var(--color-white);
+    padding: 2.5rem;
+    border-radius: var(--radius-xl);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 100px;
+    border: 1px solid var(--color-cream-dark);
+  }
+
+  .booking-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--color-primary);
+  }
+
+  .booking-benefits {
+    list-style: none;
+    padding: 0;
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+  }
+
+  .booking-note {
+    text-align: center;
+    font-size: 0.8rem;
+    margin-top: 1rem;
+    color: var(--color-text-light);
+  }
+
+  /* Responsivo */
+  @media (max-width: 900px) {
+    .tour-content-grid { grid-template-columns: 1fr; }
+    .tour-hero { padding: 8rem 0 4rem; }
+    .tour-quick-info { gap: 1.5rem; justify-content: flex-start; }
+    .booking-card { position: static; margin-top: 2rem; }
+  }
+</style>

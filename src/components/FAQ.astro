@@ -1,0 +1,180 @@
+---
+// src/components/FAQ.astro
+
+const faqs = [
+  {
+    q: '¿Es segura la ceremonia de ayahuasca?',
+    a: 'Sí, cuando se realiza en un entorno adecuado con facilitadores experimentiados. Hacemos un screening médico previo con todos los participantes y contamos con protocolos de seguridad establecidos. La preparación y el acompañamiento son fundamentales para una experiencia segura y beneficiosa.',
+  },
+  {
+    q: '¿Qué debo hacer para prepararme?',
+    a: 'Recomendamos seguir una dieta especial (sin cerdo, alcohol, drogas, azúcar refinada ni cafeína) durante al menos 2 semanas antes. También es importante tener una intención clara para la ceremonia y prepararse mentalmente. Te enviamos una guía completa de preparación antes de tu llegada.',
+  },
+  {
+    q: '¿Hay contraindicaciones médicas?',
+    a: 'Sí. No pueden participar personas que toman antidepresivos ISRS, IMAO u otros psicofármacos, personas con ciertos trastornos cardíacos o psicóticos, embarazadas o en periodo de lactancia. El screening previo determina si eres candidato/a adecuado/a.',
+  },
+  {
+    q: '¿Cuánto dura una ceremonia?',
+    a: 'Las ceremonias duran entre 5 y 8 horas. Generalmente comienzan al atardecer y terminan en la madrugada. Al día siguiente se realiza una sesión de integración para procesar la experiencia.',
+  },
+  {
+    q: '¿Qué incluye el retiro de 7 días?',
+    a: 'El retiro incluye: alojamiento en cabañas cercanas a la naturaleza, alimentación con dieta especial de plantas, 3 ceremonias de ayahuasca, sesiones de integración diarias, baños de plantas, y una sesión de cierre y despedida. También transfer desde y hacia el aeropuerto.',
+  },
+  {
+    q: '¿Cuál es el número máximo de participantes?',
+    a: 'Para garantizar atención personalizada y un ambiente íntimo, trabajamos con grupos reducidos de máximo 10-12 participantes por ceremonia. Esto permite que cada persona reciba el acompañamiento que necesita.',
+  },
+  {
+    q: '¿Se puede hacer si es mi primera vez?',
+    a: 'Absolutamente. Muchos de nuestros participantes son principiantes. Ofrecemos orientación completa, sesiones de preparación y acompañamiento antes, durante y después de la experiencia. Lo más importante es llegar con una intención sincera y corazón abierto.',
+  },
+  {
+    q: '¿Cómo reservo mi lugar?',
+    a: 'Puedes contactarnos a través de WhatsApp, correo electrónico o el formulario de contacto. Una vez que confirmes tu interés, te enviaremos el formulario de screening médico y los detalles de pago para asegurar tu lugar.',
+  },
+  {
+    q: '¿Cuál es la mejor época del año para visitar?',
+    a: 'La Amazonía peruana es hermosa todo el año. Mayo a octubre es temporada seca, con menos lluvia y mayor facilidad de movilización. Noviembre a abril es temporada de lluvias, con la selva más exuberante y verde. Realizamos retiros durante todo el año.',
+  },
+  {
+    q: '¿Emiten comprobantes o facturas?',
+    a: 'Sí, emitimos comprobantes de pago oficiales. Para cupos internacionales, coordinamos los medios de pago más convenientes. Contáctanos para más detalles sobre métodos de pago y facturación.',
+  },
+];
+---
+
+<section id="preguntas-frecuentes" class="section section--cream">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="ornament">
+        <span class="ornament-text">Preguntas Frecuentes</span>
+      </div>
+      <h2>Todo lo que Necesitas Saber</h2>
+      <div class="divider-gold"></div>
+      <p class="section-subtitle">
+        Antes de tu retiro, respuestas a las preguntas más comunes
+      </p>
+    </div>
+
+    <div class="faq-list" role="list">
+      {faqs.map((faq, i) => (
+        <details
+          class="faq-item reveal"
+          style={`animation-delay: ${i * 0.05}s`}
+          role="listitem"
+        >
+          <summary class="faq-question" aria-expanded="false">
+            <span class="faq-q-text">{faq.q}</span>
+            <span class="faq-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </span>
+          </summary>
+          <div class="faq-answer">
+            <p>{faq.a}</p>
+          </div>
+        </details>
+      ))}
+    </div>
+
+    <!-- Still have questions? -->
+    <div class="faq-cta reveal" style="text-align:center; margin-top:3rem">
+      <p style="margin-bottom:1.25rem; color:var(--color-text-muted); font-style:italic">
+        ¿Tienes más preguntas? Estamos aquí para responderlas.
+      </p>
+      <a
+        href="https://wa.me/51999999999?text=Hola%2C%20tengo%20una%20pregunta%20sobre%20sus%20retiros"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn--whatsapp"
+      >
+        Hacer una Pregunta por WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq-list {
+    max-width: 780px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .faq-item {
+    background: var(--color-white);
+    border: 1px solid rgba(45,106,63,0.1);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: box-shadow var(--transition-base), border-color var(--transition-base);
+  }
+
+  .faq-item:hover {
+    box-shadow: var(--shadow-sm);
+    border-color: rgba(45,106,63,0.2);
+  }
+
+  .faq-item[open] {
+    box-shadow: var(--shadow-md);
+    border-color: rgba(45,106,63,0.25);
+  }
+
+  .faq-item[open] .faq-icon { transform: rotate(180deg); }
+
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    list-style: none;
+    transition: background var(--transition-fast);
+    user-select: none;
+  }
+
+  .faq-question::-webkit-details-marker { display: none; }
+
+  .faq-question:hover {
+    background: rgba(45,106,63,0.04);
+  }
+
+  .faq-q-text {
+    font-weight: 600;
+    color: var(--color-jungle-deep);
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    line-height: 1.4;
+  }
+
+  .faq-icon {
+    flex-shrink: 0;
+    color: var(--color-jungle-light);
+    transition: transform var(--transition-base);
+    display: flex;
+    align-items: center;
+  }
+
+  .faq-answer {
+    padding: 0 1.5rem 1.5rem;
+    border-top: 1px solid rgba(45,106,63,0.08);
+    animation: fadeInUp 0.3s ease;
+  }
+
+  .faq-answer p {
+    font-size: 0.93rem;
+    line-height: 1.8;
+    color: var(--color-text-mid);
+    padding-top: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .faq-question { padding: 1rem; }
+    .faq-q-text { font-size: 0.95rem; }
+  }
+</style>

@@ -1,0 +1,203 @@
+---
+// src/pages/index.astro — Home Page
+
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import Services from '../components/Services.astro';
+import Testimonials from '../components/Testimonials.astro';
+import FAQ from '../components/FAQ.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import GoogleMap from '../components/GoogleMap.astro';
+import BlogCard from '../components/BlogCard.astro';
+
+const blogPosts = [
+  {
+    title: '¿Qué es la Ayahuasca? Historia y Orígenes Ancestrales',
+    slug: 'que-es-la-ayahuasca',
+    excerpt: 'La ayahuasca es una bebida psicoactiva preparada con plantas de la Amazonía. Te contamos su historia, sus componentes y su papel en las culturas indígenas.',
+    date: '2024-10-15',
+    category: 'Medicina',
+    readTime: 8,
+  },
+  {
+    title: 'Cómo Prepararse para una Ceremonia de Ayahuasca',
+    slug: 'como-prepararse-ceremonia',
+    excerpt: 'La preparación es tan importante como la ceremonia misma. Aprende sobre la dieta, las intenciones y el estado mental ideal para una experiencia transformadora.',
+    date: '2024-11-02',
+    category: 'Guía',
+    readTime: 6,
+  },
+  {
+    title: 'Integración Post-Ceremonia: El Verdadero Trabajo Comienza Después',
+    slug: 'integracion-post-ceremonia',
+    excerpt: 'Las experiencias con plantas maestras revelan mucho. La integración es el proceso de aplicar esas enseñanzas en tu vida cotidiana.',
+    date: '2024-12-01',
+    category: 'Integración',
+    readTime: 7,
+  },
+];
+---
+
+<Layout
+  title="Spirit of Amazonas | Retiros de Ayahuasca en la Amazonía Peruana"
+  description="Centro de retiros de ayahuasca con facilitadores certificados en Iquitos, Perú. Ceremonias sagradas, retiros de 7 días, sanación espiritual en la Amazonía. Reserva tu experiencia transformadora."
+  lang="es"
+>
+  <Header />
+  <main id="main-content">
+
+    <!-- Hero -->
+    <Hero />
+
+    <!-- Services -->
+    <Services />
+
+    <!-- Testimonials -->
+    <Testimonials />
+
+    <!-- Blog Preview -->
+    <section id="blog-home" class="section section--cream">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="ornament">
+            <span class="ornament-text">Conocimiento Ancestral</span>
+          </div>
+          <h2>Artículos del Blog</h2>
+          <div class="divider-gold"></div>
+          <p class="section-subtitle">Aprende sobre medicina ancestral, preparación e integración</p>
+        </div>
+        <div class="grid-3">
+          {blogPosts.map((post, i) => (
+            <div class="reveal" style={`animation-delay:${i*0.12}s`}>
+              <BlogCard {...post} />
+            </div>
+          ))}
+        </div>
+        <div style="text-align:center; margin-top:2.5rem">
+          <a href="/blog" class="btn btn--primary">Ver Todos los Artículos</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ snippet -->
+    <FAQ />
+
+    <!-- Contact + Map -->
+    <section id="contacto-home" class="section section--dark">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="ornament">
+            <span class="ornament-text" style="color:var(--color-gold-pale)">Contáctanos</span>
+          </div>
+          <h2 style="color:var(--color-white)">¿Lista para Tu Retiro?</h2>
+          <div class="divider-gold"></div>
+          <p class="section-subtitle">Escríbenos y te respondemos en menos de 24 horas</p>
+        </div>
+        <div class="contact-home-grid">
+          <div class="reveal">
+            <!-- Google Maps embed -->
+            <GoogleMap />
+          </div>
+          <div class="reveal" style="animation-delay:0.2s">
+            <div class="contact-info-cards">
+              <div class="contact-info-card">
+                <span class="cic-icon">📞</span>
+                <div>
+                  <strong>Teléfono</strong>
+                  <a href="tel:+51999999999">+51 999 999 999</a>
+                </div>
+              </div>
+              <div class="contact-info-card">
+                <span class="cic-icon">✉️</span>
+                <div>
+                  <strong>Email</strong>
+                  <a href="mailto:info@spiritofamazonas.com">info@spiritofamazonas.com</a>
+                </div>
+              </div>
+              <div class="contact-info-card">
+                <span class="cic-icon">📍</span>
+                <div>
+                  <strong>Ubicación</strong>
+                  <span>Iquitos, Loreto, Perú</span>
+                </div>
+              </div>
+              <div class="contact-info-card">
+                <span class="cic-icon">🕐</span>
+                <div>
+                  <strong>Horario de Atención</strong>
+                  <span>Lun–Dom · 8:00–20:00 (PET)</span>
+                </div>
+              </div>
+            </div>
+            <a
+              href="https://wa.me/51999999999?text=Hola%2C%20me%20interesa%20información%20sobre%20sus%20retiros"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn--whatsapp"
+              style="width:100%; justify-content:center; margin-top:1.5rem"
+            >
+              Escribir por WhatsApp Ahora
+            </a>
+            <a
+              href="/contacto"
+              class="btn btn--outline"
+              style="width:100%; justify-content:center; margin-top:0.75rem"
+            >
+              Ir al Formulario de Contacto
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+  <WhatsAppButton />
+</Layout>
+
+<style>
+  /* Contact home */
+  .contact-home-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  .contact-info-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .contact-info-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.25rem;
+  }
+  .cic-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .contact-info-card strong {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-gold-pale);
+    margin-bottom: 0.2rem;
+  }
+  .contact-info-card a,
+  .contact-info-card span {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+  }
+  .contact-info-card a:hover { color: var(--color-gold-light); }
+
+  @media (max-width: 900px) {
+    .contact-home-grid { grid-template-columns: 1fr; }
+  }
+</style>

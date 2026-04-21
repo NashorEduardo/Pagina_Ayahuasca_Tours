@@ -1,0 +1,780 @@
+---
+// src/components/Header.astro
+// Sticky header with navigation, language switcher and mobile menu
+
+const currentPath = Astro.url.pathname;
+const lang = currentPath.startsWith('/en') ? 'en' : currentPath.startsWith('/pt') ? 'pt' : 'es';
+
+const navLinks = {
+  es: [
+    { href: '/',                  label: 'Inicio' },
+    { href: '/servicios',         label: 'Servicios' },
+    { href: '/retiros',           label: 'Retiros Ayahuasca' },
+    { href: '/galeria',           label: 'Galería' },
+    { href: '/recursos',          label: 'Recursos' },
+    { href: '/contacto',          label: 'Contacto' },
+    { href: '/sobre-nosotros',    label: 'Nosotros' },
+  ],
+  en: [
+    { href: '/en',                label: 'Home' },
+    { href: '/en/services',       label: 'Services' },
+    { href: '/en/retreats',       label: 'Retreats' },
+    { href: '/en/gallery',        label: 'Gallery' },
+    { href: '/en/testimonials',   label: 'Testimonials' },
+    { href: '/en/blog',           label: 'Blog' },
+    { href: '/en/faq',            label: 'FAQ' },
+    { href: '/en/contact',        label: 'Contact' },
+    { href: '/en/about',          label: 'About' },
+  ],
+  pt: [
+    { href: '/pt',                label: 'Início' },
+    { href: '/pt/servicos',       label: 'Serviços' },
+    { href: '/pt/retiros',        label: 'Retiros' },
+    { href: '/pt/galeria',        label: 'Galeria' },
+    { href: '/pt/depoimentos',    label: 'Depoimentos' },
+    { href: '/pt/blog',           label: 'Blog' },
+    { href: '/pt/perguntas',      label: 'FAQ' },
+    { href: '/pt/contato',        label: 'Contato' },
+    { href: '/pt/sobre',          label: 'Sobre' },
+  ],
+};
+
+const links = navLinks[lang as keyof typeof navLinks] ?? navLinks.es;
+
+const retiroMegaMenu = [
+  {
+    title: "TOURS CORTOS (1 DÍA)",
+    desc: "Experiencias de ida y vuelta",
+    items: [
+      { href: "/retiro-ayahuasca-1-dia", label: "Ayahuasca 1 día Quillarumiyo", image: "/img/menu/quillarumiyo.png" },
+      { href: "/retiros#valle-1-dia", label: "VALLE 1 DÍA", image: "/img/menu/valle_sagrado.png" }
+    ]
+  },
+  {
+    title: "MÁS DESTINOS",
+    desc: "Aventura y misticismo",
+    items: [
+      { href: "/retiros#machupicchu-2d", label: "MACHUPicchu 2 días / 1 día", image: "/img/menu/machupicchu.png" },
+      { href: "/retiros#huchuyqosqo", label: "Huchuy Qosqo", image: "/img/menu/huchuy_qosqo.png" }
+    ]
+  },
+  {
+    title: "RETIROS TRADICIONALES",
+    desc: "Inmersión sanadora en la selva",
+    items: [
+      { href: "/retiros#retiro-3-dias", label: "Retiro Iniciático de 3 Días" },
+      { href: "/retiros#retiro-7-dias", label: "Retiro de Sanación 7 Días" },
+      { href: "/retiros#retiro-10-dias", label: "Retiro Avanzado 10 Días" },
+      { href: "/retiros", label: "Ver todos los retiros clásicos →" }
+    ]
+  },
+  {
+    title: "EXPERIENCIAS ESPECIALES",
+    desc: "Tratamientos y grupos",
+    items: [
+      { href: "/retiros#dieta-plantas", label: "Dieta de Plantas 14 Días" },
+      { href: "/retiros#retiro-pareja", label: "Retiros en Pareja" },
+      { href: "/retiros#retiro-silencio", label: "Retiro de Silencio 5 Días" },
+      { href: "/retiros#familiar", label: "Retiro Familiar (12 Días)" }
+    ]
+  }
+];
+
+const recursosSubmenu = [
+  { href: '/recursos#testimonios', label: 'Testimonios' },
+  { href: '/recursos#blog', label: 'Blog' },
+  { href: '/recursos#faq', label: 'Preguntas Frecuentes' },
+];
+
+const langSwitcher = {
+  es: [
+    { href: '/',    code: 'ES', label: 'Español' },
+    { href: '/en',  code: 'EN', label: 'English' },
+    { href: '/pt',  code: 'PT', label: 'Português' },
+  ],
+};
+---
+
+<header id="site-header" class="site-header">
+  <div class="container header-inner">
+    <!-- Logo -->
+    <a href={lang === 'es' ? '/' : `/${lang}`} class="header-logo" aria-label="Ayahuasca Cusco - Inicio">
+      <img src="/logo.png" alt="Ayahuasca Cusco Logo" class="logo-img" />
+      <span class="logo-text">
+        <span class="logo-title">Ayahuasca</span>
+        <span class="logo-sub">Cusco</span>
+      </span>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav id="main-nav" class="header-nav" aria-label="Navegación principal">
+      <ul class="nav-list">
+        {links.map(({ href, label }) => {
+          const hasRetiroSubmenu = lang === 'es' && href === '/retiros';
+          const hasRecursosSubmenu = lang === 'es' && href === '/recursos';
+          const isDropdown = hasRetiroSubmenu || hasRecursosSubmenu;
+
+          return (
+            <li class:list={['nav-item', { 'nav-item--has-submenu': isDropdown }]}>
+              <a
+                href={href}
+                class:list={['nav-link', { 'nav-link--active': currentPath === href || (href !== '/' && currentPath.startsWith(href)) }]}
+                aria-current={currentPath === href ? 'page' : undefined}
+                aria-haspopup={isDropdown ? 'menu' : undefined}
+              >
+                {label}
+              </a>
+
+              {isDropdown && (
+                <div class:list={["nav-submenu", { "megamenu": hasRetiroSubmenu }]} role="menu" aria-label={`Submenú de ${label}`}>
+                  {hasRetiroSubmenu ? (
+                    <div class="megamenu-grid">
+                      {retiroMegaMenu.map(column => (
+                        <div class="megamenu-column">
+                          <h4 class="megamenu-title">{column.title}</h4>
+                          <p class="megamenu-desc">{column.desc}</p>
+                          <ul class={column.items.some(i => (i as any).image) ? "megamenu-list megamenu-list--with-images" : "megamenu-list"}>
+                            {column.items.map(item => (
+                              <li role="none" class="megamenu-item">
+                                <a href={item.href} class="nav-submenu-link" role="menuitem">
+                                  {(item as any).image && <img src={(item as any).image} alt={item.label} class="megamenu-image" />}
+                                  <span class="megamenu-label">{item.label}</span>
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <ul>
+                      {recursosSubmenu.map(({ href: subHref, label: subLabel }) => (
+                        <li role="none">
+                          <a href={subHref} class="nav-submenu-link" role="menuitem">{subLabel}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+
+    <!-- Right controls -->
+    <div class="header-controls">
+      <!-- Language switcher -->
+      <div class="lang-switcher" role="navigation" aria-label="Cambiar idioma">
+        {langSwitcher.es.map(({ href, code, label }) => (
+          <a
+            href={href}
+            class:list={['lang-btn', { 'lang-btn--active': lang === code.toLowerCase() }]}
+            title={label}
+            aria-label={`Cambiar a ${label}`}
+          >
+            {code}
+          </a>
+        ))}
+      </div>
+
+
+      <!-- Social media -->
+      <div class="header-socials">
+        <a href="#" class="social-link" aria-label="Facebook" target="_blank">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <path d="M12 2.04c-5.5 0-10 4.48-10 10.02 0 5 3.66 9.15 8.44 9.9v-7H7.9v-2.9h2.54V9.67c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.23.19 2.23.19v2.47h-1.26c-1.24 0-1.63.77-1.63 1.56v1.88h2.78l-.45 2.9h-2.33v7a10 10 0 0 0 8.44-9.9c0-5.54-4.5-10.02-10-10.02Z"/>
+          </svg>
+        </a>
+        <a href="#" class="social-link" aria-label="Instagram" target="_blank">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.37.9.42.4.68.81.9 1.36.17.44.36 1.07.41 2.24.06 1.27.07 1.65.07 4.86s-.01 3.59-.07 4.86c-.05 1.17-.24 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.41.41-.81.67-1.37.89-.43.17-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.24-2.23-.41-.56-.22-.96-.48-1.37-.89-.42-.42-.68-.82-.9-1.38-.17-.43-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.86s.01-3.59.07-4.86c.05-1.17.24-1.8.41-2.24.22-.55.48-.95.9-1.36.41-.42.81-.68 1.37-.9.43-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07c-1.27.06-2.14.26-2.9.55-.78.3-1.44.7-2.1 1.36-.66.66-1.06 1.32-1.36 2.1-.3.76-.5 1.63-.55 2.9C.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.14.55 2.9.3.78.7 1.44 1.36 2.1.66.66 1.32 1.06 2.1 1.36.76.3 1.63.5 2.9.55 1.28.06 1.69.07 4.95.07s3.67-.01 4.95-.07c1.27-.06 2.14-.26 2.9-.55.78-.3 1.44-.7 2.1-1.36.66-.66 1.06-1.32 1.36-2.1.3-.76.5-1.63.55-2.9.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.14-.55-2.9-.3-.78-.7-1.44-1.36-2.1-.66-.66-1.32-1.06-2.1-1.36-.76-.3-1.63-.5-2.9-.55C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm3.96-8.72a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"/>
+          </svg>
+        </a>
+        <a href="#" class="social-link" aria-label="TikTok" target="_blank">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93v6.86c-.02 2.37-1.15 4.7-3 6.13-1.8 1.4-4.24 1.88-6.4 1.34-1.92-.47-3.6-1.87-4.46-3.66-.88-1.85-.92-4.08-.22-5.97.7-1.88 2.3-3.4 4.18-4.09 1.3-.49 2.75-.54 4.1-.22v4.06c-.84-.2-1.74-.1-2.48.27-.8.39-1.46 1.09-1.61 1.98-.15.93.18 1.88.85 2.5.7.67 1.7.9 2.66.72.96-.19 1.8-.84 2.12-1.78.3-.87.27-1.82.26-2.73v-13.8z"/>
+          </svg>
+        </a>
+        <a href="#" class="social-link" aria-label="YouTube" target="_blank">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.5 12 3.5 12 3.5s-7.505 0-9.377.55a3.016 3.016 0 0 0-2.122 2.136C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.55 9.376.55 9.376.55s7.505 0 9.377-.55a3.016 3.016 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+          </svg>
+        </a>
+      </div>
+
+      <!-- Hamburger button -->
+      <button
+        id="menu-toggle"
+        class="menu-toggle"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="hamburger" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="mobile-menu" aria-hidden="true">
+    <nav aria-label="Menú móvil">
+      <ul class="mobile-nav-list">
+        {links.map(({ href, label }) => {
+          const hasRetiroSubmenu = lang === 'es' && href === '/retiros';
+          const hasRecursosSubmenu = lang === 'es' && href === '/recursos';
+          const isDropdown = hasRetiroSubmenu || hasRecursosSubmenu;
+
+          return (
+            <li>
+              <a href={href} class="mobile-nav-link">{label}</a>
+              {isDropdown && (
+                <div class="mobile-submenu">
+                  {hasRetiroSubmenu ? (
+                    retiroMegaMenu.map(column => (
+                      <div class="mobile-megamenu-group">
+                        <div class="mobile-megamenu-title">{column.title}</div>
+                        <ul class={column.items.some(i => (i as any).image) ? "mobile-submenu-list--images" : ""}>
+                          {column.items.map(item => (
+                            <li>
+                              <a href={item.href} class="mobile-submenu-link">
+                                {(item as any).image && <img src={(item as any).image} alt="" class="mobile-megamenu-image" />}
+                                <span class="megamenu-label">{item.label}</span>
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))
+                  ) : (
+                    <ul>
+                      {recursosSubmenu.map(({ href: subHref, label: subLabel }) => (
+                        <li>
+                          <a href={subHref} class="mobile-submenu-link">{subLabel}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+    <div class="mobile-lang">
+      {langSwitcher.es.map(({ href, code, label }) => (
+        <a href={href} class:list={['lang-btn', { 'lang-btn--active': lang === code.toLowerCase() }]} title={label}>
+          {code}
+        </a>
+      ))}
+    </div>
+    <a
+      href="https://wa.me/51999999999"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mobile-wa-btn btn btn--whatsapp"
+    >
+      Contactar por WhatsApp
+    </a>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 500;
+    background: rgba(10, 26, 15, 0.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201, 148, 26, 0.15);
+    transition: background 0.3s ease;
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-block: 0.9rem;
+  }
+
+  /* Logo */
+  .header-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .logo-img {
+    object-fit: contain;
+    width: 65px;
+    height: 65px;
+    mix-blend-mode: screen; /* Uses the black background of the logo to become transparent on our dark header! */
+    filter: brightness(1.15) contrast(1.1); /* Pop the colors */
+  }
+
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+  }
+
+  .logo-title {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-gold-pale);
+    font-family: var(--font-body);
+    font-weight: 400;
+  }
+
+  .logo-sub {
+    font-size: 1.15rem;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--color-white);
+    letter-spacing: 0.02em;
+  }
+
+  /* Nav */
+  .header-nav { flex: 1; }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-link {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.78);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  .nav-link:hover,
+  .nav-link--active {
+    color: var(--color-gold-light);
+    background: rgba(201, 148, 26, 0.1);
+  }
+
+  .nav-submenu {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 0.35rem);
+    min-width: 260px;
+    background: rgba(12, 30, 18, 0.98);
+    border: 1px solid rgba(201, 148, 26, 0.2);
+    border-radius: 8px;
+    padding: 0.4rem;
+    display: none;
+    z-index: 30;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  /* El pseudo-elemento sirve de "puente" invisible para que al mover el mouse no se pierda el menú por el espacio vacío */
+  .nav-submenu::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 0;
+    width: 100%;
+    height: 15px;
+  }
+
+  .nav-item--has-submenu:hover .nav-submenu,
+  .nav-item--has-submenu:focus-within .nav-submenu,
+  .nav-item--has-submenu.is-active .nav-submenu {
+    display: block;
+  }
+
+  .nav-submenu-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.65rem;
+    border-radius: 6px;
+    color: rgba(255,255,255,0.86);
+    text-decoration: none;
+    font-size: 0.82rem;
+    line-height: 1.3;
+    width: 100%;
+  }
+
+  .nav-submenu-link:hover {
+    color: var(--color-gold-light);
+    background: rgba(201, 148, 26, 0.13);
+  }
+
+  /* Megamenu Styles */
+  .nav-submenu.megamenu {
+    width: 65vw;
+    min-width: 900px;
+    max-width: 1300px;
+    left: 50%;
+    transform: translateX(-50%); 
+    padding: 2rem;
+  }
+  
+  .megamenu-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Upgraded from 3 to 4 */
+    gap: 2rem;
+  }
+
+  .megamenu-title {
+    color: #4CAF50; /* Green from the ref image */
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding-bottom: 0.2rem;
+    margin-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+  
+  .megamenu-desc {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+  
+  .megamenu-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .megamenu-item {
+    margin-bottom: 0.2rem;
+    position: relative;
+  }
+  
+  .megamenu-item::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 12px;
+    background-color: #ff6b00; /* Orange indicator line */
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  
+  .megamenu-item:hover::before {
+    opacity: 1;
+  }
+  
+  .megamenu-list--with-images .nav-submenu-link {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.4rem 0.5rem;
+  }
+  
+  .megamenu-list--with-images .megamenu-item::before {
+    display: none; /* Hide orange indicator for images */
+  }
+  
+  .megamenu-image {
+    width: 55px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  
+  .megamenu-label {
+    flex: 1;
+    font-weight: 500;
+  }
+
+  /* Controls */
+  .header-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  /* Socials */
+  .header-socials {
+    display: flex;
+    gap: 0.4rem;
+    margin-right: 0.5rem;
+  }
+  
+  .social-link {
+    color: rgba(255,255,255,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2rem;
+    transition: color 0.2s, transform 0.2s;
+  }
+  
+  .social-link:hover {
+    color: var(--color-gold-light);
+    transform: scale(1.1);
+  }
+
+  /* Language switcher */
+  .lang-switcher {
+    display: flex;
+    gap: 0.2rem;
+  }
+
+  .lang-btn {
+    padding: 0.25rem 0.55rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .lang-btn:hover,
+  .lang-btn--active {
+    color: var(--color-gold-light);
+    background: rgba(201, 148, 26, 0.15);
+    border-color: rgba(201, 148, 26, 0.35);
+  }
+
+  /* WA button desktop */
+  .header-wa-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #25d366, #128c7e);
+    color: #fff;
+    border-radius: 9999px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .header-wa-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(37,211,102,0.4);
+    color: #fff;
+  }
+
+  /* Hamburger */
+  .menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 22px;
+  }
+
+  .hamburger span {
+    display: block;
+    height: 2px;
+    background: var(--color-gold-light);
+    border-radius: 2px;
+    transition: transform 0.3s, opacity 0.3s;
+  }
+
+  .menu-toggle[aria-expanded="true"] .hamburger span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .menu-toggle[aria-expanded="true"] .hamburger span:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-toggle[aria-expanded="true"] .hamburger span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* Mobile menu */
+  .mobile-menu {
+    display: none;
+    background: var(--color-jungle-deep);
+    border-top: 1px solid rgba(201, 148, 26, 0.15);
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease;
+  }
+
+  .mobile-menu.open {
+    max-height: 600px;
+  }
+
+  .mobile-nav-list {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem var(--container-pad);
+  }
+
+  .mobile-nav-link {
+    display: block;
+    padding: 0.75rem 0;
+    color: rgba(255,255,255,0.85);
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: color 0.2s, padding-left 0.2s;
+  }
+
+  .mobile-nav-link:hover {
+    color: var(--color-gold-light);
+    padding-left: 0.5rem;
+  }
+
+  .mobile-submenu {
+    padding: 0.35rem 0 0.65rem 0.9rem;
+  }
+
+  .mobile-megamenu-group {
+    margin-bottom: 1rem;
+  }
+
+  .mobile-megamenu-title {
+    color: #4CAF50;
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+  }
+
+  .mobile-submenu-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 0.45rem 0;
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 0.92rem;
+    border-bottom: 1px dashed rgba(255,255,255,0.06);
+  }
+
+  .mobile-megamenu-image {
+    width: 48px;
+    height: 36px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+
+  .mobile-submenu-link:hover {
+    color: var(--color-gold-light);
+  }
+
+  .mobile-lang {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem var(--container-pad);
+  }
+
+  .mobile-wa-btn {
+    margin: 0.5rem var(--container-pad) 1.5rem;
+    justify-content: center;
+  }
+
+  /* Responsive breakpoints */
+  @media (max-width: 1100px) {
+    .nav-link { font-size: 0.78rem; padding: 0.35rem 0.5rem; }
+  }
+
+  @media (max-width: 900px) {
+    .header-nav { display: none; }
+    .header-wa-btn { display: none; }
+    .menu-toggle { display: flex; }
+    .mobile-menu { display: block; }
+  }
+
+  @media (max-width: 480px) {
+    .lang-switcher { display: none; }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu   = document.getElementById('mobile-menu');
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = menu?.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    menu?.setAttribute('aria-hidden', String(!isOpen));
+    toggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
+  });
+
+  // Close mobile menu on link click
+  menu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      menu.classList.remove('open');
+      toggle?.setAttribute('aria-expanded', 'false');
+      menu.setAttribute('aria-hidden', 'true');
+    });
+  });
+
+  // Desktop Submenu Logic - Hover and Click states
+  const hasSubmenus = document.querySelectorAll('.nav-item--has-submenu');
+  
+  hasSubmenus.forEach(item => {
+    const link = item.querySelector('a.nav-link');
+    link?.addEventListener('click', (e) => {
+      if (window.innerWidth > 900) {
+        e.preventDefault(); // Evitamos que navegue al inicio al dar clic
+        
+        const isActive = item.classList.contains('is-active');
+        hasSubmenus.forEach(other => other.classList.remove('is-active'));
+        
+        if (!isActive) {
+          item.classList.add('is-active');
+        }
+      }
+    });
+  });
+
+  // Cerrar al hacer clic fuera del menú
+  document.addEventListener('click', (e) => {
+    if (window.innerWidth > 900) {
+      const target = e.target as Node;
+      const isClickInside = Array.from(hasSubmenus).some(item => item.contains(target));
+      if (!isClickInside) {
+        hasSubmenus.forEach(item => item.classList.remove('is-active'));
+      }
+    }
+  });
+
+  // Cerrar submenú al hacer clic en uno de sus enlaces
+  const submenuLinks = document.querySelectorAll('.nav-submenu-link');
+  submenuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      hasSubmenus.forEach(item => item.classList.remove('is-active'));
+    });
+  });
+</script>

@@ -1,0 +1,113 @@
+---
+// src/pages/retiros.astro
+
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import RetiroCard from '../components/RetiroCard.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+
+const retreats = [
+  { title: 'Retiro Iniciático de 3 Días', duration: 3, icon: '🌿', includes: ['2 ceremonias', 'Alojamiento', 'Dieta de plantas', 'Integración'], description: 'Perfecto para quienes se inician en la medicina. Un primer contacto profundo y seguro con la ayahuasca.', badge: 'Ideal para principiantes' },
+  { title: 'Retiro de Sanación 7 Días', duration: 7, icon: '🌙', includes: ['3 ceremonias', 'Alojamiento completo', 'Cocina de dieta', 'Baños de plantas', 'Integración diaria'], description: 'Nuestro retiro más popular. Una semana de inmersión profunda con tres ceremonias y acompañamiento completo.', badge: 'Más popular' },
+  { title: 'Retiro Avanzado 10 Días', duration: 10, icon: '✨', includes: ['4 ceremonias', 'San Pedro incluido', 'Dieta de maestro-planta', 'Alojamiento premium', 'Coach de integración'], description: 'Para quienes buscan profundizar. Incluye ceremonia de San Pedro y dieta de plantas maestras.', badge: 'Experiencia profunda' },
+  { title: 'Dieta de Plantas 14 Días', duration: 14, icon: '🍃', includes: ['6 ceremonias', 'Planta maestra asignada', 'Retiro en soledad', 'Acompañamiento diario', 'Sesión de cierre'], description: 'La experiencia más transformadora para quienes desean trabajar en profundidad con una planta maestra.', badge: undefined },
+  { title: 'Ceremonia Individual', duration: 1, icon: '🌸', includes: ['1 ceremonia privada', 'Screening previo', 'Ritual personalizado', '2h integración post'], description: 'Ceremonia privada para quienes prefieren un espacio íntimo. Solo tú y el maestro curandero.', badge: undefined },
+  { title: 'Retiro de Ayahuasca + Kambo', duration: 5, icon: '🐸', includes: ['2 ceremonias ayahuasca', '2 sesiones kambo', 'Alojamiento', 'Dieta de purificación'], description: 'Combinación poderosa de ayahuasca y kambo para una purificación física y espiritual profunda.', badge: undefined },
+  { title: 'Retiro en Pareja', duration: 7, icon: '💚', includes: ['3 ceremonias compartidas', '1 ceremonia privada en pareja', 'Alojamiento doble', 'Sesiones de integración'], description: 'Una experiencia transformadora compartida. Diseñada para parejas que desean sanar y crecer juntos.', badge: undefined },
+  { title: 'Retiro San Pedro 3 Días', duration: 3, icon: '🌵', includes: ['2 ceremonias San Pedro', 'Contacto con naturaleza', 'Alojamiento', 'Dieta andina'], description: 'Ceremonias con el cactus sagrado de los Andes. Una experiencia de expansión de conciencia en plena naturaleza.', badge: undefined },
+  { title: 'Retiro Grupal Internacional', duration: 10, icon: '🌍', includes: ['4 ceremonias', 'Grupo de 8-12 personas', 'Facilitadores bilingüe', 'Alojamiento', 'Transfer aeropuerto'], description: 'Nuestro retiro grupal internacional con facilitadores en español e inglés. Una hermosa comunidad de sanación.', badge: undefined },
+  { title: 'Retiro de Año Nuevo', duration: 7, icon: '🎆', includes: ['3 ceremonias', 'Ceremonia de año nuevo', 'Ritual de intenciones', 'Alojamiento festivo', 'Cena especial'], description: 'Una manera única de cerrar el año y comenzar el nuevo con intención, gratitud y conciencia expandida.', badge: 'Temporada especial' },
+  { title: 'Retiro de Silencio 5 Días', duration: 5, icon: '🤫', includes: ['2 ceremonias', 'Meditación diaria', 'Noble Silencio', 'Baños de plantas', 'Yoga matutino'], description: 'Un retiro de silencio profundo. Sin teléfonos, sin conversaciones. Solo la medicina, la naturaleza y tú.', badge: undefined },
+  { title: 'Retiro Familiar Chacruna (12 Días)', duration: 12, icon: '👨‍👩‍👧', includes: ['5 ceremonias', 'Alojamiento familiar', 'Programa para adolescentes', 'Sesiones de sanación familiar', 'Cocinero privado'], description: 'Una vivencia de sanación y reconexión para familias. Programa especializado para adultos y adolescentes (+16 años).', badge: 'Para familias' },
+];
+
+const retirosDestacados = [
+  {
+    id: 'ayahuasca-1dia-quillarumiyo',
+    title: 'Ayahuasca 1 día Quillarumiyo',
+    description: 'Experiencia breve de medicina en entorno natural, ideal para viajeros con poco tiempo.',
+  },
+  {
+    id: 'valle-1-dia',
+    title: 'Valle 1 Día',
+    description: 'Retiro de un día en el Valle Sagrado con enfoque en limpieza energética e integración.',
+  },
+  {
+    id: 'machupicchu-2-dias-1-dia',
+    title: 'MachuPicchu 2 días 1 día',
+    description: 'Programa combinado de experiencia espiritual y visita cultural en ruta andina.',
+  },
+  {
+    id: 'uchuywosqo',
+    title: 'Uchuywosqo',
+    description: 'Retiro en zona ancestral para conexión con naturaleza, caminata consciente y ceremonia.',
+  },
+];
+---
+
+<Layout
+  title="Catálogo de Retiros | Spirit of Amazonas — Retiros de Ayahuasca"
+  description="Explora nuestro catálogo de retiros de ayahuasca en Iquitos, Perú. Desde ceremonias individuales de 1 día hasta retiros de 14 días con plantas maestras. Facilitadores certificados."
+  lang="es"
+>
+  <Header />
+  <main id="main-content">
+    <section class="page-hero section--dark">
+      <div class="container">
+        <div class="ornament" style="justify-content:flex-start">
+          <span class="ornament-text" style="color:var(--color-gold-pale)">Elige Tu Camino</span>
+        </div>
+        <h1 style="color:var(--color-white); margin-bottom:1rem">Catálogo de Retiros</h1>
+        <p class="page-hero-lead">
+          Cada retiro es único. Encuentra el que resuene con tu intención de sanación.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--cream">
+      <div class="container">
+        <div class="retiros-destacados reveal" style="margin-bottom:2.2rem">
+          <h2 style="font-size:1.5rem; margin-bottom:0.75rem">Retiros destacados</h2>
+          <p style="margin-bottom:1.2rem; color:var(--color-text-muted)">Accesos rápidos a los programas más consultados.</p>
+          <div class="retiros-destacados-grid">
+            {retirosDestacados.map((programa) => (
+              <article id={programa.id} class="retiro-destacado-card">
+                <h3>{programa.title}</h3>
+                <p>{programa.description}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div class="retiros-grid">
+          {retreats.map((retiro, i) => (
+            <div class="reveal" style={`animation-delay:${(i%4)*0.1}s`}>
+              <RetiroCard {...retiro} />
+            </div>
+          ))}
+        </div>
+        <div class="retiros-cta reveal" style="text-align:center; margin-top:3rem; padding:2.5rem; background:var(--color-jungle-deep); border-radius:var(--radius-xl)">
+          <p style="color:rgba(255,255,255,0.75); margin-bottom:1.25rem; font-family:var(--font-display); font-style:italic; font-size:1.1rem">
+            ¿No encuentras lo que buscas? Diseñamos retiros personalizados.
+          </p>
+          <a href="https://wa.me/51999999999?text=Hola%2C%20quisiera%20un%20retiro%20personalizado" target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp">
+            Diseñar Mi Retiro Personalizado
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <WhatsAppButton />
+</Layout>
+
+<style>
+  .page-hero { background: linear-gradient(160deg, var(--color-jungle-deep), var(--color-jungle-dark)); padding: 6rem 0 4rem; }
+  .page-hero-lead { font-family: var(--font-display); font-size: 1.2rem; font-style: italic; color: rgba(255,255,255,0.7); max-width: 600px; }
+  .retiros-destacados-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1rem; }
+  .retiro-destacado-card { background: rgba(255,255,255,0.8); border: 1px solid rgba(201,148,26,0.2); border-radius: var(--radius-lg); padding: 1rem; scroll-margin-top: 120px; }
+  .retiro-destacado-card h3 { font-size: 1rem; margin-bottom: 0.35rem; color: var(--color-jungle-deep); }
+  .retiro-destacado-card p { margin: 0; color: var(--color-text); font-size: 0.92rem; line-height: 1.4; }
+  .retiros-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 1.75rem; }
+</style>

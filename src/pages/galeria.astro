@@ -1,0 +1,149 @@
+---
+// src/pages/galeria.astro
+
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+
+// Gallery items using real photorealistic images
+const items = [
+  { id: 1, caption: 'Centro de retiros rodeado de naturaleza amazónica', image: '/img/real/jungle.png', category: 'Centro' },
+  { id: 2, caption: 'Maloca ceremonial iluminada en la noche', image: '/img/real/ayahuasca_ceremony.png', category: 'Ceremonia' },
+  { id: 3, caption: 'Ritual de apertura con el maestro curandero', image: '/img/real/plant_diet.png', category: 'Ritual' },
+  { id: 4, caption: 'Plantas medicinales de la selva amazónica', image: '/img/real/san_pedro.png', category: 'Plantas' },
+  { id: 5, caption: 'Vista áerea del centro entre la selva', image: '/img/real/jungle.png', category: 'Centro' },
+  { id: 6, caption: 'Sesión de integración al amanecer', image: '/img/real/san_pedro.png', category: 'Integración' },
+  { id: 7, caption: 'Preparación de la ayahuasca con el maestro', image: '/img/real/ayahuasca_ceremony.png', category: 'Medicina' },
+  { id: 8, caption: 'Participantes durante dieta de plantas', image: '/img/real/plant_diet.png', category: 'Dietas' },
+  { id: 9, caption: 'Naturaleza pura en el amazonas', image: '/img/real/jungle.png', category: 'Centro' },
+  { id: 10, caption: 'Ritual de baños de plantas', image: '/img/real/ayahuasca_ceremony.png', category: 'Ritual' },
+  { id: 11, caption: 'Medicina de los andes al amanecer', image: '/img/real/san_pedro.png', category: 'Naturaleza' },
+  { id: 12, caption: 'Implementos ceremoniales nativos', image: '/img/real/plant_diet.png', category: 'Retiro' },
+];
+
+const categories = ['Todos', ...Array.from(new Set(items.map(i => i.category)))];
+---
+
+<Layout
+  title="Galería | Spirit of Cusco — Centro de Retiros de ayahuasca cusco"
+  description="Galería de fotos del centro de retiros Spirit of Cusco, Perú. Conoce nuestras instalaciones, ceremonias, naturaleza amazónica y la experiencia de nuestros participantes."
+  lang="es"
+>
+  <Header />
+  <main id="main-content">
+    <section class="page-hero section--dark">
+      <div class="container">
+        <div class="ornament" style="justify-content:flex-start">
+          <span class="ornament-text" style="color:var(--color-gold-pale)">Nuestra Cultura</span>
+        </div>
+        <h1 style="color:var(--color-white); margin-bottom:1rem">Galería</h1>
+        <p style="font-family:var(--font-display); font-size:1.15rem; font-style:italic; color:rgba(255,255,255,0.7)">
+          Un vistazo al corazón de nuestra comunidad de sanación
+        </p>
+      </div>
+    </section>
+
+    <section class="section section--cream">
+      <div class="container">
+        <!-- Gallery grid -->
+        <div class="gallery-masonry">
+          {items.map((item, i) => (
+            <article
+              class="gallery-item reveal"
+              style={`animation-delay:${(i%4)*0.1}s`}
+              aria-label={item.caption}
+            >
+              <div class="gallery-visual">
+                <img src={item.image} alt={item.caption} class="gallery-image" />
+                <span class="gallery-category-tag">{item.category}</span>
+              </div>
+              <p class="gallery-caption">{item.caption}</p>
+            </article>
+          ))}
+        </div>
+
+        <!-- CTA -->
+        <div style="text-align:center; margin-top:3rem">
+          <p style="color:var(--color-text-muted); margin-bottom:1.25rem; font-style:italic">
+            ¿Quieres ver más? Síguenos en Instagram para fotos y videos actualizados.
+          </p>
+          <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap">
+            <a href="https://instagram.com/spiritofamazonas" target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+              Ver Instagram
+            </a>
+            <a href="https://youtube.com/@spiritofamazonas" target="_blank" rel="noopener noreferrer" class="btn btn--outline" style="color:var(--color-jungle-deep); border-color:var(--color-jungle-light)">
+              Ver Videos en YouTube
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <WhatsAppButton />
+</Layout>
+
+<style>
+  .page-hero { background: linear-gradient(160deg, var(--color-jungle-deep), var(--color-jungle-dark)); padding: 6rem 0 4rem; }
+
+  .gallery-masonry {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .gallery-item {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+
+  .gallery-item:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+
+  .gallery-visual {
+    position: relative;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: var(--color-jungle-deep);
+  }
+  
+  .gallery-item:nth-child(3n) .gallery-visual { height: 280px; }
+  .gallery-item:nth-child(5n) .gallery-visual { height: 180px; }
+
+  .gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  
+  .gallery-item:hover .gallery-image {
+    transform: scale(1.05);
+  }
+  .gallery-category-tag {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: rgba(201,148,26,0.85);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    letter-spacing: 0.05em;
+  }
+
+  .gallery-caption {
+    padding: 1rem;
+    font-size: 0.85rem;
+    color: var(--color-text-mid);
+    line-height: 1.5;
+  }
+</style>

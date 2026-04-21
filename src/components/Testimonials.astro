@@ -1,0 +1,224 @@
+---
+// src/components/Testimonials.astro
+
+const testimonials = [
+  {
+    name: 'Ana Martínez',
+    country: '🇲🇽 México',
+    stars: 5,
+    text: 'La experiencia fue absolutamente transformadora. El equipo de Spirit of Amazonas creó un espacio de profunda seguridad y amor. Fue la experiencia más significativa de mi vida.',
+    service: 'Retiro de 7 días',
+  },
+  {
+    name: 'Carlos Souza',
+    country: '🇧🇷 Brasil',
+    stars: 5,
+    text: 'Llegué buscando sanación y encontré mucho más. Los facilitadores son maestros auténticos con un corazón enorme. Volvería sin dudarlo. Cambia tu perspectiva por completo.',
+    service: 'Ceremonia de Ayahuasca',
+  },
+  {
+    name: 'Sarah Johnson',
+    country: '🇺🇸 USA',
+    stars: 5,
+    text: 'I had done retreats in other centers but nothing compared to this. The preparation, the ceremonies and especially the integration were exceptional. Worth every penny.',
+    service: '7-Day Retreat',
+  },
+  {
+    name: 'Valentina Torres',
+    country: '🇨🇴 Colombia',
+    stars: 5,
+    text: 'Después de años de tratamientos convencionales, la medicina me dio lo que buscaba. Los facilitadores son profesionales y las plantas son preparadas con mucho respeto.',
+    service: 'Terapia de Sanación',
+  },
+  {
+    name: 'Luca Rossi',
+    country: '🇮🇹 Italia',
+    stars: 5,
+    text: 'Un luogo sacro nel cuore dell\'Amazzonia. I facilitatori sono veri maestri. L\'esperienza mi ha cambiato profondamente. Consiglio vivamente questo centro.',
+    service: 'Dieta de Plantas',
+  },
+  {
+    name: 'Jorge Ramírez',
+    country: '🇵🇪 Perú',
+    stars: 5,
+    text: 'Como peruano me siento orgulloso de que existan estos espacios que honran nuestra herencia ancestral. Un lugar de auténtica sanación. Los maestros son de primer nivel.',
+    service: 'San Pedro',
+  },
+];
+---
+
+<section id="testimonios" class="section section--dark">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="ornament">
+        <span class="ornament-text" style="color: var(--color-gold-pale)">Testimonios</span>
+      </div>
+      <h2 style="color: var(--color-white)">Lo que Dicen Nuestros Participantes</h2>
+      <div class="divider-gold"></div>
+      <p class="section-subtitle">
+        Más de 500 personas han transformado sus vidas en nuestra comunidad
+      </p>
+    </div>
+
+    <!-- Testimonial grid -->
+    <div class="testimonials-grid">
+      {testimonials.map((t, i) => (
+        <article
+          class="testimonial-card reveal"
+          style={`animation-delay: ${i * 0.1}s`}
+          aria-label={`Testimonio de ${t.name}`}
+        >
+          <!-- Stars -->
+          <div class="stars" aria-label={`${t.stars} de 5 estrellas`}>
+            {Array.from({length: t.stars}).map(() => (
+              <span class="star" aria-hidden="true">★</span>
+            ))}
+          </div>
+
+          <!-- Quote mark -->
+          <span class="quote-mark" aria-hidden="true">"</span>
+
+          <!-- Text -->
+          <blockquote class="testimonial-text">
+            {t.text}
+          </blockquote>
+
+          <!-- Author -->
+          <footer class="testimonial-author">
+            <div class="author-avatar" aria-hidden="true">
+              {t.name.charAt(0)}
+            </div>
+            <div>
+              <div class="author-name">{t.name}</div>
+              <div class="author-meta">
+                <span>{t.country}</span>
+                <span class="meta-dot" aria-hidden="true">·</span>
+                <span class="author-service">{t.service}</span>
+              </div>
+            </div>
+          </footer>
+        </article>
+      ))}
+    </div>
+
+    <!-- CTA -->
+    <div class="testimonials-cta reveal" style="text-align:center; margin-top:3rem">
+      <p style="color:rgba(255,255,255,0.65); margin-bottom:1.5rem; font-style:italic">
+        ¿Listo para comenzar tu proceso de transformación?
+      </p>
+      <a
+        href="https://wa.me/51999999999?text=Hola%2C%20me%20interesa%20reservar%20un%20retiro"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn btn--primary"
+      >
+        Reservar Mi Retiro
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .testimonial-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform var(--transition-base), background var(--transition-base), border-color var(--transition-base);
+  }
+
+  .testimonial-card:hover {
+    transform: translateY(-4px);
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(201, 148, 26, 0.25);
+  }
+
+  .stars {
+    display: flex;
+    gap: 0.15rem;
+    margin-bottom: 1rem;
+  }
+
+  .star {
+    color: var(--color-gold-light);
+    font-size: 1rem;
+  }
+
+  .quote-mark {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.5rem;
+    font-size: 5rem;
+    font-family: var(--font-heading);
+    color: rgba(201, 148, 26, 0.12);
+    line-height: 1;
+    font-style: italic;
+    pointer-events: none;
+  }
+
+  .testimonial-text {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.78);
+    line-height: 1.75;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    font-family: var(--font-display);
+    font-size: 1rem;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding-top: 1.25rem;
+  }
+
+  .author-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-jungle-light), var(--color-gold));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--color-white);
+    flex-shrink: 0;
+  }
+
+  .author-name {
+    font-weight: 600;
+    color: var(--color-white);
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .author-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.45);
+  }
+
+  .meta-dot { color: rgba(255,255,255,0.2); }
+
+  .author-service {
+    color: var(--color-gold-pale);
+  }
+
+  @media (max-width: 640px) {
+    .testimonials-grid { grid-template-columns: 1fr; }
+  }
+</style>

@@ -1,0 +1,441 @@
+---
+// src/pages/retiro-ayahuasca-1-dia.astro
+
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+
+const retiro = {
+  title: 'Retiro Ayahuasca 1 Día',
+  description: 'Una experiencia introductoria profunda con la sagrada medicina Ayahuasca en las montañas de Cusco.',
+  duration: '1 Día / 1 Noche',
+  location: 'Valle de Quillarumiyo, Cusco',
+  includes: [
+    'Transporte ida y vuelta desde Cusco',
+    '1 Ceremonia de Ayahuasca',
+    'Facililitador y Chamán experto',
+    'Evaluación médica previa',
+    'Alojamiento por la noche',
+    'Desayuno vegano integrador'
+  ],
+  itinerary: [
+    { time: '14:00', event: 'Recojo de su hotel en Cusco y viaje al Valle Sagrado.' },
+    { time: '15:30', event: 'Llegada al centro de retiro, acomodación y tiempo de relajación.' },
+    { time: '17:00', event: 'Charla introductoria, encuentro con el Chamán y limpieza energética.' },
+    { time: '19:00', event: 'Inicio de la Ceremonia de Ayahuasca (duración aprox. 4-5 horas).' },
+    { time: '00:00', event: 'Fin de ceremonia, descanso en habitaciones privadas.' },
+    { time: '08:00 (Día Sig.)', event: 'Desayuno ligero y sesión de integración y charla sobre la experiencia.' },
+    { time: '10:30 (Día Sig.)', event: 'Retorno a Cusco y fin de nuestros servicios.' }
+  ],
+  whatToBring: [
+    'Ropa abrigadora (las noches son frías)',
+    'Ropa cómoda y suelta',
+    'Botella de agua personal',
+    'Linterna pequeña',
+    'Artículos de aseo personal'
+  ],
+  tripInfo: 'Nuestras ceremonias son guiadas por maestros andinos certificados. Mantenemos grupos reducidos para garantizar atención personalizada. Es obligatorio seguir la dieta de preparación (sin carnes rojas, sin alcohol, sin drogas) al menos 3 días antes del retiro.'
+};
+---
+
+<Layout
+  title={`${retiro.title} | Ayahuasca Cusco`}
+  description={retiro.description}
+  lang="es"
+>
+  <Header />
+  
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="retiro-hero">
+      <div class="container hero-content">
+        <h1 class="retiro-title">{retiro.title}</h1>
+        <p class="retiro-subtitle">{retiro.description}</p>
+        <div class="retiro-meta">
+          <span class="meta-item"><span class="icon">⏱</span> {retiro.duration}</span>
+          <span class="meta-item"><span class="icon">📍</span> {retiro.location}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content Grid -->
+    <section class="retiro-details section section--cream">
+      <div class="container container-grid">
+        
+        <!-- Left Column: Info & Itinerary -->
+        <div class="info-column">
+          <div class="card detail-section">
+            <h2>Descripción de la Experiencia</h2>
+            <p>{retiro.description}</p>
+            <p>{retiro.tripInfo}</p>
+          </div>
+
+          <div class="card detail-section">
+            <h2>Itinerario</h2>
+            <ul class="itinerary-list">
+              {retiro.itinerary.map(item => (
+                <li class="itinerary-item">
+                  <span class="itinerary-time">{item.time}</span>
+                  <span class="itinerary-event">{item.event}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="card detail-section">
+            <h2>¿Qué llevar?</h2>
+            <ul class="check-list">
+              {retiro.whatToBring.map(item => (
+                <li><span class="check-icon">✓</span> {item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <!-- Right Column: Booking Calculator -->
+        <aside class="booking-column">
+          <div class="booking-card sticky-card">
+            <h2 class="booking-title">Reserva tu Retiro</h2>
+            <div class="price-header">
+              <span class="price-label">Reserva tu fecha</span>
+            </div>
+
+            <div class="includes-list">
+              <strong>Incluye:</strong>
+              <ul>
+                {retiro.includes.map(inc => (
+                  <li>- {inc}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="calculator">
+              <label for="people-qty">Cantidad de Personas:</label>
+              <div class="qty-selector">
+                <button type="button" class="qty-btn" id="btn-minus" aria-label="Reducir cantidad">-</button>
+                <input type="number" id="people-qty" value="1" min="1" max="15" readonly />
+                <button type="button" class="qty-btn" id="btn-plus" aria-label="Aumentar cantidad">+</button>
+              </div>
+            </div>
+
+            <div class="total-section"></div>
+
+            <button id="book-whatsapp-btn" class="btn btn--whatsapp book-btn">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z M12 0C5.373 0 0 5.373 0 12c0 2.122.557 4.113 1.527 5.845L.073 23.203a.75.75 0 0 0 .903.962l5.534-1.451A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.878 0-3.645-.52-5.153-1.422l-.367-.217-3.803.998.998-3.803-.217-.367A9.956 9.956 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+              </svg>
+              Reservar por WhatsApp
+            </button>
+            <p class="safe-booking">Reserva segura y rápida. Te enviaremos toda la información personalizada al WhatsApp.</p>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+  </main>
+  
+  <Footer />
+  <WhatsAppButton />
+</Layout>
+
+<script>
+  // Calculator Logic
+  const btnMinus = document.getElementById('btn-minus');
+  const btnPlus = document.getElementById('btn-plus');
+  const qtyInput = document.getElementById('people-qty') as HTMLInputElement;
+  const bookWhatsAppBtn = document.getElementById('book-whatsapp-btn');
+  
+  if(btnMinus && btnPlus && qtyInput && bookWhatsAppBtn) {
+    const phoneNumber = '51999999999'; // Ayahuasca Cusco WhatsApp Number
+    
+    const updateUI = () => {
+      const qty = parseInt(qtyInput.value, 10);
+      
+      // Update WhatsApp Link dynamically
+      const retreatName = 'Retiro Ayahuasca 1 Día';
+      let message = `Hola Ayahuasca Cusco, quisiera consultar disponibilidad e información para el "${retreatName}" para ${qty} persona(s).`;
+      const encodedMessage = encodeURIComponent(message);
+      
+      bookWhatsAppBtn.onclick = () => {
+        window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+      };
+    };
+
+    btnMinus.addEventListener('click', () => {
+      if (parseInt(qtyInput.value, 10) > 1) {
+        qtyInput.value = (parseInt(qtyInput.value, 10) - 1).toString();
+        updateUI();
+      }
+    });
+
+    btnPlus.addEventListener('click', () => {
+      if (parseInt(qtyInput.value, 10) < 15) {
+        qtyInput.value = (parseInt(qtyInput.value, 10) + 1).toString();
+        updateUI();
+      }
+    });
+
+    // Initialize
+    updateUI();
+  }
+</script>
+
+<style>
+  /* Hero */
+  .retiro-hero {
+    background: linear-gradient(rgba(10, 26, 15, 0.7), rgba(10, 26, 15, 0.9)), url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?q=80&w=2021&auto=format&fit=crop') center/cover;
+    padding: 6rem 0 4rem;
+    color: var(--color-white);
+  }
+  
+  .retiro-title {
+    font-size: 3rem;
+    color: var(--color-gold-light);
+    margin-bottom: 1rem;
+  }
+  
+  .retiro-subtitle {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin-bottom: 2rem;
+    color: rgba(255,255,255,0.85);
+  }
+  
+  .retiro-meta {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255,255,255,0.1);
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+  }
+
+  /* Grid Layout */
+  .container-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  
+  @media (max-width: 900px) {
+    .container-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Cards Styling */
+  .card {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    border: 1px solid rgba(201,148,26,0.15);
+  }
+  
+  .detail-section h2 {
+    color: var(--color-jungle-deep);
+    margin-bottom: 1.2rem;
+    font-size: 1.5rem;
+    border-bottom: 2px solid var(--color-gold-pale);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+  }
+
+  .detail-section p {
+    color: var(--color-text);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+
+  /* Lists */
+  .itinerary-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .itinerary-item {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .itinerary-time {
+    font-weight: 700;
+    color: var(--color-gold);
+    min-width: 100px;
+  }
+  
+  .check-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .check-list li {
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--color-text);
+  }
+  
+  .check-icon {
+    color: white;
+    background: var(--color-jungle-deep);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: bold;
+  }
+
+  /* Booking Column */
+  .sticky-card {
+    position: sticky;
+    top: 100px;
+  }
+  
+  .booking-card {
+    background: #fff;
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: 0 8px 30px rgba(10,26,15,0.1);
+    border: 2px solid var(--color-gold-light);
+  }
+  
+  .booking-title {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-jungle-deep);
+    text-align: center;
+  }
+  
+  .price-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .price-amount {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-jungle-deep);
+  }
+  
+  .includes-list {
+    margin: 1.5rem 0;
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+  
+  .includes-list ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 0.5rem;
+  }
+  
+  .includes-list li {
+    padding: 0.2rem 0;
+  }
+
+  .calculator {
+    background: var(--color-cream);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .calculator label {
+    display: block;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+    color: var(--color-jungle-deep);
+  }
+  
+  .qty-selector {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .qty-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--color-gold);
+    background: white;
+    color: var(--color-jungle-deep);
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .qty-btn:hover {
+    background: var(--color-gold-light);
+    color: white;
+  }
+  
+  #people-qty {
+    width: 60px;
+    height: 40px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    pointer-events: none;
+  }
+  
+  .total-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--color-jungle-deep);
+    margin-bottom: 1.5rem;
+    padding-top: 1rem;
+    border-top: 2px solid #eee;
+  }
+
+  .total-price {
+    color: var(--color-gold);
+    font-size: 1.8rem;
+  }
+  
+  .book-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .safe-booking {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    text-align: center;
+    margin: 0;
+  }
+</style>

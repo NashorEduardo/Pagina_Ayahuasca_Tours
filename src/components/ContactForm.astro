@@ -1,0 +1,284 @@
+---
+// src/components/ContactForm.astro
+// EmailJS-powered contact form
+
+interface Props {
+  lang?: string;
+}
+
+const { lang = 'es' } = Astro.props;
+
+const labels = {
+  es: {
+    title: 'Escríbenos',
+    name: 'Nombre completo', email: 'Correo electrónico',
+    phone: 'Teléfono / WhatsApp', country: 'País de origen',
+    service: 'Servicio de interés', message: 'Tu mensaje',
+    send: 'Enviar Mensaje', sending: 'Enviando...',
+    success: '¡Mensaje enviado con éxito! Te responderemos pronto.',
+    error: 'Hubo un error. Por favor escríbenos por WhatsApp.',
+    placeholder_msg: 'Cuéntanos sobre ti y qué deseas explorar en tu retiro...',
+  },
+  en: {
+    title: 'Write to Us',
+    name: 'Full name', email: 'Email address',
+    phone: 'Phone / WhatsApp', country: 'Country of origin',
+    service: 'Service of interest', message: 'Your message',
+    send: 'Send Message', sending: 'Sending...',
+    success: 'Message sent! We\'ll reply soon.',
+    error: 'There was an error. Please write to us on WhatsApp.',
+    placeholder_msg: 'Tell us about yourself and what you\'d like to explore in your retreat...',
+  },
+  pt: {
+    title: 'Escreva-nos',
+    name: 'Nome completo', email: 'E-mail',
+    phone: 'Telefone / WhatsApp', country: 'País de origem',
+    service: 'Serviço de interesse', message: 'Sua mensagem',
+    send: 'Enviar Mensagem', sending: 'Enviando...',
+    success: 'Mensagem enviada! Responderemos em breve.',
+    error: 'Houve um erro. Por favor escreva para nós no WhatsApp.',
+    placeholder_msg: 'Fale sobre você e o que deseja explorar em seu retiro...',
+  },
+};
+
+const t = labels[lang as keyof typeof labels] ?? labels.es;
+
+const services = [
+  'Ceremonia de Ayahuasca',
+  'Retiro de 7 Días',
+  'Retiro de 3 Días',
+  'Terapia de Sanación',
+  'San Pedro (Huachuma)',
+  'Baños de Plantas',
+  'Dieta de Plantas',
+  'Consulta general',
+];
+---
+
+<div class="contact-form-wrap" id="contacto-form">
+  <div class="form-header">
+    <h3>{t.title}</h3>
+    <p>Respondemos en menos de 24 horas</p>
+  </div>
+
+  <form id="emailjs-form" class="contact-form" novalidate aria-label="Formulario de contacto">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="cf-name" class="form-label">{t.name} *</label>
+        <input
+          type="text"
+          id="cf-name"
+          name="from_name"
+          class="form-input"
+          required
+          autocomplete="name"
+        />
+      </div>
+      <div class="form-group">
+        <label for="cf-email" class="form-label">{t.email} *</label>
+        <input
+          type="email"
+          id="cf-email"
+          name="reply_to"
+          class="form-input"
+          placeholder="example@email.com"
+          required
+          autocomplete="email"
+        />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="cf-phone" class="form-label">{t.phone}</label>
+        <input
+          type="tel"
+          id="cf-phone"
+          name="phone"
+          class="form-input"
+          placeholder="+1 555 123 4567"
+          autocomplete="tel"
+        />
+      </div>
+      <div class="form-group">
+        <label for="cf-country" class="form-label">{t.country} *</label>
+        <input
+          type="text"
+          id="cf-country"
+          name="country"
+          class="form-input"
+          placeholder="Colombia"
+          required
+          autocomplete="country-name"
+        />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="cf-service" class="form-label">{t.service}</label>
+      <select id="cf-service" name="service" class="form-select">
+        <option value="">— Selecciona un servicio —</option>
+        {services.map(s => <option value={s}>{s}</option>)}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="cf-message" class="form-label">{t.message} *</label>
+      <textarea
+        id="cf-message"
+        name="message"
+        class="form-textarea"
+        placeholder={t.placeholder_msg}
+        rows="5"
+        required
+      ></textarea>
+    </div>
+
+    <!-- CAPTCHA honeypot (anti-spam) -->
+    <input type="text" name="_gotcha" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+    <button type="submit" id="cf-submit" class="btn btn--primary form-submit-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+      </svg>
+      <span data-send-label>{t.send}</span>
+    </button>
+
+    <!-- Status messages -->
+    <p id="cf-success" class="form-status form-status--success" role="alert" aria-live="polite" hidden>
+      ✅ {t.success}
+    </p>
+    <p id="cf-error" class="form-status form-status--error" role="alert" aria-live="polite" hidden>
+      ❌ {t.error}
+    </p>
+  </form>
+</div>
+
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  // ─── EmailJS Configuration ────────────────────────────────────────────────
+  // Replace the values below with your own EmailJS credentials:
+  //   1. Create a free account at https://emailjs.com
+  //   2. Add an Email Service (Gmail, Outlook, etc.)
+  //   3. Create an Email Template
+  //   4. Copy Public Key, Service ID, Template ID
+  const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // <-- Replace
+  const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // <-- Replace
+  const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // <-- Replace
+  // ─────────────────────────────────────────────────────────────────────────
+
+  (window as any).emailjs?.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+  const form       = document.getElementById('emailjs-form') as HTMLFormElement | null;
+  const submitBtn  = document.getElementById('cf-submit') as HTMLButtonElement | null;
+  const successMsg = document.getElementById('cf-success') as HTMLElement | null;
+  const errorMsg   = document.getElementById('cf-error')   as HTMLElement | null;
+  const sendLabel  = submitBtn?.querySelector('[data-send-label]');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+
+    // anti-spam honeypot check
+    const hp = form.querySelector('[name="_gotcha"]') as HTMLInputElement | null;
+    if (hp?.value) return;
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      if (sendLabel) sendLabel.textContent = 'Enviando...';
+    }
+    if (successMsg) successMsg.hidden = true;
+    if (errorMsg)   errorMsg.hidden   = true;
+
+    try {
+      await (window as any).emailjs.sendForm(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        form,
+        { publicKey: EMAILJS_PUBLIC_KEY }
+      );
+      if (successMsg) successMsg.hidden = false;
+      form.reset();
+    } catch (err) {
+      console.error('EmailJS error:', err);
+      if (errorMsg) errorMsg.hidden = false;
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        if (sendLabel) sendLabel.textContent = 'Enviar Mensaje';
+      }
+    }
+  });
+</script>
+
+<style>
+  .contact-form-wrap {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    padding: 2.5rem;
+    box-shadow: var(--shadow-md);
+  }
+
+  .form-header {
+    margin-bottom: 2rem;
+  }
+
+  .form-header h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+    color: var(--color-jungle-deep);
+  }
+
+  .form-header p {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-submit-btn {
+    width: 100%;
+    justify-content: center;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .form-status {
+    margin-top: 1rem;
+    padding: 0.875rem 1.25rem;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .form-status--success {
+    background: rgba(45,106,63,0.1);
+    color: var(--color-jungle-mid);
+    border: 1px solid rgba(45,106,63,0.25);
+  }
+
+  .form-status--error {
+    background: rgba(220,50,50,0.08);
+    color: #c0392b;
+    border: 1px solid rgba(220,50,50,0.2);
+  }
+
+  /* Honeypot hidden */
+  .hp-field {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  @media (max-width: 640px) {
+    .form-row { grid-template-columns: 1fr; }
+    .contact-form-wrap { padding: 1.5rem; }
+  }
+</style>

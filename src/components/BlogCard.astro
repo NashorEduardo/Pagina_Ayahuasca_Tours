@@ -1,0 +1,161 @@
+---
+// src/components/BlogCard.astro
+
+interface Props {
+  title: string;
+  slug: string;
+  excerpt: string;
+  date: string;
+  category: string;
+  readTime?: number;
+}
+
+const {
+  title,
+  slug,
+  excerpt,
+  date,
+  category,
+  readTime = 5,
+} = Astro.props;
+
+const formattedDate = new Date(date).toLocaleDateString('es-PE', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<article class="blog-card card" aria-label={`Artículo: ${title}`}>
+  <div class="blog-card-inner">
+    <!-- Category tag -->
+    <div class="blog-meta-top">
+      <span class="blog-category badge badge--green">{category}</span>
+      <span class="blog-read-time" aria-label={`${readTime} minutos de lectura`}>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+        </svg>
+        {readTime} min
+      </span>
+    </div>
+
+    <!-- Title -->
+    <h3 class="blog-title">
+      <a href={`/blog/${slug}`} class="blog-title-link">
+        {title}
+      </a>
+    </h3>
+
+    <!-- Excerpt -->
+    <p class="blog-excerpt">{excerpt}</p>
+
+    <!-- Footer -->
+    <div class="blog-footer">
+      <time class="blog-date" datetime={date}>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        {formattedDate}
+      </time>
+      <a href={`/blog/${slug}`} class="blog-read-link" aria-label={`Leer artículo: ${title}`}>
+        Leer más
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .blog-card {
+    background: var(--color-white);
+    border: 1px solid rgba(45,106,63,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .blog-card-inner {
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 0;
+  }
+
+  .blog-meta-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .blog-read-time {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  .blog-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 0.75rem;
+  }
+
+  .blog-title-link {
+    color: var(--color-jungle-deep);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .blog-title-link:hover {
+    color: var(--color-jungle-light);
+  }
+
+  .blog-excerpt {
+    font-size: 0.875rem;
+    line-height: 1.75;
+    color: var(--color-text-mid);
+    flex: 1;
+    margin-bottom: 1.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .blog-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(45,106,63,0.08);
+    padding-top: 1rem;
+    margin-top: auto;
+  }
+
+  .blog-date {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+  }
+
+  .blog-read-link {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-jungle-light);
+    text-decoration: none;
+    transition: color 0.2s, gap 0.2s;
+  }
+
+  .blog-read-link:hover {
+    color: var(--color-gold);
+    gap: 0.6rem;
+  }
+</style>

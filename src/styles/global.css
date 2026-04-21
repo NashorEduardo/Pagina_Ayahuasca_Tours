@@ -1,0 +1,509 @@
+/* ============================
+   Spirit of Amazonas — Global CSS
+   Design: Earthy Jungle + Ritual Gold
+   ============================ */
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+
+/* CSS Custom Properties */
+:root {
+  /* Paleta de colores */
+  --color-jungle-deep:   #0a1a0f;
+  --color-jungle-dark:   #122a19;
+  --color-jungle-mid:    #1e4a28;
+  --color-jungle-light:  #2d6a3f;
+  --color-jungle-pale:   #4a8c5c;
+  --color-gold-deep:     #8b6914;
+  --color-gold:          #c9941a;
+  --color-gold-light:    #e8b84b;
+  --color-gold-pale:     #f5d98a;
+  --color-cream:         #faf6f0;
+  --color-cream-dark:    #f0e8d8;
+  --color-earth:         #8b5e3c;
+  --color-earth-dark:    #5c3a1e;
+  --color-text-dark:     #1a1208;
+  --color-text-mid:      #3d2b0d;
+  --color-text-light:    #f5f0e8;
+  --color-text-muted:    #a89060;
+  --color-white:         #ffffff;
+  --color-overlay:       rgba(10, 26, 15, 0.72);
+
+  /* Tipografía */
+  --font-heading:  'Playfair Display', 'Georgia', serif;
+  --font-display:  'Cormorant Garamond', 'Georgia', serif;
+  --font-body:     'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Espaciados */
+  --space-xs:   0.25rem;
+  --space-sm:   0.5rem;
+  --space-md:   1rem;
+  --space-lg:   1.5rem;
+  --space-xl:   2rem;
+  --space-2xl:  2.5rem;
+  --space-3xl:  3.5rem;
+  --space-4xl:  5rem;
+
+  /* Radios */
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  16px;
+  --radius-xl:  24px;
+  --radius-full: 9999px;
+
+  /* Sombras */
+  --shadow-sm:   0 2px 8px rgba(10, 26, 15, 0.12);
+  --shadow-md:   0 4px 20px rgba(10, 26, 15, 0.18);
+  --shadow-lg:   0 8px 40px rgba(10, 26, 15, 0.25);
+  --shadow-gold: 0 4px 24px rgba(201, 148, 26, 0.30);
+
+  /* Transiciones */
+  --transition-fast:   150ms ease;
+  --transition-base:   300ms ease;
+  --transition-slow:   500ms ease;
+
+  /* Container */
+  --container-max:  1200px;
+  --container-pad:  clamp(1rem, 5vw, 2.5rem);
+}
+
+/* ============================
+   Reset & Base
+   ============================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-cream);
+  color: var(--color-text-dark);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  line-height: 1.2;
+  color: var(--color-jungle-deep);
+}
+
+h1 { font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 700; }
+h2 { font-size: clamp(1.8rem, 3.5vw, 3rem); font-weight: 600; }
+h3 { font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 600; }
+h4 { font-size: 1.2rem; font-weight: 500; }
+
+p { line-height: 1.8; color: var(--color-text-mid); }
+
+a {
+  color: var(--color-jungle-light);
+  text-decoration: none;
+  transition: color var(--transition-base);
+}
+a:hover { color: var(--color-gold); }
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+ul, ol { list-style: none; }
+
+/* ============================
+   Layout Utilities
+   ============================ */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+.section {
+  padding-block: var(--space-4xl);
+}
+
+.section--dark {
+  background-color: var(--color-jungle-deep);
+  color: var(--color-text-light);
+}
+
+.section--dark h2,
+.section--dark h3,
+.section--dark p {
+  color: var(--color-text-light);
+}
+
+.section--earth {
+  background-color: var(--color-jungle-dark);
+  color: var(--color-text-light);
+}
+
+.section--cream {
+  background-color: var(--color-cream-dark);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: var(--space-3xl);
+}
+
+.section-header h2 {
+  margin-bottom: var(--space-md);
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+  font-family: var(--font-display);
+}
+
+.section--dark .section-subtitle,
+.section--earth .section-subtitle {
+  color: var(--color-gold-pale);
+}
+
+/* ============================
+   Decorative Elements
+   ============================ */
+.ornament {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  justify-content: center;
+  margin-bottom: var(--space-md);
+}
+
+.ornament::before,
+.ornament::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  max-width: 80px;
+}
+
+.ornament-text {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  font-family: var(--font-body);
+  font-weight: 500;
+}
+
+/* ============================
+   Buttons
+   ============================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0.875rem 2rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition-base);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn--primary {
+  background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-deep) 100%);
+  color: var(--color-white);
+  box-shadow: var(--shadow-gold);
+}
+
+.btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(201, 148, 26, 0.45);
+  color: var(--color-white);
+}
+
+.btn--outline {
+  background: transparent;
+  color: var(--color-cream);
+  border: 2px solid rgba(255,255,255,0.5);
+}
+
+.btn--outline:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: var(--color-gold-light);
+  color: var(--color-gold-light);
+  transform: translateY(-2px);
+}
+
+.btn--whatsapp {
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+  color: var(--color-white);
+  box-shadow: 0 4px 20px rgba(37, 211, 102, 0.35);
+}
+
+.btn--whatsapp:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(37, 211, 102, 0.50);
+  color: var(--color-white);
+}
+
+.btn--sm {
+  padding: 0.6rem 1.4rem;
+  font-size: 0.875rem;
+}
+
+/* ============================
+   Cards
+   ============================ */
+.card {
+  background: var(--color-white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card--dark {
+  background: var(--color-jungle-mid);
+  color: var(--color-text-light);
+}
+
+/* ============================
+   Grid Systems
+   ============================ */
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-xl); }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-xl); }
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-lg); }
+
+/* ============================
+   Forms
+   ============================ */
+.form-group {
+  margin-bottom: var(--space-lg);
+}
+
+.form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-jungle-mid);
+  margin-bottom: var(--space-xs);
+  letter-spacing: 0.02em;
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+  width: 100%;
+  padding: 0.875rem 1.125rem;
+  background: var(--color-white);
+  border: 1.5px solid var(--color-cream-dark);
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-text-dark);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  outline: none;
+  border-color: var(--color-jungle-light);
+  box-shadow: 0 0 0 3px rgba(45, 106, 63, 0.12);
+}
+
+.form-textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+/* ============================
+   Badge / Tags
+   ============================ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 1rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.badge--gold {
+  background: rgba(201, 148, 26, 0.15);
+  color: var(--color-gold);
+  border: 1px solid rgba(201, 148, 26, 0.3);
+}
+
+.badge--green {
+  background: rgba(45, 106, 63, 0.12);
+  color: var(--color-jungle-light);
+  border: 1px solid rgba(45, 106, 63, 0.25);
+}
+
+/* ============================
+   Animations
+   ============================ */
+
+/* Fade in up — subtle */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.7s ease both;
+}
+
+.animate-fade-in-up-delay-1 { animation-delay: 0.1s; }
+.animate-fade-in-up-delay-2 { animation-delay: 0.2s; }
+.animate-fade-in-up-delay-3 { animation-delay: 0.3s; }
+.animate-fade-in-up-delay-4 { animation-delay: 0.4s; }
+
+/* Intersection observer classes */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================
+   Dividers & Separators
+   ============================ */
+.divider-gold {
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-gold-deep), var(--color-gold-light));
+  border-radius: var(--radius-full);
+  margin: var(--space-md) auto;
+}
+
+.wave-divider {
+  line-height: 0;
+  overflow: hidden;
+}
+
+/* ============================
+   Scroll progress bar
+   ============================ */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-gold-deep), var(--color-gold-light));
+  z-index: 9999;
+  transition: width 0.1s linear;
+}
+
+/* ============================
+   Accessibility
+   ============================ */
+:focus-visible {
+  outline: 3px solid var(--color-gold-light);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--color-jungle-deep);
+  color: var(--color-gold-light);
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 500;
+  z-index: 9000;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ============================
+   Responsive Utilities
+   ============================ */
+@media (max-width: 768px) {
+  .section { padding-block: 4rem; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .hide-mobile { display: none !important; }
+}
+
+@media (min-width: 769px) {
+  .hide-desktop { display: none !important; }
+}
+
+/* ============================
+   Scrollbar styling
+   ============================ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-cream-dark); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-jungle-pale);
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-gold); }
+
+/* ============================
+   Selection
+   ============================ */
+::selection {
+  background: var(--color-gold-pale);
+  color: var(--color-text-dark);
+}

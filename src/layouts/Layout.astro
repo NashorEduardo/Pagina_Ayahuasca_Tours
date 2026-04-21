@@ -1,0 +1,162 @@
+---
+// src/layouts/Layout.astro
+import '../styles/global.css';
+import EmailChatWidget from '../components/EmailChatWidget.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  lang?: string;
+  canonicalURL?: string;
+}
+
+const {
+  title,
+  description,
+  image = '/og-image.jpg',
+  lang = 'es',
+  canonicalURL = Astro.url.href,
+} = Astro.props;
+
+const siteName = 'Spirit of Cusco';
+const siteURL  = 'https://www.spiritofamazonas.com';
+
+// JSON-LD Structured Data
+const jsonLD = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: siteName,
+  description: 'Centro de retiros de ayahuasca y medicina ancestral amazónica con facilitadores certificados.',
+  url: siteURL,
+  telephone: '+51999999999',
+  email: 'info@ayahuascacusco.com',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Av. La Marina 123',
+    addressLocality: 'Cusco',
+    addressRegion: 'Cusco',
+    postalCode: '16001',
+    addressCountry: 'PE',
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: -3.7437,
+    longitude: -73.2516,
+  },
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
+    opens: '08:00',
+    closes: '20:00',
+  },
+  sameAs: [
+    'https://www.facebook.com/spiritofamazonas',
+    'https://www.instagram.com/spiritofamazonas',
+    'https://www.youtube.com/@spiritofamazonas',
+    'https://www.tiktok.com/@spiritofamazonas',
+  ],
+  image: `${siteURL}/og-image.jpg`,
+  priceRange: '$$',
+};
+---
+
+<!doctype html>
+<html lang={lang}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="generator" content={Astro.generator} />
+
+  <!-- Primary SEO -->
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#0a1a0f" />
+
+  <!-- Alternate languages -->
+  <link rel="alternate" hreflang="es" href={`${siteURL}/`} />
+  <link rel="alternate" hreflang="en" href={`${siteURL}/en/`} />
+  <link rel="alternate" hreflang="pt" href={`${siteURL}/pt/`} />
+  <link rel="alternate" hreflang="x-default" href={`${siteURL}/`} />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:url"         content={canonicalURL} />
+  <meta property="og:title"       content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image"       content={`${siteURL}${image}`} />
+  <meta property="og:site_name"   content={siteName} />
+  <meta property="og:locale"      content={lang === 'es' ? 'es_PE' : lang === 'en' ? 'en_US' : 'pt_BR'} />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image"       content={`${siteURL}${image}`} />
+  <meta name="twitter:site"        content="@spiritamazonas" />
+
+  <!-- Keywords SEO (complementario) -->
+  <meta name="keywords" content="ayahuasca, retiros ayahuasca, ceremonia ayahuasca, medicina ancestral, sanación espiritual, amazonía, curanderismo, retiro espiritual, planta maestra, dieta de plantas" />
+  <meta name="author" content={siteName} />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <!-- Preconnect fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Global Styles are imported via Astro frontmatter -->
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLD)} />
+</head>
+<body>
+  <!-- Skip to content (accessibility) -->
+  <a href="#main-content" class="skip-link">Saltar al contenido</a>
+
+  <!-- Scroll progress bar -->
+  <div id="scroll-progress" aria-hidden="true"></div>
+
+  <slot />
+  
+  <EmailChatWidget />
+
+  <!-- Scroll reveal & progress scripts -->
+  <script>
+    // Scroll progress bar
+    const progressBar = document.getElementById('scroll-progress');
+    if (progressBar) {
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        progressBar.style.width = pct + '%';
+      }, { passive: true });
+    }
+
+    // Intersection Observer for .reveal elements
+    const revealEls = document.querySelectorAll('.reveal');
+    if (revealEls.length && 'IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+      revealEls.forEach((el) => observer.observe(el));
+    } else {
+      revealEls.forEach((el) => el.classList.add('visible'));
+    }
+  </script>
+</body>
+</html>

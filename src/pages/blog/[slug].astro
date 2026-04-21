@@ -1,0 +1,176 @@
+---
+// src/pages/blog/[slug].astro
+
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import WhatsAppButton from '../../components/WhatsAppButton.astro';
+
+export function getStaticPaths() {
+  const posts = [
+    {
+      slug: 'que-es-la-ayahuasca',
+      title: '¿Qué es la Ayahuasca? Historia y Orígenes Ancestrales',
+      date: '2024-10-15',
+      category: 'Medicina',
+      readTime: 8,
+      excerpt: 'La ayahuasca es una bebida psicoactiva preparada con plantas de la Amazonía.',
+      content: `La ayahuasca es una bebida ceremonial preparada con la liana Banisteriopsis caapi y las hojas de Psychotria viridis (chacruna). Ha sido usada por comunidades indígenas amazónicas durante siglos como medicina sagrada para sanación física, emocional y espiritual.
+
+**Historia y orígenes**
+
+Los registros arqueológicos sugieren que el uso de la ayahuasca data de al menos 1,000 años. Los chamanes y curanderos amazónicos la han preservado como un conocimiento sagrado, transmitiéndola de generación en generación.
+
+**Composición botánica**
+
+La ayahuasca contiene DMT (dimetiltriptamina) proveniente de la chacruna, y los alcaloides beta-carbolina (harmina, harmalina) de la liana ayahuasca. Esta combinación sinérgica permite que el DMT sea oralmente activo.
+
+**Uso ceremonial**
+
+En contextos ceremoniales auténticos, la ayahuasca es preparada y administrada por maestros curanderos especializados. La ceremonia incluye ícaros (canciones sagradas), armonización del espacio y acompañamiento continuo del participante.`,
+    },
+    {
+      slug: 'como-prepararse-ceremonia',
+      title: 'Cómo Prepararse para una Ceremonia de Ayahuasca',
+      date: '2024-11-02',
+      category: 'Guía',
+      readTime: 6,
+      excerpt: 'La preparación es tan importante como la ceremonia misma.',
+      content: `La preparación para una ceremonia de ayahuasca es fundamental para garantizar una experiencia segura y significativa. Aquí te compartimos los pasos esenciales.
+
+**Dieta previa (2 semanas antes)**
+
+Evita: cerdo, alcohol, drogas recreativas, azúcar refinada, cafeína, sexo, medicamentos que no sean esenciales. Consume: alimentos simples, frescos, poco condimentados.
+
+**Preparación mental**
+
+Define una intención clara: ¿qué deseas sanar, explorar o comprender? Medita, escribe en un diario, pasa tiempo en la naturaleza.
+
+**Contraindicaciones**
+
+No participar si estás tomando: antidepresivos ISRS, IMAOs, litio, anticoagulantes. Consulta siempre con tu médico.`,
+    },
+    {
+      slug: 'integracion-post-ceremonia',
+      title: 'Integración Post-Ceremonia',
+      date: '2024-12-01',
+      category: 'Integración',
+      readTime: 7,
+      excerpt: 'El verdadero trabajo comienza después de la ceremonia.',
+      content: `La integración es el proceso de llevar las enseñanzas de la ceremonia a tu vida cotidiana. Sin integración, las experiencias pueden perder su potencial transformador.
+
+**¿Qué es la integración?**
+
+Es el período (días, semanas, meses) después de una ceremonia en el que procesas, reflexionas y aplicas los insights recibidos.
+
+**Prácticas de integración**
+
+Journaling, meditación, terapia con profesionales especializados, conexión con naturaleza, círculos de integración, descanso adecuado.
+
+**Cuándo buscar apoyo**
+
+Si experimentas dificultades emocionales persistentes, busca apoyo de un terapeuta especializado en experiencias no ordinarias de conciencia.`,
+    },
+  ];
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+const formattedDate = new Date(post.date).toLocaleDateString('es-PE', {
+  year: 'numeric', month: 'long', day: 'numeric',
+});
+---
+
+<Layout
+  title={`${post.title} | Spirit of Amazonas Blog`}
+  description={post.excerpt}
+  lang="es"
+>
+  <Header />
+  <main id="main-content">
+    <article class="blog-article">
+      <!-- Article Hero -->
+      <header class="article-hero section--dark">
+        <div class="container">
+          <div class="ornament" style="justify-content:flex-start">
+            <span class="ornament-text" style="color:var(--color-gold-pale)">{post.category}</span>
+          </div>
+          <h1 style="color:var(--color-white); max-width:700px; margin-bottom:1rem">{post.title}</h1>
+          <div class="article-meta">
+            <time datetime={post.date}>📅 {formattedDate}</time>
+            <span>🕐 {post.readTime} min de lectura</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Article body -->
+      <div class="container article-body">
+        <div class="article-content prose">
+          {post.content.split('\n\n').map((paragraph) => (
+            paragraph.startsWith('**') && paragraph.endsWith('**')
+              ? <h2>{paragraph.replace(/\*\*/g, '')}</h2>
+              : <p>{paragraph}</p>
+          ))}
+        </div>
+
+        <!-- Share CTA -->
+        <div class="article-cta">
+          <p>¿Tienes preguntas sobre tu proceso de sanación?</p>
+          <a
+            href={`https://wa.me/51999999999?text=${encodeURIComponent(`Hola, leí el artículo "${post.title}" y tengo preguntas.`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn--whatsapp"
+          >
+            Consultar por WhatsApp
+          </a>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="article-nav" aria-label="Navegación del blog">
+          <a href="/blog" class="article-back">
+            ← Volver al Blog
+          </a>
+        </nav>
+      </div>
+    </article>
+  </main>
+  <Footer />
+  <WhatsAppButton />
+</Layout>
+
+<style>
+  .article-hero { padding: 6rem 0 4rem; background: linear-gradient(160deg, var(--color-jungle-deep), var(--color-jungle-dark)); }
+  .article-meta { display: flex; gap: 1.5rem; color: rgba(255,255,255,0.55); font-size: 0.875rem; flex-wrap: wrap; }
+
+  .article-body { max-width: 700px; padding-block: 4rem; }
+
+  .prose h2 { font-size: 1.4rem; color: var(--color-jungle-deep); margin: 2rem 0 0.75rem; }
+  .prose p { margin-bottom: 1.25rem; font-size: 1.02rem; line-height: 1.85; color: var(--color-text-mid); }
+
+  .article-cta {
+    background: var(--color-jungle-deep);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    text-align: center;
+    margin: 3rem 0;
+    color: rgba(255,255,255,0.75);
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.05rem;
+  }
+  .article-cta p { margin-bottom: 1.25rem; color: rgba(255,255,255,0.75); }
+
+  .article-back {
+    color: var(--color-jungle-light);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .article-back:hover { color: var(--color-gold); }
+</style>

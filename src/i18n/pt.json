@@ -1,0 +1,123 @@
+{
+    "nav": {
+        "home": "Início",
+        "about": "Sobre Nós",
+        "services": "Serviços",
+        "retreats": "Retiros",
+        "gallery": "Galeria",
+        "testimonials": "Depoimentos",
+        "blog": "Blog",
+        "faq": "Perguntas",
+        "contact": "Contato"
+    },
+    "hero": {
+        "title": "Desperte Seu Espírito",
+        "subtitle": "Cerimônias autênticas de Ayahuasca no coração da Amazônia. Transforme sua vida com sabedoria ancestral.",
+        "cta_primary": "Conheça Nossos Retiros",
+        "cta_secondary": "Fale Conosco",
+        "badge": "Facilitadores Certificados"
+    },
+    "about": {
+        "title": "Quem Somos",
+        "subtitle": "Guardiões da Medicina Ancestral",
+        "description": "Somos um centro de cura espiritual dedicado a preservar e compartilhar as tradições sagradas da Amazônia. Nossos facilitadores têm mais de 15 anos de experiência em cerimônias de ayahuasca.",
+        "mission": "Missão",
+        "mission_text": "Acompanhar cada pessoa em seu processo de cura e expansão da consciência com respeito, segurança e amor.",
+        "vision": "Visão",
+        "vision_text": "Ser uma ponte de luz entre a sabedoria ancestral amazônica e o mundo contemporâneo.",
+        "stats": {
+            "ceremonies": "Cerimônias realizadas",
+            "years": "Anos de experiência",
+            "countries": "Países de origem",
+            "facilitators": "Facilitadores certificados"
+        }
+    },
+    "services": {
+        "title": "Nossos Serviços",
+        "subtitle": "Experiências transformadoras para sua jornada espiritual",
+        "items": [
+            {
+                "title": "Cerimônia de Ayahuasca",
+                "description": "Cerimônias sagradas guiadas por mestres curandeiros com décadas de experiência.",
+                "icon": "🌿"
+            },
+            {
+                "title": "Retiro de 7 Dias",
+                "description": "Imersão profunda na medicina ancestral com dieta, meditação e cerimônias.",
+                "icon": "🌙"
+            },
+            {
+                "title": "Terapia de Cura",
+                "description": "Sessões individuais de cura energética e limpeza espiritual.",
+                "icon": "✨"
+            },
+            {
+                "title": "San Pedro (Huachuma)",
+                "description": "Cerimônias com o cacto sagrado dos Andes para expansão da consciência.",
+                "icon": "🌵"
+            },
+            {
+                "title": "Banhos de Plantas",
+                "description": "Purificação ritual com plantas medicinais da selva amazônica.",
+                "icon": "🌸"
+            },
+            {
+                "title": "Dieta de Plantas",
+                "description": "Programa de planta mestra para aprofundar a conexão espiritual.",
+                "icon": "🍃"
+            }
+        ]
+    },
+    "retreats": {
+        "title": "Catálogo de Retiros",
+        "subtitle": "Escolha o retiro perfeito para seu processo de cura",
+        "cta": "Reservar pelo WhatsApp",
+        "duration": "Duração",
+        "price": "Preço",
+        "days": "dias",
+        "included": "O que inclui?"
+    },
+    "testimonials": {
+        "title": "Depoimentos",
+        "subtitle": "O que nossos participantes dizem"
+    },
+    "faq": {
+        "title": "Perguntas Frequentes",
+        "subtitle": "Tudo que você precisa saber antes do seu retiro"
+    },
+    "contact": {
+        "title": "Fale Conosco",
+        "subtitle": "Estamos aqui para acompanhá-lo em seu caminho",
+        "name": "Nome completo",
+        "email": "E-mail",
+        "phone": "Telefone / WhatsApp",
+        "country": "País de origem",
+        "message": "Sua mensagem",
+        "message_placeholder": "Conte-nos sobre você e o que gostaria de explorar em seu retiro...",
+        "send": "Enviar Mensagem",
+        "sending": "Enviando...",
+        "success": "Mensagem enviada! Responderemos em breve.",
+        "error": "Houve um erro. Tente pelo WhatsApp.",
+        "whatsapp": "Escrever no WhatsApp",
+        "location": "Nossa Localização"
+    },
+    "footer": {
+        "tagline": "Guardiões da medicina ancestral amazônica",
+        "links_title": "Páginas",
+        "contact_title": "Contato",
+        "follow": "Siga-nos",
+        "rights": "Todos os direitos reservados",
+        "privacy": "Privacidade",
+        "terms": "Termos"
+    },
+    "seo": {
+        "site_name": "Spirit of Amazonas",
+        "home_title": "Spirit of Amazonas | Retiros de Ayahuasca na Amazônia",
+        "home_description": "Centro de retiros de ayahuasca com facilitadores certificados. Cerimônias sagradas, retiros de 7 dias, cura espiritual na Amazônia. Reserve sua experiência transformadora.",
+        "about_title": "Sobre Nós | Spirit of Amazonas",
+        "services_title": "Serviços | Cerimônias e Retiros de Ayahuasca",
+        "retreats_title": "Catálogo de Retiros | Spirit of Amazonas",
+        "contact_title": "Contato | Spirit of Amazonas",
+        "blog_title": "Blog | Sabedoria Ancestral e Plantas Medicinais"
+    }
+}

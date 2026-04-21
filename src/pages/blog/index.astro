@@ -1,0 +1,59 @@
+---
+// src/pages/blog/index.astro
+
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import WhatsAppButton from '../../components/WhatsAppButton.astro';
+
+const posts = [
+  { title: '¿Qué es la Ayahuasca? Historia y Orígenes Ancestrales', slug: 'que-es-la-ayahuasca', excerpt: 'La ayahuasca es una bebida psicoactiva preparada con plantas de la Amazonía. Te contamos su historia, sus componentes y su papel en las culturas indígenas amazónicas.', date: '2024-10-15', category: 'Medicina', readTime: 8 },
+  { title: 'Cómo Prepararse para una Ceremonia de Ayahuasca', slug: 'como-prepararse-ceremonia', excerpt: 'La preparación es tan importante como la ceremonia misma. Aprende sobre la dieta, las intenciones y el estado mental ideal para una experiencia transformadora y segura.', date: '2024-11-02', category: 'Guía', readTime: 6 },
+  { title: 'Integración Post-Ceremonia: El Verdadero Trabajo Comienza Después', slug: 'integracion-post-ceremonia', excerpt: 'Las experiencias con plantas maestras revelan mucho. La integración es el proceso de aplicar esas enseñanzas en tu vida cotidiana para que la transformación sea duradera.', date: '2024-12-01', category: 'Integración', readTime: 7 },
+  { title: 'San Pedro vs Ayahuasca: Diferencias y Similitudes', slug: 'san-pedro-vs-ayahuasca', excerpt: 'Dos de las plantas maestras más conocidas de Sudamérica. Exploramos sus diferencias en efectos, preparación ceremonial y el tipo de trabajo espiritual que facilitan.', date: '2025-01-10', category: 'Medicina', readTime: 9 },
+  { title: 'La Tradición Shipibo-Conibo y los Ícaros Sagrados', slug: 'tradicion-shipibo-iconos', excerpt: 'Los ícaros son canciones chamánicas que los maestros curanderos shipibo cantan durante las ceremonias. Descubre su significado y por qué son el corazón de la medicina.', date: '2025-02-05', category: 'Cultura', readTime: 8 },
+  { title: '5 Mitos Sobre la Ayahuasca que Debes Conocer', slug: 'mitos-ayahuasca', excerpt: 'Hay mucha desinformación sobre la ayahuasca en internet. Aclaramos los 5 mitos más comunes para que puedas tomar una decisión informada sobre tu proceso de sanación.', date: '2025-02-20', category: 'Educación', readTime: 5 },
+  { title: 'Contraindicaciones Médicas: Lo que Necesitas Saber Antes de un Retiro', slug: 'contraindicaciones-ayahuasca', excerpt: 'La seguridad es lo primero. Te explicamos las contraindicaciones médicas y psicológicas más importantes para participar en una ceremonia de ayahuasca de manera responsable.', date: '2025-03-01', category: 'Seguridad', readTime: 6 },
+  { title: 'Dieta de Plantas: ¿Qué es y Para qué Sirve?', slug: 'dieta-plantas-medicinales', excerpt: 'La dieta de plantas es uno de los pilares de la medicina amazónica. Aprende qué plantas maestras se usan, cómo funciona el proceso y qué beneficios puede aportar.', date: '2025-03-10', category: 'Medicina', readTime: 7 },
+];
+---
+
+<Layout
+  title="Blog | Spirit of Amazonas — Sabiduría Ancestral y Plantas Medicinales"
+  description="Blog de Spirit of Amazonas: artículos sobre ayahuasca, medicina ancestral amazónica, preparación de ceremonias, integración post-retiro y cultura shipibo-conibo."
+  lang="es"
+>
+  <Header />
+  <main id="main-content">
+    <section class="page-hero section--dark">
+      <div class="container">
+        <div class="ornament" style="justify-content:flex-start">
+          <span class="ornament-text" style="color:var(--color-gold-pale)">Conocimiento Ancestral</span>
+        </div>
+        <h1 style="color:var(--color-white); margin-bottom:1rem">Blog de Spirit of Amazonas</h1>
+        <p style="font-family:var(--font-display); font-size:1.15rem; font-style:italic; color:rgba(255,255,255,0.7)">
+          Artículos sobre medicina ancestral, preparación, integración y sabiduría amazónica
+        </p>
+      </div>
+    </section>
+    <section class="section section--cream">
+      <div class="container">
+        <div class="blog-grid">
+          {posts.map((post, i) => (
+            <div class="reveal" style={`animation-delay:${(i%3)*0.1}s`}>
+              <BlogCard {...post} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <WhatsAppButton />
+</Layout>
+
+<style>
+  .page-hero { background: linear-gradient(160deg, var(--color-jungle-deep), var(--color-jungle-dark)); padding: 6rem 0 4rem; }
+  .blog-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 1.75rem; }
+</style>

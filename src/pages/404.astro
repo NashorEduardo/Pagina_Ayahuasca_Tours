@@ -1,0 +1,126 @@
+---
+// src/pages/404.astro
+
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+---
+
+<Layout
+  title="Página no encontrada | Spirit of Amazonas"
+  description="La página que buscas no existe. Vuelve al inicio de Spirit of Amazonas."
+  lang="es"
+>
+  <Header />
+  <main id="main-content" class="not-found-main">
+    <div class="container not-found-content">
+      <div class="not-found-icon" aria-hidden="true">🌿</div>
+      <h1 class="not-found-code">404</h1>
+      <h2 class="not-found-title">El Camino se Perdió en la Selva</h2>
+      <p class="not-found-text">
+        La página que buscas no existe o fue movida. Quizás la planta quiere que explores otro sendero.
+      </p>
+      <div class="not-found-actions">
+        <a href="/" class="btn btn--primary">Volver al Inicio</a>
+        <a href="/contacto" class="btn btn--outline not-found-contact-btn">Contactarnos</a>
+      </div>
+      <nav class="not-found-quick-links" aria-label="Páginas principales">
+        <p>Páginas principales:</p>
+        <ul>
+          <li><a href="/sobre-nosotros">Nosotros</a></li>
+          <li><a href="/servicios">Servicios</a></li>
+          <li><a href="/retiros">Retiros</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/contacto">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </main>
+  <Footer />
+  <WhatsAppButton />
+</Layout>
+
+<style>
+  .not-found-main {
+    background: linear-gradient(160deg, var(--color-jungle-deep), var(--color-jungle-dark));
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+  }
+
+  .not-found-content {
+    text-align: center;
+    padding-block: 6rem;
+  }
+
+  .not-found-icon {
+    font-size: 4rem;
+    display: block;
+    margin-bottom: 1rem;
+    animation: floatY 3s ease-in-out infinite;
+  }
+
+  .not-found-code {
+    font-family: var(--font-heading);
+    font-size: clamp(5rem, 15vw, 10rem);
+    font-weight: 700;
+    color: var(--color-gold-light);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    opacity: 0.3;
+  }
+
+  .not-found-title {
+    font-family: var(--font-heading);
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: var(--color-white);
+    margin-bottom: 1rem;
+  }
+
+  .not-found-text {
+    color: rgba(255,255,255,0.65);
+    max-width: 500px;
+    margin: 0 auto 2.5rem;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.1rem;
+  }
+
+  .not-found-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+
+  .not-found-contact-btn {
+    border-color: rgba(255,255,255,0.35);
+    color: rgba(255,255,255,0.8);
+  }
+
+  .not-found-quick-links p {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+  }
+
+  .not-found-quick-links ul {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .not-found-quick-links a {
+    color: rgba(255,255,255,0.55);
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .not-found-quick-links a:hover { color: var(--color-gold-light); }
+</style>

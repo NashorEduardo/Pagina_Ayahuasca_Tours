@@ -1,0 +1,122 @@
+---
+// src/pages/contacto.astro
+
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ContactForm from '../components/ContactForm.astro';
+import GoogleMap from '../components/GoogleMap.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+---
+
+<Layout
+  title="Contacto | Ayahuasca Cusco — Retiros de Ayahuasca en Perú"
+  description="Contáctanos para información sobre nuestros retiros de ayahuasca en Cusco, Perú. Respondemos por WhatsApp, email y formulario de contacto en menos de 24 horas."
+  lang="es"
+>
+  <Header />
+  <main id="main-content">
+    <section class="page-hero section--dark">
+      <div class="container">
+        <div class="ornament" style="justify-content:flex-start">
+          <span class="ornament-text" style="color:var(--color-gold-pale)">Estamos Aquí</span>
+        </div>
+        <h1 style="color:var(--color-white); margin-bottom:1rem">Contáctanos</h1>
+        <p class="page-hero-lead">Te respondemos en menos de 24 horas. También puedes escribirnos directamente por WhatsApp.</p>
+      </div>
+    </section>
+
+    <section class="section section--cream">
+      <div class="container">
+        <div class="contact-grid">
+          <div class="contact-form-col reveal">
+            <ContactForm lang="es" />
+          </div>
+          <div class="contact-side reveal" style="animation-delay:0.2s">
+            <!-- Quick contact -->
+            <div class="quick-contact-card">
+              <h3>Contacto Directo</h3>
+              <div class="quick-contact-links">
+                <a href="https://wa.me/51999999999" target="_blank" rel="noopener noreferrer" class="quick-link quick-link--wa">
+                  <span class="ql-icon">💬</span>
+                  <span>
+                    <strong>WhatsApp</strong>
+                    <small>+51 999 999 999</small>
+                  </span>
+                </a>
+                <a href="mailto:info@spiritofamazonas.com" class="quick-link quick-link--email">
+                  <span class="ql-icon">✉️</span>
+                  <span>
+                    <strong>Email Corporativo</strong>
+                    <small>info@ayahuascacusco.com</small>
+                  </span>
+                </a>
+                <a href="tel:+51999999999" class="quick-link quick-link--phone">
+                  <span class="ql-icon">📞</span>
+                  <span>
+                    <strong>Teléfono</strong>
+                    <small>+51 999 999 999</small>
+                  </span>
+                </a>
+              </div>
+              <div class="business-hours">
+                <h4>Horario de Atención</h4>
+                <div class="hours-grid">
+                  <span>Lunes – Viernes</span><span>8:00 – 20:00</span>
+                  <span>Sábado – Domingo</span><span>9:00 – 18:00</span>
+                  <span>Zona horaria</span><span>Perú (UTC-5)</span>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:1.5rem">
+              <GoogleMap />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <WhatsAppButton />
+</Layout>
+
+<style>
+  .page-hero { background: linear-gradient(160deg, var(--color-jungle-deep), var(--color-jungle-dark)); padding: 6rem 0 4rem; }
+  .page-hero-lead { font-family: var(--font-display); font-size: 1.15rem; font-style: italic; color: rgba(255,255,255,0.7); max-width: 600px; }
+
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+
+  .quick-contact-card {
+    background: var(--color-white);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+  }
+  .quick-contact-card h3 { font-size: 1.25rem; margin-bottom: 1.25rem; color: var(--color-jungle-deep); }
+
+  .quick-contact-links { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
+  .quick-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.875rem 1rem;
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid transparent;
+  }
+  .quick-link:hover { transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+  .quick-link--wa    { background: rgba(37,211,102,0.08); border-color: rgba(37,211,102,0.2); }
+  .quick-link--email { background: rgba(45,106,63,0.07); border-color: rgba(45,106,63,0.15); }
+  .quick-link--phone { background: rgba(201,148,26,0.07); border-color: rgba(201,148,26,0.15); }
+  .ql-icon { font-size: 1.5rem; flex-shrink: 0; }
+  .quick-link strong { display: block; font-size: 0.875rem; color: var(--color-jungle-deep); margin-bottom: 0.1rem; }
+  .quick-link small { font-size: 0.78rem; color: var(--color-text-muted); }
+
+  .business-hours h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-text-muted); margin-bottom: 0.75rem; }
+  .hours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; font-size: 0.84rem; color: var(--color-text-mid); }
+
+  @media (max-width: 900px) {
+    .contact-grid { grid-template-columns: 1fr; }
+  }
+</style>

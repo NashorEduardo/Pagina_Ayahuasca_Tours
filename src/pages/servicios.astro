@@ -1,0 +1,79 @@
+---
+// src/pages/servicios.astro
+
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Services from '../components/Services.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+---
+
+<Layout
+  title="Servicios | Spirit of Amazonas — Ceremonias y Retiros de Ayahuasca"
+  description="Servicios de Spirit of Amazonas: Ceremonias de ayahuasca, San Pedro, baños de plantas, dietas de plantas maestras y terapias de sanación espiritual en Iquitos, Perú."
+  lang="es"
+>
+  <Header />
+  <main id="main-content">
+    <section class="page-hero section--dark">
+      <div class="container">
+        <div class="ornament" style="justify-content:flex-start">
+          <span class="ornament-text" style="color:var(--color-gold-pale)">Lo que Ofrecemos</span>
+        </div>
+        <h1 style="color:var(--color-white); margin-bottom:1rem">Nuestros Servicios</h1>
+        <p style="font-family:var(--font-display); font-size:1.15rem; font-style:italic; color:rgba(255,255,255,0.7); max-width:600px">
+          Cada servicio está diseñado con respeto, seguridad y profundo conocimiento ancestral amazónico.
+        </p>
+      </div>
+    </section>
+
+    <Services />
+
+    <!-- Process section -->
+    <section class="section section--dark">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="ornament"><span class="ornament-text" style="color:var(--color-gold-pale)">Cómo Funciona</span></div>
+          <h2 style="color:var(--color-white)">El Proceso de Tu Retiro</h2>
+          <div class="divider-gold"></div>
+        </div>
+        <div class="process-steps">
+          {[
+            { step: '01', icon: '💬', title: 'Consulta Inicial', desc: 'Conversas con nuestro equipo por WhatsApp o email. Evaluamos tus necesidades y te recomendamos el retiro ideal.' },
+            { step: '02', icon: '📋', title: 'Screening Médico', desc: 'Completás un formulario de salud detallado. Un médico y el maestro curandero evalúan si eres candidato apto.' },
+            { step: '03', icon: '🌿', title: 'Preparación', desc: 'Recibes nuestra guía de dieta y preparación mental. Comenzás la dieta 2 semanas antes de tu llegada.' },
+            { step: '04', icon: '🔥', title: 'La Ceremonia', desc: 'Vives tu experiencia con plena seguridad, acompañado por maestros y facilitadores durante toda la noche.' },
+            { step: '05', icon: '🧠', title: 'Integración', desc: 'Sesiones diarias de integración para procesar la experiencia y llevar las enseñanzas a tu vida cotidiana.' },
+          ].map((item, i) => (
+            <div class="process-step reveal" style={`animation-delay:${i*0.1}s`}>
+              <div class="step-number">{item.step}</div>
+              <div class="step-icon" aria-hidden="true">{item.icon}</div>
+              <h3 class="step-title">{item.title}</h3>
+              <p class="step-desc">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+  <WhatsAppButton />
+</Layout>
+
+<style>
+  .page-hero { background: linear-gradient(160deg, var(--color-jungle-deep), var(--color-jungle-dark)); padding: 6rem 0 4rem; }
+  .process-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 1.5rem; }
+  .process-step {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    text-align: center;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  .process-step:hover { background: rgba(255,255,255,0.09); border-color: rgba(201,148,26,0.3); }
+  .step-number { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; color: var(--color-gold); margin-bottom: 0.75rem; }
+  .step-icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
+  .step-title { font-size: 1rem; color: var(--color-white); margin-bottom: 0.5rem; }
+  .step-desc { font-size: 0.83rem; color: rgba(255,255,255,0.6); line-height: 1.6; }
+</style>

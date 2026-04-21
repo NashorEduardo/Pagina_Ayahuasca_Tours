@@ -1,0 +1,319 @@
+---
+// src/pages/sobre-nosotros.astro
+
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+
+const team = [
+  {
+    name: 'Don Antonio Yawari',
+    role: 'Maestro Curandero / Shipibo-Conibo',
+    bio: 'Con más de 30 años de práctica, Don Antonio es guardián de las tradiciones shipibo. Aprendió el arte de la curanderismo desde niño bajo la tutela de su abuelo.',
+    icon: '🌿',
+  },
+  {
+    name: 'Rosa Cumapa',
+    role: 'Maestra Vegetalista',
+    bio: 'Especialista en plantas medicinales amazónicas, Rosa lleva 20 años trabajando con la medicina ancestral. Experta en preparación de remedios y baños de plantas.',
+    icon: '🌸',
+  },
+  {
+    name: 'Carlos Vega',
+    role: 'Facilitador Principal / Psicólogo',
+    bio: 'Psicólogo clínico con especialización en procesos transpersonales. Combina el conocimiento occidental con la sabiduría ancestral para un acompañamiento integral.',
+    icon: '✨',
+  },
+  {
+    name: 'María Elena Flores',
+    role: 'Coordinadora de Retiros',
+    bio: 'Encargada de la logística y el bienestar de los participantes. María asegura que cada retiro sea una experiencia cómoda, segura y significativa.',
+    icon: '🙏',
+  },
+];
+---
+
+<Layout
+  title="Nosotros | Spirit of Amazonas — Centro de Retiros de Ayahuasca"
+  description="Conoce al equipo de Spirit of Amazonas: maestros curanderos, psicólogos y facilitadores certificados con más de 15 años de experiencia en medicina ancestral amazónica."
+  lang="es"
+>
+  <Header />
+  <main id="main-content">
+
+    <!-- Page Hero -->
+    <section class="page-hero section--dark">
+      <div class="container page-hero-inner">
+        <div class="ornament" style="justify-content:flex-start">
+          <span class="ornament-text" style="color:var(--color-gold-pale)">Nuestra Historia</span>
+        </div>
+        <h1 style="color:var(--color-white); margin-bottom:1rem">Quiénes Somos</h1>
+        <p class="page-hero-lead">
+          Guardianes de la medicina ancestral amazónica desde hace más de 15 años
+        </p>
+      </div>
+    </section>
+
+    <!-- About snippet from Home -->
+    <section id="nosotros-intro" class="section section--dark about-home">
+      <div class="container">
+        <div class="about-home-grid">
+          <div class="about-home-text reveal">
+            <div class="ornament" style="justify-content:flex-start">
+              <span class="ornament-text" style="color:var(--color-gold-pale)">Quiénes Somos</span>
+            </div>
+            <h2 style="color:var(--color-white)">Guardianes de la Medicina Ancestral</h2>
+            <div class="divider-gold" style="margin:1rem 0"></div>
+            <p style="color:rgba(255,255,255,0.75); margin-bottom:1.25rem">
+              Somos un centro de sanación espiritual dedicado a preservar y compartir las tradiciones sagradas de la Amazonía. Nuestros facilitadores cuentan con más de 15 años de experiencia en ceremonias de ayahuasca.
+            </p>
+            <p style="color:rgba(255,255,255,0.65); margin-bottom:2rem">
+              Trabajamos con maestros curanderos indígenas para garantizar la autenticidad y seguridad de cada ceremonia. Nuestro enfoque combina el conocimiento ancestral con las mejores prácticas de acompañamiento contemporáneo.
+            </p>
+            <div class="about-stats">
+              <div class="about-stat">
+                <span class="stat-n">+500</span>
+                <span class="stat-l">Ceremonias</span>
+              </div>
+              <div class="about-stat">
+                <span class="stat-n">15+</span>
+                <span class="stat-l">Años de Exp.</span>
+              </div>
+              <div class="about-stat">
+                <span class="stat-n">40+</span>
+                <span class="stat-l">Países</span>
+              </div>
+              <div class="about-stat">
+                <span class="stat-n">4</span>
+                <span class="stat-l">Facilitadores</span>
+              </div>
+            </div>
+          </div>
+          <div class="about-home-visual reveal" style="animation-delay:0.2s">
+            <div class="about-visual-card">
+              <div class="visual-icon" aria-hidden="true">🌿</div>
+              <blockquote class="visual-quote">
+                "La planta no te da nada que no esté dentro de ti. Solo te ayuda a recordar quién eres."
+              </blockquote>
+              <cite class="visual-cite">— Don Antonio, Maestro Curandero</cite>
+            </div>
+            <div class="about-certifications">
+              <div class="cert-item">✅ Facilitadores Certificados</div>
+              <div class="cert-item">✅ Protocolo Médico Previo</div>
+              <div class="cert-item">✅ Plantas Preparadas Ritualmente</div>
+              <div class="cert-item">✅ Integración Post-Ceremonia</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mission / Vision -->
+    <section class="section section--cream">
+      <div class="container">
+        <div class="mv-grid">
+          <div class="mv-card reveal">
+            <div class="mv-icon" aria-hidden="true">🎯</div>
+            <h2>Misión</h2>
+            <p>Acompañar a cada persona en su proceso de sanación y expansión de conciencia con respeto, seguridad y amor profundo. Preservar las tradiciones ancestrales amazónicas para las generaciones futuras.</p>
+          </div>
+          <div class="mv-card reveal" style="animation-delay:0.15s">
+            <div class="mv-icon" aria-hidden="true">🌟</div>
+            <h2>Visión</h2>
+            <p>Ser un puente de luz entre la sabiduría ancestral amazónica y el mundo contemporáneo, contribuyendo a la sanación individual y colectiva de la humanidad.</p>
+          </div>
+          <div class="mv-card reveal" style="animation-delay:0.3s">
+            <div class="mv-icon" aria-hidden="true">💎</div>
+            <h2>Valores</h2>
+            <p>Integridad, respeto por las tradiciones, seguridad del participante, autenticidad y amor incondicional guían cada una de nuestras ceremonias y servicios.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Story -->
+    <section class="section section--dark">
+      <div class="container">
+        <div class="story-grid">
+          <div class="reveal">
+            <div class="ornament" style="justify-content:flex-start">
+              <span class="ornament-text" style="color:var(--color-gold-pale)">Nuestra Historia</span>
+            </div>
+            <h2 style="color:var(--color-white); margin-bottom:1.5rem">Un Legado de Sanación</h2>
+            <p style="color:rgba(255,255,255,0.75); margin-bottom:1rem">
+              Spirit of Cusco nació en 2009 de la visión de compartir la sabiduría de los maestros curanderos shipibo con personas de todo el mundo que buscaban sanación y transformación espiritual.
+            </p>
+            <p style="color:rgba(255,255,255,0.65); margin-bottom:1rem">
+              Desde entonces, hemos acompañado a más de 500 personas de más de 40 países en sus procesos de expansión de conciencia. Cada ceremonia es única, cada experiencia es sagrada.
+            </p>
+            <p style="color:rgba(255,255,255,0.65)">
+              Trabajamos en profundo respeto con la naturaleza amazónica y las comunidades indígenas locales, contribuyendo a la preservación de sus tradiciones y soberanía cultural.
+            </p>
+          </div>
+          <div class="story-visual reveal" style="animation-delay:0.2s">
+            <div class="story-card">
+              <blockquote style="font-family:var(--font-display); font-size:1.2rem; font-style:italic; color:rgba(255,255,255,0.85); line-height:1.7; margin-bottom:1.5rem">
+                "Venimos de la tierra y a la tierra regresamos. La planta nos recuerda este camino sagrado."
+              </blockquote>
+              <cite style="color:var(--color-gold-pale); font-size:0.85rem">— Don Antonio Yawari, Fundador</cite>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team -->
+    <section class="section section--cream">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="ornament"><span class="ornament-text">Nuestro Equipo</span></div>
+          <h2>Los Guardianes de la Medicina</h2>
+          <div class="divider-gold"></div>
+          <p class="section-subtitle">Maestros y facilitadores con experiencia, corazón y dedicación</p>
+        </div>
+        <div class="team-grid">
+          {team.map((member, i) => (
+            <article class="team-card reveal" style={`animation-delay:${i*0.1}s`}>
+              <div class="team-avatar" aria-hidden="true">{member.icon}</div>
+              <h3 class="team-name">{member.name}</h3>
+              <p class="team-role">{member.role}</p>
+              <p class="team-bio">{member.bio}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+  </main>
+  <Footer />
+  <WhatsAppButton />
+</Layout>
+
+<style>
+  .page-hero {
+    background: linear-gradient(160deg, var(--color-jungle-deep), var(--color-jungle-dark));
+    padding: 6rem 0 4rem;
+  }
+  .page-hero-lead {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-style: italic;
+    color: rgba(255,255,255,0.7);
+    max-width: 600px;
+  }
+
+  /* About Intro Styles */
+  .about-home-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  .about-stat { text-align: center; }
+  .stat-n {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-gold-light);
+  }
+  .stat-l {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.45);
+  }
+  .about-visual-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-xl);
+    padding: 2.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .visual-icon {
+    font-size: 3rem;
+    margin-bottom: 1.25rem;
+    display: block;
+    animation: floatY 4s ease-in-out infinite;
+  }
+  .visual-quote {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-style: italic;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+  .visual-cite {
+    font-size: 0.82rem;
+    color: var(--color-gold-pale);
+    font-style: normal;
+  }
+  .about-certifications {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .cert-item {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1rem;
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.7);
+  }
+
+  /* Mission / Vision */
+  .mv-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 1.5rem; }
+  .mv-card {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+  }
+  .mv-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+  .mv-card h2 { font-size: 1.3rem; margin-bottom: 0.75rem; }
+  .mv-card p { font-size: 0.9rem; color: var(--color-text-mid); }
+
+  .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+  .story-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-xl);
+    padding: 2.5rem;
+  }
+
+  .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px,1fr)); gap: 1.5rem; }
+  .team-card {
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .team-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .team-avatar { font-size: 3rem; margin-bottom: 1rem; display: block; }
+  .team-name { font-size: 1.1rem; font-weight: 700; color: var(--color-jungle-deep); margin-bottom: 0.25rem; }
+  .team-role { font-size: 0.8rem; color: var(--color-gold); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.875rem; }
+  .team-bio { font-size: 0.875rem; color: var(--color-text-mid); line-height: 1.7; }
+
+  @media (max-width: 900px) {
+    .about-home-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .about-stats { grid-template-columns: repeat(2, 1fr); }
+    .about-certifications { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    .story-grid { grid-template-columns: 1fr; }
+  }
+</style>
