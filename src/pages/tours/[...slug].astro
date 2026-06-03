@@ -1,0 +1,1147 @@
+---
+// src/pages/retiros/[slug].astro
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import WhatsAppButton from '../../components/WhatsAppButton.astro';
+
+export async function getStaticPaths() {
+  const retiroEntries = await getCollection('tours'); 
+  return retiroEntries.map((entry) => ({
+    // Mapeamos entry.id al parámetro 'slug' que espera el nombre de tu archivo [...slug]
+    params: { slug: entry.id }, 
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const {
+  title,
+  description,
+  image,
+  price,
+  duration,
+  availability,
+  frequency,
+  difficulty,
+  includes,
+  excludes,
+  itinerary,
+  gallery,
+  videoUrl,
+  faq,  
+  whatsapp = '51999999999',
+} = entry.data;
+---
+
+<Layout
+  title={`${title} | Spirit of Amazonas`}
+  description={description ?? 'Retiro espiritual en la Amazonía Peruana con Spirit of Amazonas.'}
+  lang="es"
+>
+  <Header />
+
+  <!-- ═══════════════════════════════════════════
+       HERO
+  ═══════════════════════════════════════════ -->
+  <section class="soa-hero">
+    <img src={image} alt={title} class="soa-hero__bg" />
+    <div class="soa-hero__overlay"></div>
+    <div class="soa-hero__gradient"></div>
+
+    <div class="soa-hero__content container">
+
+      <!-- Breadcrumb -->
+      <nav class="soa-breadcrumb hero-fade" style="animation-delay:0.1s">
+        <a href="/">Inicio</a>
+        <span>›</span>
+        <a href="/retiros">Retiros</a>
+        <span>›</span>
+        <span class="soa-breadcrumb__active">{title}</span>
+      </nav>
+
+      <!-- Badge -->
+      <div class="hero-fade" style="animation-delay:0.2s">
+        <span class="soa-badge">
+          <span class="soa-badge__dot"></span>
+          Experiencia Sagrada
+        </span>
+      </div>
+
+      <!-- Título -->
+      <h1 class="soa-hero__title hero-fade" style="animation-delay:0.3s">{title}</h1>
+
+      <!-- Meta row -->
+      <div class="soa-hero__meta hero-fade" style="animation-delay:0.4s">
+        <div class="soa-hero__price">
+          <span class="soa-hero__price-from">desde</span>
+          <span class="soa-hero__price-amount">${price}</span>
+          <span class="soa-hero__price-pp">por persona</span>
+        </div>
+
+        {duration && (
+          <div class="soa-hero__divider"></div>
+          <div class="soa-hero__stat">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            {duration}
+          </div>
+        )}
+
+        {availability && (
+          <div class="soa-hero__stat">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            {availability}
+          </div>
+        )}
+
+        <a href="#reserva" class="soa-btn soa-btn--cta hero-fade" style="animation-delay:0.5s; margin-left:auto">
+          Reservar Ahora
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       MENÚ STICKY
+  ═══════════════════════════════════════════ -->
+  <nav class="soa-sticky-nav" id="sticky-nav">
+    <div class="container soa-sticky-nav__inner">
+      <a href="#descripcion" class="soa-nav-link">
+        <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414A1 1 0 0119 9.414V19a2 2 0 01-2 2z"/>
+        </svg>
+        Descripción
+      </a>
+      <a href="#itinerario" class="soa-nav-link">
+        <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        </svg>
+        Itinerario
+      </a>
+      <a href="#incluye" class="soa-nav-link">
+        <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        Incluye
+      </a>
+      {gallery && gallery.length > 0 && (
+        <a href="#galeria" class="soa-nav-link">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          Galería
+        </a>
+      )}
+      {faq && faq.length > 0 && (
+        <a href="#faq" class="soa-nav-link">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          FAQ
+        </a>
+      )}
+      <a href="#reserva" class="soa-nav-link soa-nav-link--cta">
+        Reservar
+      </a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════
+       MAIN: CONTENIDO + SIDEBAR
+  ═══════════════════════════════════════════ -->
+  <main class="soa-main container">
+
+    <!-- COLUMNA IZQUIERDA -->
+    <div class="soa-content">
+
+      <!-- ── DESCRIPCIÓN ── -->
+      <section id="descripcion" class="soa-section reveal">
+        <div class="soa-section__header">
+          <div class="soa-section__accent"></div>
+          <h2 class="soa-section__title">Sobre Este Retiro</h2>
+        </div>
+
+        {description && (
+          <p class="soa-description-lead">{description}</p>
+        )}
+
+        <div class="soa-prose">
+          <Content />
+        </div>
+
+        <!-- Badges informativos -->
+        <div class="soa-badges">
+          {availability && (
+            <div class="soa-badge-card">
+              <span class="soa-badge-card__icon">🌿</span>
+              <span class="soa-badge-card__label">Disponibilidad</span>
+              <span class="soa-badge-card__value">{availability}</span>
+            </div>
+          )}
+          {duration && (
+            <div class="soa-badge-card">
+              <span class="soa-badge-card__icon">🕯️</span>
+              <span class="soa-badge-card__label">Duración</span>
+              <span class="soa-badge-card__value">{duration}</span>
+            </div>
+          )}
+          {frequency && (
+            <div class="soa-badge-card">
+              <span class="soa-badge-card__icon">🌙</span>
+              <span class="soa-badge-card__label">Frecuencia</span>
+              <span class="soa-badge-card__value">{frequency}</span>
+            </div>
+          )}
+          {difficulty && (
+            <div class="soa-badge-card">
+              <span class="soa-badge-card__icon">🍃</span>
+              <span class="soa-badge-card__label">Nivel</span>
+              <span class="soa-badge-card__value">{difficulty}</span>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <!-- ── ITINERARIO ── -->
+      {itinerary && itinerary.length > 0 && (
+        <section id="itinerario" class="soa-section reveal">
+          <div class="soa-section__header">
+            <div class="soa-section__accent"></div>
+            <h2 class="soa-section__title">Tu Camino Sagrado</h2>
+          </div>
+
+          <div class="soa-itinerary">
+            <!-- Línea vertical -->
+            <div class="soa-itinerary__line"></div>
+
+            {itinerary.map((item, index) => (
+              <div class="soa-itinerary__item">
+
+                <!-- Badge día -->
+                <div class="soa-itinerary__badge">
+                  <span class="soa-itinerary__badge-label">DÍA</span>
+                  <span class="soa-itinerary__badge-num">
+                    {String(item.day).padStart(2, '0')}
+                  </span>
+                </div>
+
+                <!-- Contenido -->
+                <div class="soa-itinerary__body">
+                  <h3 class="soa-itinerary__day-title">{item.title}</h3>
+
+                  {item.description && (
+                    <p class="soa-itinerary__desc">{item.description}</p>
+                  )}
+
+                  {item.activities && (
+                    <ul class="soa-itinerary__acts">
+                      {item.activities.map((act) => (
+                        <li class="soa-itinerary__act">
+                          <span class="soa-itinerary__dot"></span>
+                          {act}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <!-- Carrusel de imágenes del día -->
+                  {item.images && item.images.length > 0 && (
+                    <div class="soa-carousel" id={`carousel-${index}`}>
+                      <div class="soa-carousel__wrapper">
+                        <div
+                          class="soa-carousel__track"
+                          data-carousel={`carousel-${index}`}
+                        >
+                          {item.images.map((img, i) => (
+                            <img
+                              src={img}
+                              alt={`${item.title} - imagen ${i + 1}`}
+                              class="soa-carousel__slide"
+                            />
+                          ))}
+                        </div>
+                      </div>
+
+                      <button class="soa-carousel__btn soa-carousel__btn--prev carousel-prev"
+                        data-target={`carousel-${index}`} aria-label="Anterior">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                      </button>
+
+                      <button class="soa-carousel__btn soa-carousel__btn--next carousel-next"
+                        data-target={`carousel-${index}`} aria-label="Siguiente">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+                        </svg>
+                      </button>
+
+                      {item.images.length > 3 && (
+                        <div class="soa-carousel__dots" data-dots={`carousel-${index}`}>
+                          {item.images.map((_, i) => (
+                            <button
+                              class={`soa-dot ${i === 0 ? 'soa-dot--active' : ''}`}
+                              data-carousel={`carousel-${index}`}
+                              data-index={String(i)}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- ── INCLUYE / NO INCLUYE ── -->
+      {(includes || excludes) && (
+        <section id="incluye" class="soa-section reveal">
+          <div class="soa-section__header">
+            <div class="soa-section__accent"></div>
+            <h2 class="soa-section__title">¿Qué Incluye?</h2>
+          </div>
+
+          <div class="soa-includes">
+
+            {includes && (
+              <div class="soa-includes__card soa-includes__card--yes">
+                <div class="soa-includes__header">
+                  <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  <span>Incluido</span>
+                </div>
+                <ul class="soa-includes__list">
+                  {includes.map((item) => (
+                    <li class="soa-includes__item">
+                      <span class="soa-includes__check soa-includes__check--yes">
+                        <svg width="10" height="10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
+                        </svg>
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {excludes && (
+              <div class="soa-includes__card soa-includes__card--no">
+                <div class="soa-includes__header">
+                  <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                  </svg>
+                  <span>No Incluido</span>
+                </div>
+                <ul class="soa-includes__list">
+                  {excludes.map((item) => (
+                    <li class="soa-includes__item">
+                      <span class="soa-includes__check soa-includes__check--no">
+                        <svg width="10" height="10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+          </div>
+        </section>
+      )}
+
+      <!-- ── FAQ ── -->
+      {faq && faq.length > 0 && (
+        <section id="faq" class="soa-section reveal">
+          <div class="soa-section__header">
+            <div class="soa-section__accent"></div>
+            <h2 class="soa-section__title">Preguntas Frecuentes</h2>
+          </div>
+
+          <div class="soa-faq" id="faq-list">
+            {faq.map((item, index) => (
+              <div class="soa-faq__item" data-index={String(index)}>
+                <button class="soa-faq__trigger faq-trigger" data-index={String(index)}>
+                  <span class="soa-faq__q">
+                    <span class="soa-faq__num">{String(index + 1).padStart(2, '0')}</span>
+                    {item.question}
+                  </span>
+                  <span class="soa-faq__icon">+</span>
+                </button>
+                <div class="soa-faq__answer faq-answer">
+                  <p>{item.answer}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+    </div>
+
+    <!-- ── SIDEBAR ── -->
+    <aside id="reserva" class="soa-sidebar">
+      <div class="soa-sidebar__card">
+
+        <!-- Encabezado del sidebar -->
+        <div class="soa-sidebar__top">
+          <div class="ornament" style="margin-bottom:0.5rem">
+            <span class="ornament-text" style="color:var(--color-gold-pale); font-size:0.7rem">Reserva Segura</span>
+          </div>
+          <div class="soa-sidebar__price">
+            <span class="soa-sidebar__from">desde</span>
+            <span class="soa-sidebar__amount">${price}</span>
+            <span class="soa-sidebar__pp">por persona</span>
+          </div>
+        </div>
+
+        <!-- Formulario -->
+        <div class="soa-sidebar__form">
+          <div class="soa-form-row">
+            <input type="text" placeholder="Nombre" class="soa-input" />
+            <input type="text" placeholder="Apellido" class="soa-input" />
+          </div>
+          <input type="email" placeholder="Email *" class="soa-input soa-input--full" />
+          <input type="tel" placeholder="WhatsApp" class="soa-input soa-input--full" />
+          <select class="soa-input soa-input--full">
+            <option value="" disabled selected>¿Cuántas personas?</option>
+            <option>1 persona</option>
+            <option>2 personas</option>
+            <option>3-5 personas</option>
+            <option>Grupo (+5)</option>
+          </select>
+          <textarea
+            placeholder="Cuéntanos sobre tu intención para este retiro..."
+            rows="4"
+            class="soa-input soa-input--full soa-input--textarea"
+          ></textarea>
+
+          <button type="submit" class="soa-btn soa-btn--submit">
+            Enviar Consulta
+          </button>
+
+          <a
+            href={`https://wa.me/${whatsapp}?text=${encodeURIComponent('Hola, me interesa el retiro: ' + title)}`}
+            class="soa-btn soa-btn--whatsapp"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            WhatsApp Directo
+          </a>
+        </div>
+
+        <!-- Sellos de confianza -->
+        <div class="soa-trust">
+          <div class="soa-trust__item">🌿 <span>Facilitadores Certificados</span></div>
+          <div class="soa-trust__item">🔒 <span>Pago 100% Seguro</span></div>
+          <div class="soa-trust__item">✨ <span>Ceremonia Auténtica</span></div>
+        </div>
+
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════
+       GALERÍA
+  ═══════════════════════════════════════════ -->
+  {gallery && gallery.length > 0 && (
+    <section id="galeria" class="soa-gallery">
+      <div class="container">
+        <div class="soa-section__header reveal">
+          <div class="soa-section__accent"></div>
+          <h2 class="soa-section__title" style="color:var(--color-ivory)">Galería del Retiro</h2>
+        </div>
+
+        <div class="soa-gallery__grid">
+
+          <div class="soa-gallery__main cursor-pointer group" onclick="openLightbox(0)">
+            <img src={gallery[0]} alt={`${title} - foto principal`} />
+            <div class="soa-gallery__hover"></div>
+          </div>
+
+          {gallery[1] && (
+            <div class="soa-gallery__thumb cursor-pointer" onclick="openLightbox(1)">
+              <img src={gallery[1]} alt={`${title} - foto 2`} />
+              <div class="soa-gallery__hover"></div>
+            </div>
+          )}
+          {gallery[2] && (
+            <div class="soa-gallery__thumb cursor-pointer" onclick="openLightbox(2)">
+              <img src={gallery[2]} alt={`${title} - foto 3`} />
+              <div class="soa-gallery__hover"></div>
+            </div>
+          )}
+          {gallery[3] && (
+            <div class="soa-gallery__thumb soa-gallery__thumb--more cursor-pointer" onclick="openLightbox(3)">
+              <img src={gallery[3]} alt={`${title} - foto 4`} />
+              <div class="soa-gallery__more-overlay">
+                <span class="soa-gallery__more-plus">+</span>
+                <span class="soa-gallery__more-text">Ver más</span>
+                {gallery.length > 4 && (
+                  <span class="soa-gallery__more-count">{gallery.length - 4} fotos</span>
+                )}
+              </div>
+            </div>
+          )}
+
+          {videoUrl && (
+            <div class="soa-gallery__thumb soa-gallery__thumb--video cursor-pointer" id="gallery-video-btn">
+              {gallery[4] && <img src={gallery[4]} alt="Ver video" />}
+              <div class="soa-gallery__video-overlay">
+                <div class="soa-gallery__play">
+                  <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
+                </div>
+                <span>Ver Video</span>
+              </div>
+            </div>
+          )}
+
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ── LIGHTBOX ── -->
+  {gallery && gallery.length > 0 && (
+    <div id="lightbox" class="soa-lightbox hidden">
+      <button id="lightbox-close" class="soa-lightbox__close" aria-label="Cerrar">×</button>
+      <button id="lightbox-prev" class="soa-lightbox__nav soa-lightbox__nav--prev" aria-label="Anterior">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+      </button>
+      <img id="lightbox-img" src="" alt="" class="soa-lightbox__img" />
+      <button id="lightbox-next" class="soa-lightbox__nav soa-lightbox__nav--next" aria-label="Siguiente">
+        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </button>
+      <div id="lightbox-counter" class="soa-lightbox__counter"></div>
+    </div>
+  )}
+
+
+  <!-- ═══════════════════════════════════════════
+       SCRIPTS
+  ═══════════════════════════════════════════ -->
+
+  <!-- Carrusel del itinerario -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const state: Record<string, number> = {};
+
+      function getTrack(id: string) {
+        return document.querySelector(`.soa-carousel__track[data-carousel="${id}"]`) as HTMLElement | null;
+      }
+      function getSlides(id: string): HTMLElement[] {
+        const t = getTrack(id);
+        return t ? Array.from(t.querySelectorAll('.soa-carousel__slide')) : [];
+      }
+      function updateCarousel(id: string) {
+        const slides = getSlides(id);
+        if (!slides.length) return;
+        const cur = state[id] ?? 0;
+        const w = slides[0].getBoundingClientRect().width + 12;
+        const t = getTrack(id);
+        if (t) t.style.transform = `translateX(-${cur * w}px)`;
+        document.querySelectorAll(`[data-dots="${id}"] .soa-dot`).forEach((d, i) => {
+          (d as HTMLElement).classList.toggle('soa-dot--active', i === cur);
+        });
+      }
+
+      document.querySelectorAll('.carousel-next').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = (btn as HTMLElement).dataset.target!;
+          const max = Math.max(0, getSlides(id).length - 3);
+          state[id] = Math.min((state[id] ?? 0) + 1, max);
+          updateCarousel(id);
+        });
+      });
+      document.querySelectorAll('.carousel-prev').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = (btn as HTMLElement).dataset.target!;
+          state[id] = Math.max((state[id] ?? 0) - 1, 0);
+          updateCarousel(id);
+        });
+      });
+      document.querySelectorAll('[data-dots] .soa-dot').forEach(d => {
+        d.addEventListener('click', () => {
+          const id = (d as HTMLElement).dataset.carousel!;
+          state[id] = parseInt((d as HTMLElement).dataset.index!);
+          updateCarousel(id);
+        });
+      });
+    });
+  </script>
+
+  <!-- Lightbox -->
+  <script define:vars={{ galleryImages: gallery ?? [], videoUrl: videoUrl ?? '' }}>
+    let currentIndex = 0;
+
+    function openLightbox(index) {
+      currentIndex = index;
+      const lb  = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      const cnt = document.getElementById('lightbox-counter');
+      if (!lb || !img) return;
+      img.src = galleryImages[currentIndex];
+      img.alt = `Foto ${currentIndex + 1}`;
+      if (cnt) cnt.textContent = `${currentIndex + 1} / ${galleryImages.length}`;
+      lb.classList.remove('hidden');
+      lb.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      const lb = document.getElementById('lightbox');
+      if (!lb) return;
+      lb.classList.add('hidden');
+      lb.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    function navigate(dir) {
+      currentIndex = (currentIndex + dir + galleryImages.length) % galleryImages.length;
+      const img = document.getElementById('lightbox-img');
+      const cnt = document.getElementById('lightbox-counter');
+      if (img instanceof HTMLImageElement) img.src = galleryImages[currentIndex];
+      if (cnt) cnt.textContent = `${currentIndex + 1} / ${galleryImages.length}`;
+    }
+
+    document.getElementById('lightbox-close')?.addEventListener('click', closeLightbox);
+    document.getElementById('lightbox')?.addEventListener('click', e => { if (e.target === e.currentTarget) closeLightbox(); });
+    document.getElementById('lightbox-next')?.addEventListener('click', () => navigate(1));
+    document.getElementById('lightbox-prev')?.addEventListener('click', () => navigate(-1));
+    document.addEventListener('keydown', e => {
+      const lb = document.getElementById('lightbox');
+      if (!lb || lb.classList.contains('hidden')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') navigate(1);
+      if (e.key === 'ArrowLeft') navigate(-1);
+    });
+
+    document.getElementById('gallery-video-btn')?.addEventListener('click', () => {
+      if (!videoUrl) return;
+      const id = videoUrl.includes('v=') ? videoUrl.split('v=')[1].split('&')[0] : videoUrl.split('/').pop();
+      window.open(`https://www.youtube.com/watch?v=${id}`, '_blank');
+    });
+  </script>
+
+  <!-- FAQ -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.faq-trigger').forEach(trigger => {
+        trigger.addEventListener('click', () => {
+          const index = (trigger as HTMLElement).dataset.index!;
+          const item  = document.querySelector(`.soa-faq__item[data-index="${index}"]`);
+          if (!item) return;
+          const answer = item.querySelector('.faq-answer') as HTMLElement;
+          const icon   = item.querySelector('.soa-faq__icon') as HTMLElement;
+          const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+
+          document.querySelectorAll('.soa-faq__item').forEach(el => {
+            const a = el.querySelector('.faq-answer') as HTMLElement;
+            const i = el.querySelector('.soa-faq__icon') as HTMLElement;
+            if (a) a.style.maxHeight = '0px';
+            if (i) { i.textContent = '+'; i.classList.remove('soa-faq__icon--open'); }
+          });
+
+          if (!isOpen) {
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+            icon.textContent = '−';
+            icon.classList.add('soa-faq__icon--open');
+          }
+        });
+      });
+    });
+  </script>
+
+  <!-- Reveal on scroll -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const els = document.querySelectorAll('.reveal');
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); obs.unobserve(e.target); } });
+      }, { threshold: 0.12 });
+      els.forEach(el => obs.observe(el));
+    });
+  </script>
+
+  <Footer />
+  <WhatsAppButton />
+</Layout>
+
+
+<!-- ═══════════════════════════════════════════
+     ESTILOS — BEM · Variables del proyecto
+═══════════════════════════════════════════ -->
+<style is:global>
+
+  /* ── Reveal animation ── */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.revealed { opacity: 1; transform: translateY(0); }
+
+  /* ── Hero animations ── */
+  .soa-hero__bg { animation: soaZoom 10s ease-out forwards; }
+  @keyframes soaZoom { from { transform: scale(1.06); } to { transform: scale(1); } }
+  .hero-fade { opacity: 0; animation: soaFadeUp 0.75s ease forwards; }
+  @keyframes soaFadeUp { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+
+  /* ── HERO ── */
+  .soa-hero {
+    position: relative;
+    height: 88vh;
+    min-height: 560px;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+  }
+  .soa-hero__bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transform: scale(1.06);
+  }
+  .soa-hero__overlay {
+    position: absolute; inset: 0;
+    background: rgba(10, 18, 12, 0.35);
+  }
+  .soa-hero__gradient {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,18,12,0.82) 0%, rgba(10,18,12,0.15) 50%, transparent 100%);
+  }
+  .soa-hero__content {
+    position: relative;
+    padding-bottom: 4rem;
+  }
+
+  /* Breadcrumb */
+  .soa-breadcrumb {
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.5); margin-bottom: 1.25rem;
+  }
+  .soa-breadcrumb a { color: inherit; text-decoration: none; transition: color 0.2s; }
+  .soa-breadcrumb a:hover { color: var(--color-gold-light, #d4af37); }
+  .soa-breadcrumb__active { color: var(--color-gold-light, #d4af37); }
+
+  /* Badge hero */
+  .soa-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(212,175,55,0.15);
+    border: 1px solid rgba(212,175,55,0.35);
+    backdrop-filter: blur(8px);
+    color: var(--color-gold-light, #d4af37);
+    font-size: 0.68rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.18em;
+    padding: 0.4rem 1rem; border-radius: 999px;
+    margin-bottom: 1rem;
+  }
+  .soa-badge__dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--color-gold-light, #d4af37);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  /* Título hero */
+  .soa-hero__title {
+    font-size: clamp(2.4rem, 6vw, 5rem);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Meta row */
+  .soa-hero__meta {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 1rem;
+  }
+  .soa-hero__price { display: flex; align-items: baseline; gap: 0.3rem; }
+  .soa-hero__price-from, .soa-hero__price-pp {
+    font-size: 0.8rem; color: rgba(255,255,255,0.5);
+  }
+  .soa-hero__price-amount {
+    font-size: 2.8rem; font-weight: 900;
+    color: var(--color-gold-light, #d4af37);
+    line-height: 1;
+  }
+  .soa-hero__divider { width: 1px; height: 2rem; background: rgba(255,255,255,0.2); }
+  .soa-hero__stat {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-size: 0.82rem; color: rgba(255,255,255,0.75);
+  }
+  .soa-hero__stat svg { color: var(--color-gold-light, #d4af37); }
+
+  /* Botones */
+  .soa-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-weight: 700; font-size: 0.78rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 0.85rem 1.75rem; border-radius: 0.75rem;
+    text-decoration: none; transition: all 0.25s; cursor: pointer; border: none;
+  }
+  .soa-btn--cta {
+    background: var(--color-gold-light, #d4af37);
+    color: #0a120c;
+    box-shadow: 0 6px 20px rgba(212,175,55,0.35);
+  }
+  .soa-btn--cta:hover {
+    background: #c49b2a;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(212,175,55,0.4);
+  }
+  .soa-btn--submit {
+    width: 100%;
+    background: var(--color-forest, #1a3828);
+    color: #fff;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(26,56,40,0.3);
+  }
+  .soa-btn--submit:hover { background: var(--color-gold-light, #d4af37); color: #0a120c; }
+  .soa-btn--whatsapp {
+    width: 100%; justify-content: center;
+    background: #128c4a; color: #fff;
+    margin-top: 0.65rem;
+  }
+  .soa-btn--whatsapp:hover { background: #0e6e39; }
+
+  /* ── STICKY NAV ── */
+  .soa-sticky-nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(10,18,12,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(212,175,55,0.15);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.25);
+  }
+  .soa-sticky-nav__inner {
+    display: flex; align-items: center; justify-content: center;
+    gap: 0; height: 3.75rem;
+    overflow-x: auto;
+  }
+  .soa-nav-link {
+    display: flex; align-items: center; gap: 0.4rem;
+    padding: 0 1.25rem; height: 100%;
+    font-size: 0.75rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s; white-space: nowrap;
+  }
+  .soa-nav-link:hover { color: #fff; border-bottom-color: var(--color-gold-light, #d4af37); }
+  .soa-nav-link--cta {
+    color: var(--color-gold-light, #d4af37);
+    border-left: 1px solid rgba(255,255,255,0.12);
+    margin-left: 0.5rem; padding-left: 1.5rem;
+  }
+  .soa-nav-link--cta:hover { color: #fff; }
+
+  /* ── LAYOUT MAIN ── */
+  .soa-main {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 3.5rem;
+    padding-top: 4rem; padding-bottom: 5rem;
+    align-items: start;
+  }
+  @media (max-width: 1024px) {
+    .soa-main { grid-template-columns: 1fr; }
+    .soa-sidebar { order: -1; }
+  }
+
+  /* ── SECCIONES ── */
+  .soa-content { display: flex; flex-direction: column; gap: 4rem; }
+  .soa-section__header { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+  .soa-section__accent { width: 4px; height: 2.5rem; border-radius: 4px; background: var(--color-gold-light, #d4af37); flex-shrink: 0; }
+  .soa-section__title { font-size: 1.8rem; font-weight: 800; color: var(--color-forest, #1a3828); line-height: 1.1; }
+
+  /* Descripción lead */
+  .soa-description-lead {
+    font-size: 1.05rem;
+    color: #4a5e52;
+    line-height: 1.75;
+    border-left: 3px solid rgba(212,175,55,0.4);
+    padding-left: 1.25rem;
+    margin-bottom: 1.75rem;
+    font-style: italic;
+  }
+
+  /* Prose */
+  .soa-prose {
+    font-size: 0.97rem; color: #3d4f44; line-height: 1.8;
+  }
+  .soa-prose p { margin-bottom: 1.25rem; }
+  .soa-prose strong { color: var(--color-forest, #1a3828); font-weight: 700; }
+  .soa-prose h3 {
+    font-size: 1.15rem; font-weight: 700;
+    color: var(--color-forest, #1a3828);
+    border-left: 3px solid var(--color-gold-light, #d4af37);
+    padding-left: 0.9rem; margin: 1.75rem 0 0.75rem;
+  }
+
+  /* Badges */
+  .soa-badges {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr));
+    gap: 1rem; margin-top: 2.25rem;
+  }
+  .soa-badge-card {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 0.35rem; padding: 1.25rem 1rem;
+    background: #f5f7f4;
+    border: 1px solid #e4ebe6;
+    border-radius: 1rem;
+    text-align: center;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .soa-badge-card:hover { border-color: rgba(212,175,55,0.5); box-shadow: 0 4px 16px rgba(212,175,55,0.08); }
+  .soa-badge-card__icon { font-size: 1.5rem; }
+  .soa-badge-card__label {
+    font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: #8ea495; font-weight: 600;
+  }
+  .soa-badge-card__value { font-size: 0.85rem; font-weight: 700; color: var(--color-forest, #1a3828); }
+
+  /* ── ITINERARIO ── */
+  .soa-itinerary { position: relative; }
+  .soa-itinerary__line {
+    position: absolute; left: 39px; top: 0; bottom: 0;
+    width: 1px; border-left: 2px dashed #d5e0d8; z-index: 0;
+  }
+  .soa-itinerary__item { display: flex; gap: 1.5rem; position: relative; margin-bottom: 2.5rem; }
+  .soa-itinerary__badge {
+    position: relative; z-index: 1; flex-shrink: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    width: 78px; height: 78px;
+    background: var(--color-forest, #1a3828);
+    color: #fff; border-radius: 1rem;
+    box-shadow: 0 8px 24px rgba(26,56,40,0.25);
+  }
+  .soa-itinerary__badge-label { font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.7; }
+  .soa-itinerary__badge-num { font-size: 2rem; font-weight: 900; line-height: 1; }
+  .soa-itinerary__body { flex: 1; padding-bottom: 1rem; }
+  .soa-itinerary__day-title { font-size: 1.15rem; font-weight: 700; color: var(--color-forest, #1a3828); margin: 0.75rem 0 0.5rem; }
+  .soa-itinerary__desc { font-size: 0.85rem; color: #6b8071; margin-bottom: 1rem; line-height: 1.65; }
+  .soa-itinerary__acts { list-style: none; padding: 0; margin: 0 0 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .soa-itinerary__act { display: flex; align-items: flex-start; gap: 0.65rem; font-size: 0.85rem; color: #3d4f44; }
+  .soa-itinerary__dot { flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%; background: var(--color-gold-light, #d4af37); margin-top: 0.45rem; }
+
+  /* Carrusel del itinerario */
+  .soa-carousel { position: relative; }
+  .soa-carousel__wrapper { overflow: hidden; border-radius: 1rem; }
+  .soa-carousel__track { display: flex; gap: 12px; transition: transform 0.4s ease; }
+  .soa-carousel__slide { flex-shrink: 0; width: calc(33.333% - 8px); height: 13rem; object-fit: cover; border-radius: 0.75rem; }
+  .soa-carousel__btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 36px; height: 36px; border-radius: 50%; border: none; cursor: pointer;
+    background: rgba(255,255,255,0.92); display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    opacity: 0; transition: opacity 0.2s;
+    color: var(--color-forest, #1a3828);
+  }
+  .soa-carousel:hover .soa-carousel__btn { opacity: 1; }
+  .soa-carousel__btn--prev { left: 8px; }
+  .soa-carousel__btn--next { right: 8px; }
+  .soa-carousel__dots { display: flex; justify-content: center; gap: 6px; margin-top: 10px; }
+  .soa-dot {
+    width: 6px; height: 6px; border-radius: 999px; border: none; cursor: pointer;
+    background: #c8d8cc; transition: all 0.3s;
+  }
+  .soa-dot--active { background: var(--color-gold-light, #d4af37); width: 18px; }
+
+  /* ── INCLUYE ── */
+  .soa-includes { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media (max-width: 640px) { .soa-includes { grid-template-columns: 1fr; } }
+  .soa-includes__card { border-radius: 1.25rem; border: 1px solid #e4ebe6; overflow: hidden; background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+  .soa-includes__header {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 1rem 1.25rem; font-weight: 700; font-size: 0.9rem;
+  }
+  .soa-includes__card--yes .soa-includes__header { background: #edf7f1; color: #1a5c35; border-bottom: 1px solid #c3e8cf; }
+  .soa-includes__card--no .soa-includes__header { background: #fef2f2; color: #7f1d1d; border-bottom: 1px solid #fecaca; }
+  .soa-includes__list { list-style: none; padding: 1.25rem; margin: 0; display: flex; flex-direction: column; gap: 0.85rem; }
+  .soa-includes__item { display: flex; align-items: flex-start; gap: 0.65rem; font-size: 0.85rem; color: #3d4f44; line-height: 1.5; }
+  .soa-includes__check { flex-shrink: 0; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: 0.1rem; }
+  .soa-includes__check--yes { background: #d1fae5; }
+  .soa-includes__check--yes svg { color: #065f46; }
+  .soa-includes__check--no { background: #fee2e2; }
+  .soa-includes__check--no svg { color: #dc2626; }
+
+  /* ── FAQ ── */
+  .soa-faq { border-top: 1px solid #e4ebe6; }
+  .soa-faq__item { border-bottom: 1px solid #e4ebe6; }
+  .soa-faq__trigger {
+    width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    padding: 1.25rem 0; background: none; border: none; cursor: pointer; text-align: left;
+  }
+  .soa-faq__q { display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.95rem; font-weight: 700; color: var(--color-forest, #1a3828); line-height: 1.45; }
+  .soa-faq__num { flex-shrink: 0; color: var(--color-gold-light, #d4af37); font-variant-numeric: tabular-nums; }
+  .soa-faq__icon {
+    flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
+    border: 1px solid #c8d8cc; display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; font-weight: 300; color: #8ea495; transition: all 0.25s;
+  }
+  .soa-faq__icon--open { background: var(--color-gold-light, #d4af37); color: #fff; border-color: transparent; }
+  .soa-faq__answer { overflow: hidden; max-height: 0; transition: max-height 0.35s ease; }
+  .soa-faq__answer p { font-size: 0.87rem; color: #6b8071; line-height: 1.7; padding: 0 0 1rem 2.2rem; }
+
+  /* ── SIDEBAR ── */
+  .soa-sidebar { position: sticky; top: 5rem; }
+  .soa-sidebar__card {
+    background: #fff;
+    border-radius: 1.5rem;
+    border: 1px solid #e4ebe6;
+    overflow: hidden;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.08);
+  }
+  .soa-sidebar__top {
+    background: var(--color-forest, #1a3828);
+    padding: 1.75rem 1.75rem 1.5rem;
+    text-align: center;
+  }
+  .soa-sidebar__price { display: flex; align-items: baseline; justify-content: center; gap: 0.35rem; }
+  .soa-sidebar__from, .soa-sidebar__pp { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+  .soa-sidebar__amount { font-size: 2.5rem; font-weight: 900; color: var(--color-gold-light, #d4af37); line-height: 1; }
+  .soa-sidebar__form { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .soa-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+  .soa-input {
+    width: 100%; padding: 0.75rem 1rem;
+    border: 1px solid #dde8e1; border-radius: 0.75rem;
+    font-size: 0.85rem; color: #2d3d32;
+    background: #f8faf9;
+    outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+  }
+  .soa-input:focus { border-color: var(--color-gold-light, #d4af37); box-shadow: 0 0 0 3px rgba(212,175,55,0.12); }
+  .soa-input--textarea { resize: none; }
+
+  /* Sellos */
+  .soa-trust { padding: 1.25rem 1.5rem; border-top: 1px solid #e4ebe6; display: flex; flex-direction: column; gap: 0.6rem; }
+  .soa-trust__item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.78rem; color: #6b8071; }
+
+  /* ── GALERÍA ── */
+  .soa-gallery {
+    background: #0d1a10;
+    padding: 5rem 0;
+  }
+  .soa-gallery .soa-section__title { color: #fff; }
+  .soa-gallery__grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 0.75rem;
+    height: 520px;
+    margin-top: 2rem;
+  }
+  .soa-gallery__main { grid-column: 1; grid-row: 1 / 3; position: relative; overflow: hidden; border-radius: 1.25rem; }
+  .soa-gallery__thumb { position: relative; overflow: hidden; border-radius: 1rem; }
+  .soa-gallery__main img, .soa-gallery__thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.55s ease; }
+  .soa-gallery__main:hover img, .soa-gallery__thumb:hover img { transform: scale(1.06); }
+  .soa-gallery__hover {
+    position: absolute; inset: 0;
+    background: rgba(212,175,55,0.15);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .soa-gallery__main:hover .soa-gallery__hover,
+  .soa-gallery__thumb:hover .soa-gallery__hover { opacity: 1; }
+
+  .soa-gallery__more-overlay {
+    position: absolute; inset: 0;
+    background: rgba(10,18,12,0.6);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 0.3rem;
+  }
+  .soa-gallery__more-plus { color: #fff; font-size: 2rem; font-weight: 300; line-height: 1; }
+  .soa-gallery__more-text { color: #fff; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; }
+  .soa-gallery__more-count { color: rgba(255,255,255,0.6); font-size: 0.7rem; }
+
+  .soa-gallery__video-overlay {
+    position: absolute; inset: 0;
+    background: rgba(10,18,12,0.55);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 0.5rem;
+    color: #fff;
+  }
+  .soa-gallery__play {
+    width: 48px; height: 48px; border-radius: 50%;
+    border: 2px solid #fff; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .soa-gallery__thumb--video:hover .soa-gallery__play { background: rgba(255,255,255,0.2); }
+  .soa-gallery__video-overlay span { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+
+  @media (max-width: 768px) {
+    .soa-gallery__grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto;
+      height: auto;
+    }
+    .soa-gallery__main { grid-column: 1 / 3; grid-row: 1; height: 260px; }
+  }
+
+  /* ── LIGHTBOX ── */
+  .soa-lightbox {
+    position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.96);
+    align-items: center; justify-content: center;
+  }
+  .soa-lightbox.hidden { display: none; }
+  .soa-lightbox.flex { display: flex; }
+  .soa-lightbox__img { max-height: 85vh; max-width: 85vw; object-fit: contain; border-radius: 0.75rem; box-shadow: 0 32px 80px rgba(0,0,0,0.6); }
+  .soa-lightbox__close {
+    position: absolute; top: 1.25rem; right: 1.25rem;
+    background: none; border: none; color: rgba(255,255,255,0.6);
+    font-size: 2.5rem; font-weight: 300; cursor: pointer; line-height: 1;
+    transition: color 0.2s;
+  }
+  .soa-lightbox__close:hover { color: #fff; }
+  .soa-lightbox__nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .soa-lightbox__nav:hover { background: rgba(255,255,255,0.2); }
+  .soa-lightbox__nav--prev { left: 1.25rem; }
+  .soa-lightbox__nav--next { right: 1.25rem; }
+  .soa-lightbox__counter {
+    position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+    font-size: 0.8rem; color: rgba(255,255,255,0.5);
+  }
+
+  /* ── Utilidades ── */
+  .cursor-pointer { cursor: pointer; }
+  .group:hover .group-hover\:scale-105 { transform: scale(1.05); }
+</style>
