@@ -5,37 +5,47 @@
 const currentPath = Astro.url.pathname;
 const lang = currentPath.startsWith('/en') ? 'en' : currentPath.startsWith('/pt') ? 'pt' : 'es';
 
+// Simplified nav: Tours, Servicios, Galería + "Sobre Nosotros" dropdown
 const navLinks = {
   es: [
-    { href: '/',               label: 'Inicio' },
-    { href: '/servicios',      label: 'Servicios' },
     { href: '/tours',          label: 'Tours' },
+    { href: '/servicios',      label: 'Servicios' },
     { href: '/galeria',        label: 'Galería' },
-    { href: '/recursos',       label: 'Recursos' },
-    { href: '/contacto',       label: 'Contacto' },
-    { href: '/sobre-nosotros', label: 'Nosotros' },
   ],
   en: [
-    { href: '/en',             label: 'Home' },
-    { href: '/en/services',    label: 'Services' },
     { href: '/en/tours',       label: 'Tours' },
+    { href: '/en/services',    label: 'Services' },
     { href: '/en/gallery',     label: 'Gallery' },
-    { href: '/en/faq',         label: 'FAQ' },
-    { href: '/en/contact',     label: 'Contact' },
-    { href: '/en/about',       label: 'About' },
   ],
   pt: [
-    { href: '/pt',             label: 'Início' },
-    { href: '/pt/servicos',    label: 'Serviços' },
     { href: '/pt/tours',       label: 'Tours' },
+    { href: '/pt/servicos',    label: 'Serviços' },
     { href: '/pt/galeria',     label: 'Galeria' },
-    { href: '/pt/perguntas',   label: 'FAQ' },
-    { href: '/pt/contato',     label: 'Contato' },
-    { href: '/pt/sobre',       label: 'Sobre' },
   ],
 };
 
 const links = navLinks[lang as keyof typeof navLinks] ?? navLinks.es;
+
+// "Sobre Nosotros" dropdown items
+const sobreNosotros = {
+  es: [
+    { href: '/sobre-nosotros', label: 'Quiénes Somos', icon: 'who' },
+    { href: '/contacto',       label: 'Contacto',       icon: 'contact' },
+    { href: '/recursos',       label: 'Recursos',       icon: 'resources' },
+  ],
+  en: [
+    { href: '/en/about',    label: 'About Us',    icon: 'who' },
+    { href: '/en/contact',  label: 'Contact',     icon: 'contact' },
+    { href: '/en/faq',      label: 'FAQ',         icon: 'resources' },
+  ],
+  pt: [
+    { href: '/pt/sobre',    label: 'Sobre Nós',   icon: 'who' },
+    { href: '/pt/contato',  label: 'Contato',     icon: 'contact' },
+    { href: '/pt/perguntas', label: 'Perguntas',  icon: 'resources' },
+  ],
+};
+
+const sobreItems = sobreNosotros[lang as keyof typeof sobreNosotros] ?? sobreNosotros.es;
 
 // ─── Tours dropdown (los 3 tours reales) ───────────────────────────────────
 const toursMenu = [
@@ -54,19 +64,12 @@ const toursMenu = [
     image:   '/img/menu/perolniyoc.png',
   },
   {
-    href:    '/tours/ValleSagrado',
+    href:    '/tours/vallesagrado',
     label:   'Valle Sagrado',
     sub:     'Ruta inca por el valle',
     icon:    '🏔️',
     image:   '/img/menu/valle_sagrado.png',
   },
-];
-
-// ─── Recursos submenu ──────────────────────────────────────────────────────
-const recursosSubmenu = [
-  { href: '/recursos#testimonios', label: 'Testimonios' },
-  { href: '/recursos#blog',        label: 'Blog' },
-  { href: '/recursos#faq',         label: 'Preguntas Frecuentes' },
 ];
 
 const langSwitcher = [
@@ -92,9 +95,8 @@ const langSwitcher = [
     <nav id="main-nav" class="header-nav" aria-label="Navegación principal">
       <ul class="nav-list">
         {links.map(({ href, label }) => {
-          const isToursLink     = lang === 'es' && href === '/tours';
-          const isRecursosLink  = lang === 'es' && href === '/recursos';
-          const isDropdown      = isToursLink || isRecursosLink;
+          const isToursLink = lang === 'es' && href === '/tours';
+          const isDropdown  = isToursLink;
 
           return (
             <li class:list={['nav-item', { 'nav-item--has-submenu': isDropdown }]}>
@@ -134,22 +136,43 @@ const langSwitcher = [
                   </ul>
                 </div>
               )}
-
-              {/* ── Recursos dropdown ── */}
-              {isRecursosLink && (
-                <div class="nav-submenu recursos-dropdown" role="menu" aria-label="Submenú de Recursos">
-                  <ul>
-                    {recursosSubmenu.map(({ href: subHref, label: subLabel }) => (
-                      <li role="none">
-                        <a href={subHref} class="nav-submenu-link" role="menuitem">{subLabel}</a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
             </li>
           );
         })}
+
+        {/* ── Sobre Nosotros dropdown ── */}
+        <li class="nav-item nav-item--has-submenu nav-item--sobre">
+          <a href="/sobre-nosotros" class:list={['nav-link', { 'nav-link--active': currentPath === '/sobre-nosotros' || currentPath === '/contacto' || currentPath === '/recursos' }]} aria-haspopup="menu">
+            {lang === 'es' ? 'Sobre Nosotros' : lang === 'en' ? 'About Us' : 'Sobre Nós'}
+            <span class="nav-chevron" aria-hidden="true">›</span>
+          </a>
+          <div class="nav-submenu sobre-dropdown" role="menu" aria-label="Sobre Nosotros">
+            <div class="sobre-dropdown-header">
+              <span class="sobre-dropdown-eyebrow">{lang === 'es' ? 'Conócenos' : lang === 'en' ? 'Learn More' : 'Saiba Mais'}</span>
+            </div>
+            <ul class="sobre-list">
+              {sobreItems.map(({ href: subHref, label: subLabel, icon }) => (
+                <li role="none" class="sobre-item">
+                  <a href={subHref} class:list={['sobre-link', { 'sobre-link--active': currentPath === subHref }]} role="menuitem">
+                    <span class="sobre-icon" aria-hidden="true">
+                      {icon === 'who' && (
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M5 20c0-4 3.5-7 7-7s7 3 7 7"/></svg>
+                      )}
+                      {icon === 'contact' && (
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                      )}
+                      {icon === 'resources' && (
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                      )}
+                    </span>
+                    <span class="sobre-text">{subLabel}</span>
+                    <span class="sobre-arrow" aria-hidden="true">→</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </li>
       </ul>
     </nav>
 
@@ -228,9 +251,7 @@ const langSwitcher = [
     <nav aria-label="Menú móvil">
       <ul class="mobile-nav-list">
         {links.map(({ href, label }) => {
-          const isToursLink    = lang === 'es' && href === '/tours';
-          const isRecursosLink = lang === 'es' && href === '/recursos';
-          const isDropdown     = isToursLink || isRecursosLink;
+          const isToursLink = lang === 'es' && href === '/tours';
 
           return (
             <li>
@@ -253,18 +274,32 @@ const langSwitcher = [
                   </li>
                 </ul>
               )}
-              {isRecursosLink && (
-                <ul class="mobile-submenu">
-                  {recursosSubmenu.map(({ href: subHref, label: subLabel }) => (
-                    <li>
-                      <a href={subHref} class="mobile-submenu-link">{subLabel}</a>
-                    </li>
-                  ))}
-                </ul>
-              )}
             </li>
           );
         })}
+
+        {/* Mobile Sobre Nosotros */}
+        <li>
+          <a href="/sobre-nosotros" class="mobile-nav-link mobile-nav-link--sobre">
+            {lang === 'es' ? 'Sobre Nosotros' : lang === 'en' ? 'About Us' : 'Sobre Nós'}
+          </a>
+          <ul class="mobile-submenu">
+            {sobreItems.map(({ href: subHref, label: subLabel, icon }) => (
+              <li>
+                <a href={subHref} class="mobile-submenu-link">
+                  <span class="mobile-tour-icon" aria-hidden="true">
+                    {icon === 'who' && '👤'}
+                    {icon === 'contact' && '💬'}
+                    {icon === 'resources' && '📚'}
+                  </span>
+                  <span>
+                    <span class="mobile-tour-name">{subLabel}</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </li>
       </ul>
     </nav>
 
@@ -296,18 +331,19 @@ const langSwitcher = [
     position: sticky;
     top: 0;
     z-index: 500;
-    background: rgba(8, 22, 12, 0.97);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(201, 148, 26, 0.18);
-    transition: background 0.3s ease;
+    background: rgba(8, 22, 12, 0.92);
+    backdrop-filter: blur(20px) saturate(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(1.2);
+    border-bottom: 1px solid rgba(201, 148, 26, 0.15);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), 0 1px 0 rgba(201, 148, 26, 0.08) inset;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
   }
 
   .header-inner {
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding-block: 0.75rem;
+    padding-block: 0.6rem;
   }
 
   /* ─── Logo ────────────────────────────────────────────────────────── */
@@ -320,11 +356,16 @@ const langSwitcher = [
   }
 
   .logo-img {
-    width: 60px;
-    height: 60px;
+    width: 52px;
+    height: 52px;
     object-fit: contain;
     mix-blend-mode: screen;
-    filter: brightness(1.2) contrast(1.1);
+    filter: brightness(1.15) contrast(1.05);
+    transition: transform 0.3s ease;
+  }
+
+  .header-logo:hover .logo-img {
+    transform: scale(1.05);
   }
 
   .logo-text {
@@ -334,21 +375,25 @@ const langSwitcher = [
   }
 
   .logo-title {
-    font-size: 0.67rem;
-    letter-spacing: 0.14em;
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--color-gold-pale, #d4a843);
     font-family: var(--font-body, sans-serif);
-    font-weight: 400;
-    opacity: 0.8;
+    font-weight: 500;
+    opacity: 0.85;
   }
 
   .logo-sub {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     font-family: var(--font-heading, serif);
     font-weight: 700;
     color: #fff;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.02em;
+    background: linear-gradient(135deg, #fff 0%, var(--color-gold-pale, #d4a843) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   /* ─── Desktop nav ─────────────────────────────────────────────────── */
@@ -357,7 +402,7 @@ const langSwitcher = [
   .nav-list {
     display: flex;
     align-items: center;
-    gap: 0.1rem;
+    gap: 0.25rem;
     justify-content: center;
   }
 
@@ -366,22 +411,41 @@ const langSwitcher = [
   .nav-link {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
-    padding: 0.4rem 0.72rem;
-    font-size: 0.82rem;
+    gap: 0.3rem;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.84rem;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.72);
+    color: rgba(255, 255, 255, 0.78);
     text-decoration: none;
-    border-radius: 5px;
-    transition: color 0.2s, background 0.2s;
-    letter-spacing: 0.025em;
+    border-radius: 8px;
+    transition: color 0.2s, background 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.03em;
     white-space: nowrap;
+    position: relative;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--color-gold, #c9941a);
+    border-radius: 1px;
+    transition: width 0.25s ease, left 0.25s ease;
+  }
+
+  .nav-link:hover::after,
+  .nav-link--active::after {
+    width: 60%;
+    left: 20%;
   }
 
   .nav-link:hover,
   .nav-link--active {
     color: var(--color-gold-light, #f0c050);
-    background: rgba(201, 148, 26, 0.1);
+    background: rgba(201, 148, 26, 0.08);
   }
 
   /* Chevron indicator for dropdowns */
@@ -403,14 +467,20 @@ const langSwitcher = [
   .nav-submenu {
     position: absolute;
     left: 0;
-    top: calc(100% + 0.4rem);
+    top: calc(100% + 0.5rem);
     background: rgba(10, 26, 14, 0.98);
     border: 1px solid rgba(201, 148, 26, 0.2);
-    border-radius: 10px;
+    border-radius: 12px;
     display: none;
     z-index: 30;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(201, 148, 26, 0.08);
     overflow: hidden;
+    animation: dropdownFade 0.2s ease;
+  }
+
+  @keyframes dropdownFade {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   /* Bridge pseudo-element to prevent accidental close */
@@ -566,6 +636,87 @@ const langSwitcher = [
     background: rgba(201, 148, 26, 0.1);
   }
 
+  /* ─── Sobre Nosotros dropdown ─────────────────────────────────────── */
+  .sobre-dropdown {
+    min-width: 240px;
+    padding: 0.4rem;
+  }
+
+  .sobre-dropdown-header {
+    padding: 0.75rem 0.85rem 0.5rem;
+    border-bottom: 1px solid rgba(201, 148, 26, 0.12);
+    margin-bottom: 0.25rem;
+  }
+
+  .sobre-dropdown-eyebrow {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-gold-light, #f0c050);
+    opacity: 0.85;
+  }
+
+  .sobre-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sobre-item { margin: 0; }
+
+  .sobre-link {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 8px;
+    color: rgba(255,255,255,0.82);
+    text-decoration: none;
+    font-size: 0.84rem;
+    font-weight: 500;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .sobre-link:hover {
+    background: rgba(201, 148, 26, 0.1);
+    color: #fff;
+  }
+
+  .sobre-link--active {
+    color: var(--color-gold-light, #f0c050);
+  }
+
+  .sobre-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(201, 148, 26, 0.08);
+    color: var(--color-gold-pale, #d4a843);
+    flex-shrink: 0;
+  }
+
+  .sobre-link:hover .sobre-icon {
+    background: rgba(201, 148, 26, 0.15);
+    color: var(--color-gold-light, #f0c050);
+  }
+
+  .sobre-text { flex: 1; }
+
+  .sobre-arrow {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.2);
+    transition: color 0.15s, transform 0.15s;
+  }
+
+  .sobre-link:hover .sobre-arrow {
+    color: var(--color-gold-light, #f0c050);
+    transform: translateX(3px);
+  }
+
   /* ─── Right controls ──────────────────────────────────────────────── */
   .header-controls {
     display: flex;
@@ -584,35 +735,36 @@ const langSwitcher = [
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.25rem;
+    padding: 0.3rem;
     color: rgba(255,255,255,0.55);
-    border-radius: 4px;
-    transition: color 0.2s, transform 0.2s;
+    border-radius: 6px;
+    transition: color 0.2s, transform 0.2s, background 0.2s;
   }
 
   .social-link:hover {
     color: var(--color-gold-light, #f0c050);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    background: rgba(201, 148, 26, 0.08);
   }
 
   /* Language switcher */
   .lang-switcher {
     display: flex;
-    gap: 0.15rem;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 6px;
+    gap: 0.1rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
     padding: 0.2rem;
-    background: rgba(255,255,255,0.03);
+    background: rgba(255,255,255,0.04);
   }
 
   .lang-btn {
-    padding: 0.22rem 0.5rem;
+    padding: 0.25rem 0.55rem;
     font-size: 0.68rem;
     font-weight: 600;
     letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.45);
+    color: rgba(255,255,255,0.5);
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: 6px;
     transition: color 0.2s, background 0.2s;
   }
 
@@ -627,8 +779,8 @@ const langSwitcher = [
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.45rem 0.95rem;
-    background: linear-gradient(135deg, #25d366, #1da551);
+    padding: 0.5rem 1.05rem;
+    background: linear-gradient(135deg, #25d366, #128c42);
     color: #fff;
     border-radius: 9999px;
     font-size: 0.78rem;
@@ -636,35 +788,42 @@ const langSwitcher = [
     text-decoration: none;
     transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
     white-space: nowrap;
+    box-shadow: 0 2px 12px rgba(37, 211, 102, 0.25);
   }
 
   .header-wa-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
-    opacity: 0.92;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+    opacity: 0.95;
   }
 
   /* ─── Hamburger ───────────────────────────────────────────────────── */
   .menu-toggle {
     display: none;
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 6px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
     cursor: pointer;
-    padding: 0.45rem 0.5rem;
+    padding: 0.5rem;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .menu-toggle:hover {
+    background: rgba(201, 148, 26, 0.1);
+    border-color: rgba(201, 148, 26, 0.25);
   }
 
   .hamburger {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 5px;
     width: 20px;
   }
 
   .hamburger span {
     display: block;
     height: 2px;
-    background: rgba(255,255,255,0.8);
+    background: rgba(255,255,255,0.85);
     border-radius: 2px;
     transition: transform 0.3s, opacity 0.3s;
   }
@@ -681,9 +840,10 @@ const langSwitcher = [
     overflow: hidden;
     max-height: 0;
     transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(20px);
   }
 
-  .mobile-menu.open { max-height: 700px; }
+  .mobile-menu.open { max-height: 800px; }
 
   .mobile-nav-list {
     list-style: none;
@@ -693,13 +853,14 @@ const langSwitcher = [
 
   .mobile-nav-link {
     display: block;
-    padding: 0.7rem 0;
-    color: rgba(255,255,255,0.82);
+    padding: 0.8rem 0;
+    color: rgba(255,255,255,0.85);
     font-size: 0.95rem;
     font-weight: 500;
     text-decoration: none;
     border-bottom: 1px solid rgba(255,255,255,0.06);
     transition: color 0.2s, padding-left 0.2s;
+    letter-spacing: 0.01em;
   }
 
   .mobile-nav-link:hover {
@@ -707,24 +868,30 @@ const langSwitcher = [
     padding-left: 0.4rem;
   }
 
+  .mobile-nav-link--sobre {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
   /* Mobile submenu */
   .mobile-submenu {
     list-style: none;
-    padding: 0.3rem 0 0.5rem 0.75rem;
+    padding: 0.35rem 0 0.6rem 0.85rem;
     margin: 0;
-    border-left: 2px solid rgba(201, 148, 26, 0.25);
+    border-left: 2px solid rgba(201, 148, 26, 0.3);
     margin-left: 0.5rem;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.3rem;
   }
 
   .mobile-submenu-link {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    padding: 0.45rem 0;
-    color: rgba(255,255,255,0.62);
+    gap: 0.65rem;
+    padding: 0.5rem 0;
+    color: rgba(255,255,255,0.65);
     text-decoration: none;
-    font-size: 0.87rem;
+    font-size: 0.88rem;
     border-bottom: 1px dashed rgba(255,255,255,0.05);
     transition: color 0.2s;
   }
@@ -770,17 +937,21 @@ const langSwitcher = [
     justify-content: center;
     gap: 0.5rem;
     margin: 0 var(--container-pad, 1rem) 1.25rem;
-    padding: 0.75rem 1rem;
-    background: linear-gradient(135deg, #25d366, #1da551);
+    padding: 0.8rem 1rem;
+    background: linear-gradient(135deg, #25d366, #128c42);
     color: #fff;
     font-weight: 600;
     font-size: 0.9rem;
     text-decoration: none;
-    border-radius: 10px;
-    transition: opacity 0.2s;
+    border-radius: 12px;
+    transition: opacity 0.2s, transform 0.2s;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.3);
   }
 
-  .mobile-wa-btn:hover { opacity: 0.9; }
+  .mobile-wa-btn:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+  }
 
   /* ─── Responsive breakpoints ──────────────────────────────────────── */
   @media (max-width: 1100px) {
@@ -844,7 +1015,7 @@ const langSwitcher = [
   });
 
   // Close on submenu link click
-  document.querySelectorAll('.nav-submenu-link, .tour-link').forEach(link => {
+  document.querySelectorAll('.nav-submenu-link, .tour-link, .sobre-link').forEach(link => {
     link.addEventListener('click', () => {
       dropdownItems.forEach(item => item.classList.remove('is-active'));
     });
