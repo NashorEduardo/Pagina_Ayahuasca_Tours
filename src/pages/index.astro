@@ -11,6 +11,10 @@ import FAQ from '../components/FAQ.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
 import GoogleMap from '../components/GoogleMap.astro';
 import BlogCard from '../components/BlogCard.astro';
+import { getCollection } from 'astro:content';
+
+// Obtener tours dinámicamente desde la colección
+const tours = await getCollection('tours');
 
 const blogPosts = [
   {
@@ -50,6 +54,55 @@ const blogPosts = [
 
     <!-- Hero -->
     <Hero />
+
+    <!-- Tours Destacados (dinámicos desde content/tours) -->
+    <section id="tours-destacados" class="section section--dark">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="ornament">
+            <span class="ornament-text" style="color:var(--color-gold-pale)">Nuestras Experiencias</span>
+          </div>
+          <h2 style="color:var(--color-white)">Tours Disponibles</h2>
+          <div class="divider-gold"></div>
+          <p class="section-subtitle">Explora nuestros tours ancestrales en el Valle Sagrado</p>
+        </div>
+        
+        <div class="tours-grid">
+          {tours.map((tour, i) => (
+            <a 
+              href={`/tours/${tour.id}`} 
+              class="tour-card reveal"
+              style={`animation-delay:${i * 0.12}s`}
+            >
+              <div class="tour-card__image">
+                <img src={tour.data.image || '/img/real/jungle.png'} alt={tour.data.title} loading="lazy" />
+                <div class="tour-card__overlay"></div>
+              </div>
+              <div class="tour-card__content">
+                <div class="tour-card__badges">
+                  {tour.data.duration && <span class="tour-badge">{tour.data.duration}</span>}
+                  {tour.data.difficulty && <span class="tour-badge tour-badge--level">{tour.data.difficulty}</span>}
+                </div>
+                <h3 class="tour-card__title">{tour.data.title}</h3>
+                <p class="tour-card__desc">{tour.data.description}</p>
+                <div class="tour-card__footer">
+                  <span class="tour-card__price">
+                    <span class="tour-card__from">desde</span>
+                    ${tour.data.price}
+                    <span class="tour-card__pp">/ persona</span>
+                  </span>
+                  <span class="tour-card__cta">Ver detalles →</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <div style="text-align:center; margin-top:2.5rem">
+          <a href="/retiros" class="btn btn--primary">Ver Catálogo Completo</a>
+        </div>
+      </div>
+    </section>
 
     <!-- Services -->
     <Services />
@@ -158,6 +211,140 @@ const blogPosts = [
 </Layout>
 
 <style>
+  /* Tours Grid */
+  .tours-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .tour-card {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+
+  .tour-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    border-color: rgba(201,150,58,0.3);
+  }
+
+  .tour-card__image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .tour-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .tour-card:hover .tour-card__image img {
+    transform: scale(1.08);
+  }
+
+  .tour-card__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,26,15,0.8) 0%, transparent 60%);
+  }
+
+  .tour-card__content {
+    padding: 1.25rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .tour-card__badges {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .tour-badge {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(201,150,58,0.15);
+    color: var(--color-gold-pale);
+    border: 1px solid rgba(201,150,58,0.25);
+  }
+
+  .tour-badge--level {
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.6);
+    border-color: rgba(255,255,255,0.12);
+  }
+
+  .tour-card__title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-white);
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+
+  .tour-card__desc {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .tour-card__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .tour-card__price {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--color-gold);
+  }
+
+  .tour-card__from,
+  .tour-card__pp {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.4);
+  }
+
+  .tour-card__cta {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-gold-pale);
+    transition: color 0.2s;
+  }
+
+  .tour-card:hover .tour-card__cta {
+    color: var(--color-gold);
+  }
+
   /* Contact home */
   .contact-home-grid {
     display: grid;
@@ -199,5 +386,9 @@ const blogPosts = [
 
   @media (max-width: 900px) {
     .contact-home-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 640px) {
+    .tours-grid { grid-template-columns: 1fr; }
   }
 </style>

@@ -1,56 +1,33 @@
 ---
 // src/components/Services.astro
+import { getCollection } from 'astro:content';
 
-const services = [
-  {
-    image: '/img/real/ayahuasca_ceremony.png',
-    title: 'Retiro 1 Día Quillarumiyo',
-    description: 'Nuestra experiencia introductoria con inmersión completa en la selva, ceremonias nocturnas y purificación.',
-    features: ['Evaluación médica', 'Ceremonia de noche', 'Desplazamiento'],
-  },
-  {
-    image: '/img/real/plant_diet.png',
-    title: 'Retiro de 3 Días',
-    description: 'Inmersión inicial a la medicina sagrada para tratar afecciones emocionales y purificar el cuerpo y espíritu profundamente.',
-    features: ['2 ceremonias nocturnas', 'Baño florecimiento', 'Alojamiento incl.'],
-  },
-  {
-    image: '/img/real/ayahuasca_ceremony.png',
-    title: 'Retiro de 7 Días',
-    description: 'Transformación espiritual completa con múltiples ceremonias y retiros de soledad en la profunda inmersión de la amazonía.',
-    features: ['3 ceremonias', 'Dieta estricta', 'Consultas maestro'],
-  },
-  {
-    image: '/img/real/san_pedro.png',
-    title: 'Ceremonia San Pedro (Andes)',
-    description: 'Expansión de consciencia diurna guiada por maestros andinos, en conexión profunda con las apus y la madre tierra.',
-    features: ['Entorno majestuoso', 'Reconexión natural', '1 día completo'],
-  },
-  {
-    image: '/img/real/plant_diet.png',
-    title: 'Dieta de Plantas Maestras',
-    description: 'Retiro prolongado consumiendo extractos puros de bobinsana o noya rao en estricta soledad para aprendizajes chamánicos.',
-    features: ['Retiros de 14+ días', 'Aislamiento', 'Enseñanza profunda'],
-  },
-  {
-    image: '/img/real/jungle.png',
-    title: 'Retiro en Pareja',
-    description: 'Curen heridas relacionales y reconstruyan el vínculo amoroso usando el poder revelador y compasivo de las plantas.',
-    features: ['Terapia compartida', 'Cabaña privada', 'Maestro asignado'],
-  },
-];
+const tours = await getCollection('tours');
+
+// Mapeamos los tours a formato de servicios con iconos por defecto
+const services = tours.map((tour) => ({
+  image: tour.data.image || '/img/real/jungle.png',
+  title: tour.data.title,
+  description: tour.data.description || 'Experiencia ancestral de conexión espiritual.',
+  features: [
+    tour.data.duration && `${tour.data.duration}`,
+    tour.data.difficulty && `Nivel: ${tour.data.difficulty}`,
+    tour.data.availability || 'Todo el año',
+  ].filter(Boolean),
+  slug: tour.id,
+}));
 ---
 
 <section id="servicios" class="section section--cream">
   <div class="container">
     <div class="section-header reveal">
       <div class="ornament">
-        <span class="ornament-text">Nuestros Servicios</span>
+        <span class="ornament-text">Nuestros Tours</span>
       </div>
       <h2>Experiencias que Transforman</h2>
       <div class="divider-gold"></div>
       <p class="section-subtitle">
-        Cada servicio está diseñado con respeto, seguridad y profundo conocimiento ancestral
+        Cada experiencia está diseñada con respeto, seguridad y profundo conocimiento ancestral
       </p>
     </div>
 
@@ -62,23 +39,30 @@ const services = [
           aria-label={service.title}
         >
           <div class="service-image-wrapper">
-            <img src={service.image} alt={service.title} class="service-image" />
+            <img src={service.image} alt={service.title} class="service-image" loading="lazy" />
           </div>
           <div class="service-content">
             <h3 class="service-title">{service.title}</h3>
-          <p class="service-description">{service.description}</p>
-          <ul class="service-features" aria-label={`Características de ${service.title}`}>
-            {service.features.map(feature => (
-              <li class="service-feature">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true">
-                  <path d="M5 13l4 4L19 7"/>
-                </svg>
-                {feature}
-              </li>
-            ))}
+            <p class="service-description">{service.description}</p>
+            <ul class="service-features" aria-label={`Características de ${service.title}`}>
+              {service.features.map(feature => (
+                <li class="service-feature">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true">
+                    <path d="M5 13l4 4L19 7"/>
+                  </svg>
+                  {feature}
+                </li>
+              ))}
             </ul>
             <a
-              href={`https://wa.me/51999999999?text=${encodeURIComponent(`Hola, me interesa el servicio: ${service.title}`)}`}
+              href={`/tours/${service.slug}`}
+              class="service-cta-detail"
+              aria-label={`Ver detalles de ${service.title}`}
+            >
+              Ver detalles
+            </a>
+            <a
+              href={`https://wa.me/51999999999?text=${encodeURIComponent(`Hola, me interesa el tour: ${service.title}`)}`}
               target="_blank"
               rel="noopener noreferrer"
               class="service-cta"
@@ -93,6 +77,12 @@ const services = [
         </article>
       ))}
     </div>
+
+    {services.length > 0 && (
+      <div style="text-align:center; margin-top:2.5rem">
+        <a href="/retiros" class="btn btn--primary">Ver Catálogo Completo</a>
+      </div>
+    )}
   </div>
 </section>
 
@@ -106,7 +96,7 @@ const services = [
   .service-card {
     background: var(--color-white);
     border-radius: var(--radius-lg);
-    overflow: hidden; /* allows image border radius to work */
+    overflow: hidden;
     box-shadow: var(--shadow-sm);
     border: 1px solid rgba(45,106,63,0.08);
     transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
@@ -159,20 +149,12 @@ const services = [
     margin-bottom: 1.25rem;
     flex: 1;
   }
-  
-  /* Make sure the SVGs render properly */
-  :global(.service-svg) {
-    width: 32px;
-    height: 32px;
-    color: var(--color-gold);
-    display: inline-block;
-  }
 
   .service-features {
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   .service-feature {
@@ -187,6 +169,27 @@ const services = [
   .service-feature svg {
     color: var(--color-jungle-light);
     flex-shrink: 0;
+  }
+
+  .service-cta-detail {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--color-jungle-deep);
+    background: transparent;
+    border: 1px solid var(--color-jungle-deep);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    margin-bottom: 0.75rem;
+  }
+
+  .service-cta-detail:hover {
+    background: var(--color-jungle-deep);
+    color: var(--color-white);
   }
 
   .service-cta {

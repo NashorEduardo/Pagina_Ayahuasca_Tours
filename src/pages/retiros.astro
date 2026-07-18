@@ -4,51 +4,19 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import RetiroCard from '../components/RetiroCard.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
+import { getCollection } from 'astro:content';
 
-const retreats = [
-  { title: 'Retiro Iniciático de 3 Días', duration: 3, icon: '🌿', includes: ['2 ceremonias', 'Alojamiento', 'Dieta de plantas', 'Integración'], description: 'Perfecto para quienes se inician en la medicina. Un primer contacto profundo y seguro con la ayahuasca.', badge: 'Ideal para principiantes' },
-  { title: 'Retiro de Sanación 7 Días', duration: 7, icon: '🌙', includes: ['3 ceremonias', 'Alojamiento completo', 'Cocina de dieta', 'Baños de plantas', 'Integración diaria'], description: 'Nuestro retiro más popular. Una semana de inmersión profunda con tres ceremonias y acompañamiento completo.', badge: 'Más popular' },
-  { title: 'Retiro Avanzado 10 Días', duration: 10, icon: '✨', includes: ['4 ceremonias', 'San Pedro incluido', 'Dieta de maestro-planta', 'Alojamiento premium', 'Coach de integración'], description: 'Para quienes buscan profundizar. Incluye ceremonia de San Pedro y dieta de plantas maestras.', badge: 'Experiencia profunda' },
-  { title: 'Dieta de Plantas 14 Días', duration: 14, icon: '🍃', includes: ['6 ceremonias', 'Planta maestra asignada', 'Retiro en soledad', 'Acompañamiento diario', 'Sesión de cierre'], description: 'La experiencia más transformadora para quienes desean trabajar en profundidad con una planta maestra.', badge: undefined },
-  { title: 'Ceremonia Individual', duration: 1, icon: '🌸', includes: ['1 ceremonia privada', 'Screening previo', 'Ritual personalizado', '2h integración post'], description: 'Ceremonia privada para quienes prefieren un espacio íntimo. Solo tú y el maestro curandero.', badge: undefined },
-  { title: 'Retiro de Ayahuasca + Kambo', duration: 5, icon: '🐸', includes: ['2 ceremonias ayahuasca', '2 sesiones kambo', 'Alojamiento', 'Dieta de purificación'], description: 'Combinación poderosa de ayahuasca y kambo para una purificación física y espiritual profunda.', badge: undefined },
-  { title: 'Retiro en Pareja', duration: 7, icon: '💚', includes: ['3 ceremonias compartidas', '1 ceremonia privada en pareja', 'Alojamiento doble', 'Sesiones de integración'], description: 'Una experiencia transformadora compartida. Diseñada para parejas que desean sanar y crecer juntos.', badge: undefined },
-  { title: 'Retiro San Pedro 3 Días', duration: 3, icon: '🌵', includes: ['2 ceremonias San Pedro', 'Contacto con naturaleza', 'Alojamiento', 'Dieta andina'], description: 'Ceremonias con el cactus sagrado de los Andes. Una experiencia de expansión de conciencia en plena naturaleza.', badge: undefined },
-  { title: 'Retiro Grupal Internacional', duration: 10, icon: '🌍', includes: ['4 ceremonias', 'Grupo de 8-12 personas', 'Facilitadores bilingüe', 'Alojamiento', 'Transfer aeropuerto'], description: 'Nuestro retiro grupal internacional con facilitadores en español e inglés. Una hermosa comunidad de sanación.', badge: undefined },
-  { title: 'Retiro de Año Nuevo', duration: 7, icon: '🎆', includes: ['3 ceremonias', 'Ceremonia de año nuevo', 'Ritual de intenciones', 'Alojamiento festivo', 'Cena especial'], description: 'Una manera única de cerrar el año y comenzar el nuevo con intención, gratitud y conciencia expandida.', badge: 'Temporada especial' },
-  { title: 'Retiro de Silencio 5 Días', duration: 5, icon: '🤫', includes: ['2 ceremonias', 'Meditación diaria', 'Noble Silencio', 'Baños de plantas', 'Yoga matutino'], description: 'Un retiro de silencio profundo. Sin teléfonos, sin conversaciones. Solo la medicina, la naturaleza y tú.', badge: undefined },
-  { title: 'Retiro Familiar Chacruna (12 Días)', duration: 12, icon: '👨‍👩‍👧', includes: ['5 ceremonias', 'Alojamiento familiar', 'Programa para adolescentes', 'Sesiones de sanación familiar', 'Cocinero privado'], description: 'Una vivencia de sanación y reconexión para familias. Programa especializado para adultos y adolescentes (+16 años).', badge: 'Para familias' },
-];
+// Obtener tours dinámicamente desde la colección
+const tours = await getCollection('tours');
 
-const retirosDestacados = [
-  {
-    id: 'ayahuasca-1dia-quillarumiyo',
-    title: 'Ayahuasca 1 día Quillarumiyo',
-    description: 'Experiencia breve de medicina en entorno natural, ideal para viajeros con poco tiempo.',
-  },
-  {
-    id: 'valle-1-dia',
-    title: 'Valle 1 Día',
-    description: 'Retiro de un día en el Valle Sagrado con enfoque en limpieza energética e integración.',
-  },
-  {
-    id: 'machupicchu-2-dias-1-dia',
-    title: 'MachuPicchu 2 días 1 día',
-    description: 'Programa combinado de experiencia espiritual y visita cultural en ruta andina.',
-  },
-  {
-    id: 'uchuywosqo',
-    title: 'Uchuywosqo',
-    description: 'Retiro en zona ancestral para conexión con naturaleza, caminata consciente y ceremonia.',
-  },
-];
+// Iconos por defecto para cada tour (ciclo de iconos)
+const defaultIcons = ['🌿', '🌙', '✨', '🍃', '🌸', '🌵', '💚', '🌍', '🎆', '🤫'];
 ---
 
 <Layout
-  title="Catálogo de Retiros | Spirit of Amazonas — Retiros de Ayahuasca"
-  description="Explora nuestro catálogo de retiros de ayahuasca en Iquitos, Perú. Desde ceremonias individuales de 1 día hasta retiros de 14 días con plantas maestras. Facilitadores certificados."
+  title="Catálogo de Tours | Spirit of Amazonas — Retiros de Ayahuasca"
+  description="Explora nuestro catálogo de tours de ayahuasca en Iquitos, Perú. Desde ceremonias individuales de 1 día hasta retiros de 14 días con plantas maestras. Facilitadores certificados."
   lang="es"
 >
   <Header />
@@ -58,41 +26,101 @@ const retirosDestacados = [
         <div class="ornament" style="justify-content:flex-start">
           <span class="ornament-text" style="color:var(--color-gold-pale)">Elige Tu Camino</span>
         </div>
-        <h1 style="color:var(--color-white); margin-bottom:1rem">Catálogo de Retiros</h1>
+        <h1 style="color:var(--color-white); margin-bottom:1rem">Catálogo de Tours</h1>
         <p class="page-hero-lead">
-          Cada retiro es único. Encuentra el que resuene con tu intención de sanación.
+          Cada experiencia es única. Encuentra la que resuene con tu intención de sanación.
         </p>
       </div>
     </section>
 
     <section class="section section--cream">
       <div class="container">
-        <div class="retiros-destacados reveal" style="margin-bottom:2.2rem">
-          <h2 style="font-size:1.5rem; margin-bottom:0.75rem">Retiros destacados</h2>
-          <p style="margin-bottom:1.2rem; color:var(--color-text-muted)">Accesos rápidos a los programas más consultados.</p>
-          <div class="retiros-destacados-grid">
-            {retirosDestacados.map((programa) => (
-              <article id={programa.id} class="retiro-destacado-card">
-                <h3>{programa.title}</h3>
-                <p>{programa.description}</p>
-              </article>
-            ))}
-          </div>
-        </div>
+        <div class="tours-grid">
+          {tours.map((tour, i) => (
+            <article class="tour-card-full reveal" style={`animation-delay:${(i%4)*0.1}s`}>
+              <div class="tour-card-full__image">
+                <img src={tour.data.image || '/img/real/jungle.png'} alt={tour.data.title} loading="lazy" />
+                <div class="tour-card-full__badges">
+                  {tour.data.duration && <span class="badge">{tour.data.duration}</span>}
+                  {tour.data.difficulty && <span class="badge badge--level">{tour.data.difficulty}</span>}
+                  {tour.data.availability && <span class="badge badge--avail">{tour.data.availability}</span>}
+                </div>
+              </div>
+              
+              <div class="tour-card-full__content">
+                <div class="tour-card-full__icon">{defaultIcons[i % defaultIcons.length]}</div>
+                
+                <h2 class="tour-card-full__title">{tour.data.title}</h2>
+                <p class="tour-card-full__desc">{tour.data.description}</p>
+                
+                <div class="tour-card-full__meta">
+                  {tour.data.frequency && (
+                    <span class="tour-meta-item">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/>
+                      </svg>
+                      {tour.data.frequency}
+                    </span>
+                  )}
+                </div>
 
-        <div class="retiros-grid">
-          {retreats.map((retiro, i) => (
-            <div class="reveal" style={`animation-delay:${(i%4)*0.1}s`}>
-              <RetiroCard {...retiro} />
-            </div>
+                {tour.data.includes && tour.data.includes.length > 0 && (
+                  <div class="tour-card-full__includes">
+                    <span class="includes-label">¿Qué incluye?</span>
+                    <ul class="includes-list">
+                      {tour.data.includes.slice(0, 4).map(item => (
+                        <li>
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                            <path d="M5 13l4 4L19 7"/>
+                          </svg>
+                          {item}
+                        </li>
+                      ))}
+                      {tour.data.includes.length > 4 && (
+                        <li class="more-includes">+{tour.data.includes.length - 4} más</li>
+                      )}
+                    </ul>
+                  </div>
+                )}
+
+                <div class="tour-card-full__footer">
+                  <div class="tour-card-full__price">
+                    <span class="price-from">desde</span>
+                    <span class="price-amount">${tour.data.price}</span>
+                    <span class="price-pp">/ persona</span>
+                  </div>
+                  
+                  <div class="tour-card-full__actions">
+                    <a 
+                      href={`/tours/${tour.id}`}
+                      class="btn btn--outline"
+                    >
+                      Ver detalles
+                    </a>
+                    <a
+                      href={`https://wa.me/51999999999?text=${encodeURIComponent(`Hola, me interesa el tour: ${tour.data.title}. ¿Podrían darme más información?`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="btn btn--whatsapp"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                      </svg>
+                      Reservar
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </article>
           ))}
         </div>
-        <div class="retiros-cta reveal" style="text-align:center; margin-top:3rem; padding:2.5rem; background:var(--color-jungle-deep); border-radius:var(--radius-xl)">
+
+        <div class="tours-cta reveal" style="text-align:center; margin-top:3rem; padding:2.5rem; background:var(--color-jungle-deep); border-radius:var(--radius-xl)">
           <p style="color:rgba(255,255,255,0.75); margin-bottom:1.25rem; font-family:var(--font-display); font-style:italic; font-size:1.1rem">
-            ¿No encuentras lo que buscas? Diseñamos retiros personalizados.
+            ¿No encuentras lo que buscas? Diseñamos tours personalizados.
           </p>
-          <a href="https://wa.me/51999999999?text=Hola%2C%20quisiera%20un%20retiro%20personalizado" target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp">
-            Diseñar Mi Retiro Personalizado
+          <a href="https://wa.me/51999999999?text=Hola%2C%20quisiera%20un%20tour%20personalizado" target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp">
+            Diseñar Mi Tour Personalizado
           </a>
         </div>
       </div>
@@ -103,11 +131,239 @@ const retirosDestacados = [
 </Layout>
 
 <style>
-  .page-hero { background: linear-gradient(160deg, var(--color-jungle-deep), var(--color-jungle-dark)); padding: 6rem 0 4rem; }
-  .page-hero-lead { font-family: var(--font-display); font-size: 1.2rem; font-style: italic; color: rgba(255,255,255,0.7); max-width: 600px; }
-  .retiros-destacados-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1rem; }
-  .retiro-destacado-card { background: rgba(255,255,255,0.8); border: 1px solid rgba(201,148,26,0.2); border-radius: var(--radius-lg); padding: 1rem; scroll-margin-top: 120px; }
-  .retiro-destacado-card h3 { font-size: 1rem; margin-bottom: 0.35rem; color: var(--color-jungle-deep); }
-  .retiro-destacado-card p { margin: 0; color: var(--color-text); font-size: 0.92rem; line-height: 1.4; }
-  .retiros-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 1.75rem; }
+  .page-hero { 
+    background: linear-gradient(160deg, var(--color-jungle-deep), var(--color-jungle-dark)); 
+    padding: 6rem 0 4rem; 
+  }
+  
+  .page-hero-lead { 
+    font-family: var(--font-display); 
+    font-size: 1.2rem; 
+    font-style: italic; 
+    color: rgba(255,255,255,0.7); 
+    max-width: 600px; 
+  }
+
+  .tours-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); 
+    gap: 2rem; 
+  }
+
+  .tour-card-full {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(45,106,63,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .tour-card-full:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .tour-card-full__image {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+  }
+
+  .tour-card-full__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .tour-card-full:hover .tour-card-full__image img {
+    transform: scale(1.05);
+  }
+
+  .tour-card-full__badges {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.95);
+    color: var(--color-jungle-deep);
+  }
+
+  .badge--level {
+    background: var(--color-jungle-deep);
+    color: var(--color-white);
+  }
+
+  .badge--avail {
+    background: var(--color-gold);
+    color: var(--color-white);
+  }
+
+  .tour-card-full__content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .tour-card-full__icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .tour-card-full__title {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--color-jungle-deep);
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .tour-card-full__desc {
+    font-size: 0.9rem;
+    color: var(--color-text-mid);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    flex: 1;
+  }
+
+  .tour-card-full__meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(45,106,63,0.08);
+  }
+
+  .tour-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: var(--color-text-mid);
+  }
+
+  .tour-meta-item svg {
+    color: var(--color-jungle-light);
+  }
+
+  .tour-card-full__includes {
+    margin-bottom: 1.5rem;
+  }
+
+  .includes-label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+    margin-bottom: 0.6rem;
+  }
+
+  .includes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .includes-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: var(--color-text-mid);
+  }
+
+  .includes-list li svg {
+    color: var(--color-jungle-light);
+    flex-shrink: 0;
+  }
+
+  .more-includes {
+    color: var(--color-jungle-light) !important;
+    font-weight: 600;
+    font-size: 0.78rem !important;
+  }
+
+  .tour-card-full__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(45,106,63,0.08);
+    margin-top: auto;
+  }
+
+  .tour-card-full__price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.3rem;
+  }
+
+  .price-from {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+  }
+
+  .price-amount {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-jungle-deep);
+  }
+
+  .price-pp {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+  }
+
+  .tour-card-full__actions {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .tour-card-full__actions .btn {
+    font-size: 0.8rem;
+    padding: 0.6rem 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .tours-grid { 
+      grid-template-columns: 1fr; 
+    }
+    
+    .tour-card-full__footer {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: stretch;
+    }
+    
+    .tour-card-full__actions {
+      justify-content: stretch;
+    }
+    
+    .tour-card-full__actions .btn {
+      flex: 1;
+      justify-content: center;
+    }
+  }
 </style>
